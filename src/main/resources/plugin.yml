@@ -2,3 +2,15 @@ name: SurvivalEnhanced
 version: '${project.version}'
 main: plugins.larskrs.net.survivalenhanced.SurvivalEnhanced
 api-version: 1.19
+
+permissions:
+  survivalenhanced:
+    default: not op
+    description: Essential for the plugin to be used by your players.
+  survivalenhanced.stable.create:
+    default: not op
+    description: Allows you to create your own stable.
+  survivalenhanced.stable.delete.bypass:
+    default: op
+    description: Allows admins to override the stable deletion restriction that prevents non stable owners to delete stables.
+

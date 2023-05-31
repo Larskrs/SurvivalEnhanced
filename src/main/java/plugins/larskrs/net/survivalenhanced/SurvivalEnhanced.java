@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import plugins.larskrs.net.survivalenhanced.debug.DebugCommand;
 
 public final class SurvivalEnhanced extends JavaPlugin {
 
@@ -31,6 +32,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
         //     COMMANDS
         // ------------------
         new HorseCommand(this);
+        new DebugCommand(this);
 
         // ------------------
         //     LISTENERS

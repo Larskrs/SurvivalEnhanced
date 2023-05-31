@@ -22,6 +22,7 @@ public abstract class Command extends BukkitCommand {
         this.setPermissionMessage(ChatColor.RED + " ☠ You do not have permission to use this command ☠ ");
         this.setUsage(usage);
 
+
         try
         {
             Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
@@ -32,6 +33,8 @@ public abstract class Command extends BukkitCommand {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loaded command: " + command);
     }
     public Command(String command, String permission, String description, String usage) {
         super(command);
@@ -51,6 +54,8 @@ public abstract class Command extends BukkitCommand {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loaded command: " + command);
     }
 
     @Override
