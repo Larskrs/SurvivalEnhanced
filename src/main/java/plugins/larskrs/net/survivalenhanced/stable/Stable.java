@@ -18,4 +18,17 @@ public class Stable {
             this.owner = owner;
     }
 
+    public String getName () {
+        return name;
+    }
+    public Location getLocation () {
+        return centerPoint;
+    }
+    public UUID getOwner () {
+        return owner;
+    }
+
+    public void setLocation(Location location) {
+        centerPoint = location;
+    }
 }

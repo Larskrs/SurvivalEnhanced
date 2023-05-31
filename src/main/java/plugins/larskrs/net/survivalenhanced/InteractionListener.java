@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,6 +28,14 @@ public class InteractionListener implements Listener {
         SurvivalEnhanced.GetInteractionManager().InteractEntity (e.getRightClicked(), e.getPlayer().getUniqueId());
 
 
+    }
+
+    @EventHandler
+    public void OnRightClickBlock (PlayerInteractEvent e) {
+        if (e.getClickedBlock() == null) { return; }
+        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) { return; }
+
+        SurvivalEnhanced.GetInteractionManager().InteractBlock(e.getClickedBlock(), e.getPlayer().getUniqueId());
     }
 
 }

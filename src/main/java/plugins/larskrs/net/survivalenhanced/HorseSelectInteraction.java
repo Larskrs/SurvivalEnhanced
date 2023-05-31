@@ -12,6 +12,8 @@ public class HorseSelectInteraction extends Interaction {
 
     public HorseSelectInteraction(Player holder) {
         super(holder);
+        holder.sendMessage(ChatColor.GREEN + "Selecting Horse...");
+        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse you want to select.");
     }
 
     @Override

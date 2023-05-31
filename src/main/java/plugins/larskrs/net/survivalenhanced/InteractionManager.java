@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -23,12 +24,6 @@ public class InteractionManager {
             interactions.remove(uuid);
         }
         interactions.put(uuid, interaction);
-
-        Player p = Bukkit.getPlayer(uuid);
-        if (p != null) {
-            p.sendMessage(ChatColor.GREEN + "Selecting Horse...");
-            p.sendMessage(ChatColor.YELLOW + "Right Click on the horse you want to select.");
-        }
     }
 
     public boolean HasInteraction (UUID uuid) {
@@ -46,5 +41,13 @@ public class InteractionManager {
     }
     public void FulfillInteraction (Interaction interaction) {
         interactions.remove(interaction.holder.getUniqueId());
+    }
+
+    public void InteractBlock(Block block, UUID uuid) {
+        if (!HasInteraction(uuid)) { return; }
+        Interaction interaction = GetInteraction (uuid);
+        interaction.onInteractBlock(block);
+
+        FulfillInteraction(interaction);
     }
 }

@@ -3,12 +3,15 @@ package plugins.larskrs.net.survivalenhanced;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugins.larskrs.net.survivalenhanced.debug.DebugCommand;
+import plugins.larskrs.net.survivalenhanced.stable.StableCommand;
+import plugins.larskrs.net.survivalenhanced.stable.StableManager;
 
 public final class SurvivalEnhanced extends JavaPlugin {
 
     public static FileManager fileManager;
     public static HorseManager horseManager;
     public static InteractionManager interactionManager;
+    public static StableManager stableManager;
 
     public static HorseManager GetHorseManager() {
         return horseManager;
@@ -19,6 +22,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
     public static InteractionManager GetInteractionManager() {
         return interactionManager;
     }
+    public static StableManager GetStableManager () { return stableManager; }
 
     @Override
     public void onEnable() {
@@ -26,6 +30,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
         fileManager = new FileManager(this);
         horseManager = new HorseManager(this);
         interactionManager = new InteractionManager(this);
+        stableManager = new StableManager();
 
 
         // ------------------
@@ -33,6 +38,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
         // ------------------
         new HorseCommand(this);
         new DebugCommand(this);
+        new StableCommand(this);
 
         // ------------------
         //     LISTENERS
