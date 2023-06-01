@@ -2,6 +2,8 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -86,4 +88,14 @@ public class FileManager {
     }
 
 
+    public Location ReadBlockLocation(ConfigurationSection location) {
+        return new Location(
+                Bukkit.getWorld(location.getString("world")),
+                location.getDouble("x"),
+                location.getDouble("y"),
+                location.getDouble("z"),
+                0f,
+                0f
+        );
+    }
 }

@@ -15,8 +15,8 @@ public class SetStableCenterInteraction extends Interaction {
     public SetStableCenterInteraction(Player holder) {
         super(holder);
 
-        holder.sendMessage(ChatColor.GREEN + "Selecting Horse...");
-        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse you want to select.");
+        holder.sendMessage(ChatColor.GREEN + "Setting stable station...");
+        holder.sendMessage(ChatColor.YELLOW + "Right Click on the block you want your stable to be interacted with.");
 
     }
 

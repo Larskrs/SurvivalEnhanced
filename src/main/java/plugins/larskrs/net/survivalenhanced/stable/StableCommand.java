@@ -84,6 +84,9 @@ public class StableCommand extends Command {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
+
+
+
         return null;
     }
 }
