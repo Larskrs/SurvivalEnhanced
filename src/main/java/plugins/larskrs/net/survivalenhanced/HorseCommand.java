@@ -1,7 +1,6 @@
 package plugins.larskrs.net.survivalenhanced;
 
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -37,7 +36,7 @@ public class HorseCommand extends Command {
             return;
         }
 
-        if (args.length == 1) {
+        if (args.length >= 1) {
             if (args[0].equals("add")) { AddHorse(sender, args); }
             if (args[0].equals("glow")) { GlowHorse(sender, args); }
             if (args[0].equals("call")) { CallHorse(sender, args); }
@@ -124,9 +123,16 @@ public class HorseCommand extends Command {
             sender.sendMessage(ChatColor.RED + "Sorry, Only players can add horses.");
             return; }
 
+        if (args.length < 2) {
+            sender.sendMessage(ChatColor.RED + "Make sure to give your friend a new name.");
+            return;
+        }
+
+        String horseName = args[1];
+
         Player player = (Player) sender;
 
-        SurvivalEnhanced.GetInteractionManager().SetInteraction(player.getUniqueId(), new HorseSelectInteraction(player));
+        SurvivalEnhanced.GetInteractionManager().SetInteraction(player.getUniqueId(), new HorseSelectInteraction(player, horseName));
     }
 
 
@@ -149,44 +155,6 @@ public class HorseCommand extends Command {
         }
 
         return entitys;
-    }
-
-
-
-
-
-
-    private void oldAddHorse(CommandSender sender, String[] args) {
-
-
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Sorry, Only players can add horses.");
-            return; }
-
-        Player player = (Player) sender;
-        if (getEntitys(player).toArray().length == 0) {
-            player.sendMessage(ChatColor.RED + "Whoops... Make sure you are looking at the horse you want to add.");
-            return; }
-        // Get the nearby entity
-        Entity entity = getEntitys(player).get(0);
-
-        if (entity == null) {
-            player.sendMessage(ChatColor.RED + "Whoops... Make sure you are looking at the horse you want to add.");
-            return;
-        }
-
-        if (!(entity instanceof Horse)) {
-            player.sendMessage(ChatColor.RED + "Whoops... Make sure it is a horse.");
-            return;
-        }
-
-        // All checks valid! ADD horse!
-        Horse horse = (Horse) entity;
-
-        player.sendMessage(ChatColor.GREEN + "Set main horse as. " + horse.getCustomName());
-        se.horseManager.AddHorse(player.getUniqueId(), horse.getUniqueId());
-
-
     }
 
 

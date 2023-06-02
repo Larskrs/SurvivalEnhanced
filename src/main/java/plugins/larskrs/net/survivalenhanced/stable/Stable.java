@@ -13,7 +13,6 @@ public class Stable {
     private UUID owner;
 
 
-
     public Stable (String name, UUID owner, Location centerPoint) {
             this.centerPoint = centerPoint;
             this.name = name;

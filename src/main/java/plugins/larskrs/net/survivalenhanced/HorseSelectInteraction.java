@@ -9,11 +9,13 @@ import org.bukkit.entity.Player;
 public class HorseSelectInteraction extends Interaction {
 
     public Entity target;
+    public String horseName;
 
-    public HorseSelectInteraction(Player holder) {
+    public HorseSelectInteraction(Player holder, String horseName) {
         super(holder);
         holder.sendMessage(ChatColor.GREEN + "Selecting Horse...");
         holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse you want to select.");
+        this.horseName = horseName;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class HorseSelectInteraction extends Interaction {
 
 
         // Set horse.
-        SurvivalEnhanced.GetHorseManager().AddHorse(holder.getUniqueId(), entity.getUniqueId());
+        SurvivalEnhanced.GetHorseManager().AddHorse(holder.getUniqueId(), entity.getUniqueId(), horseName);
         SurvivalEnhanced.GetHorseManager().GlowHorse(entity.getUniqueId());
 
         if (entity.getCustomName() == null) {

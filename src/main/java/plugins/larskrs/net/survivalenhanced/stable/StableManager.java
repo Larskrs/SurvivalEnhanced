@@ -74,7 +74,6 @@ public class StableManager {
 
     }
 
-
     public boolean StableExists (String stableName) {
         return stables.containsKey(stableName);
     }

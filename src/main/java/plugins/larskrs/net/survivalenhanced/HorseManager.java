@@ -1,7 +1,9 @@
 package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
@@ -30,12 +32,13 @@ public class HorseManager {
         this.horses = LoadHorseOwners();
     }
 
-    public boolean AddHorse(UUID playerID, UUID horseID) {
+    public boolean AddHorse(UUID playerID, UUID horseID, String horseName) {
         Entity entity =  Bukkit.getEntity(horseID);
         if (!(entity instanceof Horse)) {
             Bukkit.getConsoleSender().sendMessage("Not horse");
             return false; }
         Horse horse = (Horse) entity;
+        horse.setCustomName(horseName);
 
         Player player = Bukkit.getPlayer(playerID);
         if (player == null) {
@@ -48,17 +51,10 @@ public class HorseManager {
         this.horses.put(playerID, horseID);
 
 
-
-
-        UpdateHorseConfig();
+        SaveHorse(horse, playerID);
         return true;
     }
 
-    private void UpdateHorseConfig() {
-
-        horseConfig.set("horses", SerializeHorseMap());
-        se.fileManager.SaveData("horse.yml");
-    }
 
     private List<String> SerializeHorseMap() {
 
@@ -181,4 +177,58 @@ public class HorseManager {
 
 
     }
+    public void SaveHorse (Horse horse, UUID owner) {
+        UUID steedID = UUID.randomUUID();
+        ConfigurationSection section = horseConfig.createSection("horses." + steedID.toString());
+
+        float jumpStrength = (float) horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH).getValue();
+        float movementSpeed = (float) horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
+        float maxHealth = (float) horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+        section.set("jump", jumpStrength);
+        section.set("speed", movementSpeed);
+        section.set("health", maxHealth);
+
+        section.set("owner", owner.toString());
+        section.set("custom_name", horse.getCustomName() + "");
+        section.set("style", horse.getStyle().toString());
+        section.set("entity", horse.getUniqueId().toString());
+
+        SurvivalEnhanced.GetFileManager().SaveData("horse.yml");
+    }
+
+    public void SpawnSteed (UUID steedID, Location location) {
+
+        Horse horse = (Horse) location.getWorld().spawnEntity(location, EntityType.HORSE);
+        horse.setStyle(Horse.Style.valueOf(horseConfig.getString("horses." + steedID.toString())+".style"));
+        horse.setJumpStrength(horseConfig.getDouble("horses." + steedID.toString() + ".jump"));
+        horse.setMaxHealth(horseConfig.getDouble("horses." + steedID.toString() + ".health"));
+        horse.setCustomName(horseConfig.getString("horses." + steedID.toString() + ".custom_name"));
+        horse.setTamed(true); // all horses have to be tamed to be added.
+
+        SetSteedEntityId (steedID, horse.getUniqueId());
+
+    }
+
+    private void SetSteedEntityId(UUID steedID, UUID uniqueId) {
+
+        horseConfig.set("horses." + steedID.toString() + ".entity", uniqueId.toString());
+        se.GetFileManager().SaveData("horse.yml");
+
+    }
+
+    public void SetPrimary (UUID steedID, UUID owner) {
+
+        horseConfig.set("primary."+owner.toString(), steedID.toString());
+
+    }
+
+    public UUID GetPrimarySteed (UUID owner) {
+
+        UUID steedID = UUID.fromString(horseConfig.getString("primary." + owner.toString()));
+        return steedID;
+
+    }
+
+
 }
