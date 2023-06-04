@@ -3,6 +3,7 @@ package plugins.larskrs.net.survivalenhanced.stable;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
@@ -55,7 +56,7 @@ public class StableCommand extends Command {
 
         Stable stable = SurvivalEnhanced.GetStableManager().GetStable(stableName);
 
-        p.teleport((stable.getLocation()));
+        p.teleport((stable.getLocation().toVector().add(new Vector(.5f, 1, .5f))).toLocation(stable.getLocation().getWorld()));
     }
 
     private void CreateStable(CommandSender sender, String[] args) {

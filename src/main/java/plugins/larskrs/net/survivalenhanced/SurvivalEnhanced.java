@@ -2,20 +2,17 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import plugins.larskrs.net.survivalenhanced.debug.DebugCommand;
 import plugins.larskrs.net.survivalenhanced.stable.StableCommand;
 import plugins.larskrs.net.survivalenhanced.stable.StableManager;
+import plugins.larskrs.net.survivalenhanced.steed.SteedCommand;
+import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 
 public final class SurvivalEnhanced extends JavaPlugin {
 
     public static FileManager fileManager;
-    public static HorseManager horseManager;
     public static InteractionManager interactionManager;
     public static StableManager stableManager;
 
-    public static HorseManager GetHorseManager() {
-        return horseManager;
-    }
     public static FileManager GetFileManager() {
         return fileManager;
     }
@@ -28,17 +25,17 @@ public final class SurvivalEnhanced extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         fileManager = new FileManager(this);
-        horseManager = new HorseManager(this);
         interactionManager = new InteractionManager(this);
         stableManager = new StableManager();
+
+        new SteedManager().Setup(this);
 
 
         // ------------------
         //     COMMANDS
         // ------------------
-        new HorseCommand(this);
-        new DebugCommand(this);
         new StableCommand(this);
+        new SteedCommand(this);
 
         // ------------------
         //     LISTENERS

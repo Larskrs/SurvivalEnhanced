@@ -18,13 +18,19 @@ public class FileManager {
 
     private SurvivalEnhanced se;
     private HashMap<String, YamlConfiguration> fileMap;
+    public static FileManager instance;
 
     public FileManager (SurvivalEnhanced se) {
         this.se = se;
 
         this.fileMap = new HashMap<>();
+        instance = this;
 
         LoadDataFolder();
+    }
+
+    public static FileManager getInstance() {
+        return instance;
     }
 
     // ------------------------

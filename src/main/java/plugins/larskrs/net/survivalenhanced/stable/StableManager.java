@@ -64,7 +64,9 @@ public class StableManager {
     public void LoadStables () {
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loading stables:");
-        for (String stableName : stableConfig.getConfigurationSection("stables").getKeys(false)) {
+        ConfigurationSection stableSection = stableConfig.getConfigurationSection("stables");
+        if (stableSection == null) { return; }
+        for (String stableName : stableSection.getKeys(false)) {
             ConfigurationSection section = stableConfig.getConfigurationSection("stables." + stableName);
             UUID owner = UUID.fromString(section.getString("owner"));
             Location location = SurvivalEnhanced.GetFileManager().ReadBlockLocation(section.getConfigurationSection("location"));
