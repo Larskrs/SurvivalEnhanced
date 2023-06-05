@@ -4,15 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +43,7 @@ public class SteedManager {
     public Steed GetSteed (Entity entity) {
         for (Steed steed : steeds
              ) {
-            if (steed.entity.equals(entity.getUniqueId())) {
+            if (steed.entity_id.equals(entity.getUniqueId())) {
                 return steed;
             }
         }
@@ -82,12 +81,18 @@ public class SteedManager {
             UUID steed_id = UUID.fromString(s);
             UUID owner_id = UUID.fromString(section.getString("owner"));
             UUID entity_id = UUID.fromString(section.getString("entity"));
+            EntityType type = EntityType.valueOf(section.getString("type"));
 
-            Steed steed = new Steed(entity_id, owner_id, steed_id);
+            Steed steed = new Steed(entity_id, owner_id, steed_id, type);
             steed.SetSpeed(      (float)  section.getDouble("speed"));
             steed.SetJump(       (float)  section.getDouble("jump"));
             steed.SetMaxHealth(  (float)  section.getDouble("max_health"));
             steed.SetCustomName(          section.getString("custom_name"));
+            steed.SetAlive(               section.getBoolean("alive"));
+
+            if (steed.type.equals(EntityType.HORSE)) {
+                steed.SetStyle(Horse.Style.valueOf(section.getString("style")));
+            }
 
 
             steeds.add(steed);
@@ -113,11 +118,13 @@ public class SteedManager {
     public void AddSteed(UUID owner_id, UUID entity_id, String horseName) {
 
         Entity entity =  Bukkit.getEntity(entity_id);
-        if (!(entity instanceof Horse)) {
-            Bukkit.getConsoleSender().sendMessage("Not horse");
+
+        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY);
+
+        if (!(entityTypeList.contains(entity.getType()))) {
             return; }
-        Horse horse = (Horse) entity;
-        horse.setCustomName(horseName);
+
+        entity.setCustomName(horseName);
 
         Player player = Bukkit.getPlayer(owner_id);
         if (player == null) {
@@ -126,7 +133,19 @@ public class SteedManager {
 
 
         // Crate Steed
-        Steed steed = new Steed(horse, owner_id, UUID.randomUUID());
+        Steed steed = null;
+        if (entity.getType().equals(EntityType.HORSE)) {
+            Horse horse = (Horse) entity;
+            steed = new Steed(horse, owner_id, UUID.randomUUID());
+        }
+        if (entity.getType().equals(EntityType.DONKEY)) {
+            Donkey donkey = (Donkey) entity;
+            steed = new Steed(donkey, owner_id, UUID.randomUUID());
+        }
+        if (entity.getType().equals(EntityType.MULE)) {
+            Mule mule = (Mule) entity;
+            steed = new Steed(mule, owner_id, UUID.randomUUID());
+        }
 
         if (GetSteed(player) != null) {
             RemoveSteed(GetSteed(player));
@@ -147,7 +166,12 @@ public class SteedManager {
         section.set("jump",        steed.jump);
         section.set("max_health",  steed.max_health);
         section.set("custom_name", steed.custom_name);
-        section.set("style",       steed.style.toString());
+        section.set("type", steed.type.toString());
+        section.set("alive", steed.isAlive);
+
+        if (steed.style != null) {
+            section.set("style",   steed.style.toString());
+        }
 
         FileManager.getInstance().SaveData("steed.yml");
 
@@ -173,7 +197,7 @@ public class SteedManager {
 
         float duration = (float) steedConfig.getDouble("settings.glow-duration");
 
-        ((Horse) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Math.round(duration * 20), 3));
+        ((Creature) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Math.round(duration * 20), 3));
         player.sendMessage(ChatColor.YELLOW + steed.custom_name + " is glowing");
     }
 
@@ -181,6 +205,11 @@ public class SteedManager {
 
         Player p = Bukkit.getPlayer(steed.owner_id);
         Entity entity = Bukkit.getEntity(steed.entity_id);
+
+        if (!steed.isAlive) {
+            p.sendMessage(ChatColor.RED + "Sorry, " + steed.custom_name + " has left us.");
+            return;
+        }
 
         if (entity == null) {
             p.sendMessage(ChatColor.RED + "Your horse is too far away. like really... far.");

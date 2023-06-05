@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import plugins.larskrs.net.survivalenhanced.stable.StableCommand;
 import plugins.larskrs.net.survivalenhanced.stable.StableManager;
 import plugins.larskrs.net.survivalenhanced.steed.SteedCommand;
+import plugins.larskrs.net.survivalenhanced.steed.SteedListener;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 
 public final class SurvivalEnhanced extends JavaPlugin {
@@ -41,6 +42,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
         //     LISTENERS
         // ------------------
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new SteedListener(), this);
     }
 
     @Override

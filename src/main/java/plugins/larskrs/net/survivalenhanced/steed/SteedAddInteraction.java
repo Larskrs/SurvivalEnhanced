@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import plugins.larskrs.net.survivalenhanced.Interaction;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SteedAddInteraction extends Interaction {
 
     public Entity target;
@@ -16,15 +21,17 @@ public class SteedAddInteraction extends Interaction {
 
     public SteedAddInteraction(Player holder, String horseName) {
         super(holder);
-        holder.sendMessage(ChatColor.GREEN + "Selecting Horse...");
-        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse you want to select.");
+        holder.sendMessage(ChatColor.GREEN + "Selecting Steed...");
+        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse/donkey/mule you want to select.");
         this.horseName = horseName;
     }
 
     @Override
     public void onInteractEntity(Entity entity) {
 
-        if (entity.getType() != EntityType.HORSE) {
+        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY);
+
+        if (!entityTypeList.contains(entity.getType())) {
             holder.sendMessage(ChatColor.RED + "Wrong mob!");
             return;
         }

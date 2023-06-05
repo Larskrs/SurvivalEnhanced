@@ -1,7 +1,9 @@
 package plugins.larskrs.net.survivalenhanced.steed;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.Command;
@@ -18,7 +20,8 @@ public class SteedCommand extends Command {
                 "steed",
                 "enhancedsurvival",
                 "This command will let you manage your steeds/horses",
-                "steed"
+                "steed",
+                (new String[]{"donkey", "mule", "horse"})
 
         );
     }
@@ -40,6 +43,7 @@ public class SteedCommand extends Command {
             }
             options.add("call");
             options.add("glow");
+            options.add("locate");
             return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
         }
 
@@ -54,11 +58,47 @@ public class SteedCommand extends Command {
         }
 
         if (args.length >= 1) {
-            if (args[0].equals("add"))  { AddSteed(sender, args); }
-            if (args[0].equals("glow")) { HighlightSteed(sender, args); }
-            if (args[0].equals("call")) { CallSteed(sender, args); }
+            if (args[0].equals("add"))      { AddSteed(sender, args); }
+            if (args[0].equals("glow"))     { HighlightSteed(sender, args); }
+            if (args[0].equals("call"))     { CallSteed(sender, args); }
+            if (args[0].equals("locate"))   { LocateSteed(sender, args); }
             return;
         }
+    }
+
+    private void LocateSteed(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.RED + "Sorry, Only players can add horses.");
+            return; }
+
+        Player player = (Player) sender;
+
+        Steed steed = SteedManager.getInstance().GetSteed(player);
+
+        if (steed == (null)) {
+            sender.sendMessage(ChatColor.RED + "You don't have a steed.");
+            return;
+        }
+
+        if (!steed.isAlive) {
+            sender.sendMessage(ChatColor.RED + steed.custom_name + " is 7 feet under. Hope that helps to locate em.");
+            return;
+        }
+
+        Entity entity = Bukkit.getEntity(steed.entity_id);
+        if (entity == null) {
+            sender.sendMessage(ChatColor.RED + steed.custom_name + " is not loaded by the server.");
+            return;
+        }
+
+        player.sendMessage(ChatColor.YELLOW + steed.custom_name + " is at: " + ChatColor.WHITE
+                        + " ("
+               + " X: " + entity.getLocation().getBlockX()
+               + " Y: " + entity.getLocation().getBlockY()
+               + " Z: " + entity.getLocation().getBlockZ()
+                       + " ) "
+
+        );
     }
 
     private void CallSteed(CommandSender sender, String[] args) {
