@@ -15,4 +15,7 @@ public class Messanger {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "ERROR: " + msg);
     }
 
+    public static void InfoConsole(String msg) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "INFO: " + msg);
+    }
 }

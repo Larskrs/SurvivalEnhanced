@@ -38,8 +38,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <outputDirectory>E:\TestServer\plugins</outputDirectory>
                             <outputDirectory>C:\Users\lar30042\Documents\Programming\TestServer\plugins</outputDirectory>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
                 </executions>

@@ -35,7 +35,12 @@ public class StableCommand extends Command {
 
         if (args[0].equals("create")) { CreateStable(sender, args); }
         if (args[0].equals("tp")) { TeleportStable(sender, args); }
+        if (args[0].equals("store")) { StoreSteed(sender, args); }
+        
 
+    }
+
+    private void StoreSteed(CommandSender sender, String[] args) {
     }
 
     private void TeleportStable(CommandSender sender, String[] args) {
