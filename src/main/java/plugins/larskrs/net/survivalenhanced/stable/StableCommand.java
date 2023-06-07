@@ -49,12 +49,12 @@ public class StableCommand extends Command {
 
         String stableName = args[1];
 
-        if (!SurvivalEnhanced.GetStableManager().StableExists(stableName)) {
+        if (!StableManager.getInstance().StableExists(stableName)) {
             p.sendMessage(ChatColor.RED + "Invalid Usage, the stable " + ChatColor.YELLOW + stableName + ChatColor.RED + " does not exist. Use a different name.");
             return;
         }
 
-        Stable stable = SurvivalEnhanced.GetStableManager().GetStable(stableName);
+        Stable stable = StableManager.getInstance().GetStable(stableName);
 
         p.teleport((stable.getLocation().toVector().add(new Vector(.5f, 1, .5f))).toLocation(stable.getLocation().getWorld()));
     }
@@ -72,12 +72,12 @@ public class StableCommand extends Command {
         String stableName = args[1];
 
 
-        if (SurvivalEnhanced.GetStableManager().StableExists(stableName)) {
+        if (StableManager.getInstance().StableExists(stableName)) {
             p.sendMessage(ChatColor.RED + "The stable named, " + ChatColor.YELLOW + stableName + ChatColor.RED + " exists. Use a different name.");
             return;
         }
 
-        SurvivalEnhanced.GetStableManager().RegisterStable(stableName, p.getUniqueId(), p.getLocation());
+        StableManager.getInstance().RegisterStable(stableName, p.getUniqueId(), p.getLocation());
         SurvivalEnhanced.GetInteractionManager().SetInteraction(p.getUniqueId(), new SetStableCenterInteraction(p));
 
 

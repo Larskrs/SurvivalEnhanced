@@ -12,7 +12,6 @@ public final class SurvivalEnhanced extends JavaPlugin {
 
     public static FileManager fileManager;
     public static InteractionManager interactionManager;
-    public static StableManager stableManager;
 
     public static FileManager GetFileManager() {
         return fileManager;
@@ -20,16 +19,15 @@ public final class SurvivalEnhanced extends JavaPlugin {
     public static InteractionManager GetInteractionManager() {
         return interactionManager;
     }
-    public static StableManager GetStableManager () { return stableManager; }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         fileManager = new FileManager(this);
         interactionManager = new InteractionManager(this);
-        stableManager = new StableManager();
 
         new SteedManager().Setup(this);
+        new StableManager().Setup(this);
 
 
         // ------------------

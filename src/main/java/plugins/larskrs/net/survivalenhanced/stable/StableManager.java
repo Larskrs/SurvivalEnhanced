@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.steed.Steed;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,15 +16,19 @@ public class StableManager {
 
     public HashMap<String, Stable> stables;
     private YamlConfiguration stableConfig;
+    private static StableManager instance;
 
-    public StableManager () {
+    public void Setup(SurvivalEnhanced survivalEnhanced) {
+        instance = this;
         SurvivalEnhanced.GetFileManager().LoadFile("stable.yml");
         this.stables = new HashMap<>();
         this.stableConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("stable.yml");
 
         LoadStables();
     }
-
+    public static StableManager getInstance() {
+        return instance;
+    }
 
     public Stable GetStable (UUID playerID) {
         for (Stable stb : stables.values()
@@ -75,6 +80,9 @@ public class StableManager {
         }
 
     }
+    public void StoreSteed (Steed steed) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "");
+    }
 
     public boolean StableExists (String stableName) {
         return stables.containsKey(stableName);
@@ -96,4 +104,6 @@ public class StableManager {
         }
         stables.put(name, stable);
     }
+
+
 }
