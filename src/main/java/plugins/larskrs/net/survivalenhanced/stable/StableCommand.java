@@ -1,12 +1,23 @@
 package plugins.larskrs.net.survivalenhanced.stable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
 import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.steed.Steed;
+import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,11 +47,31 @@ public class StableCommand extends Command {
         if (args[0].equals("create")) { CreateStable(sender, args); }
         if (args[0].equals("tp")) { TeleportStable(sender, args); }
         if (args[0].equals("store")) { StoreSteed(sender, args); }
+        if (args[0].equals("summon")) { SummonSteed(sender, args); }
+
         
 
     }
 
+    private void SummonSteed(CommandSender sender, String[] args) {
+
+        if (!(sender instanceof Player)) { return; }
+
+        Player p = (Player) sender;
+
+        Steed steed = SteedManager.getInstance().GetSteed(p);
+
+        if (!steed.isAlive) {
+            p.sendMessage(ChatColor.RED + "Your steed is not alive.");
+            return;
+        }
+
+        SteedManager.getInstance().SummonSteed(steed, p.getLocation());
+    }
+
+
     private void StoreSteed(CommandSender sender, String[] args) {
+
     }
 
     private void TeleportStable(CommandSender sender, String[] args) {
@@ -88,9 +119,42 @@ public class StableCommand extends Command {
 
     }
 
+
+
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
 
+
+
+
+        if (!(sender instanceof Player)) { return null; }
+        Player player = (Player) sender;
+
+        List<String> options = new ArrayList<>();
+
+        if (args.length == 1) {
+                options.add("create");
+                options.add("store");
+                options.add("summon");
+
+            return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
+        }
+
+        if (args.length == 2) {
+
+            if (args[0].equalsIgnoreCase("summon")) {
+                for (Steed steed : SteedManager.getInstance().GetSteedList()
+                     ) {
+                    options.add(steed.custom_name);
+                }
+                return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
+            }
+
+            options.add("store");
+            options.add("summon");
+
+            return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
+        }
 
 
         return null;

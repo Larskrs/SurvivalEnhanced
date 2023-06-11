@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced.steed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -9,6 +10,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,7 +98,7 @@ public class SteedManager {
 
 
             steeds.add(steed);
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " - " + section.getString("custom_name"));
+            Bukkit.getConsoleSender().sendMessage("   " + (steed.isAlive ? ChatColor.GREEN + "Alive " : ChatColor.RED + "Dead  ") + ChatColor.GRAY + " - " + section.getString("custom_name"));
         }
         return steeds;
 
@@ -172,6 +174,9 @@ public class SteedManager {
         if (steed.style != null) {
             section.set("style",   steed.style.toString());
         }
+        if (steed.horse_color != null) {
+            section.set("horse_color",   steed.horse_color.toString());
+        }
 
         FileManager.getInstance().SaveData("steed.yml");
 
@@ -183,6 +188,16 @@ public class SteedManager {
         steeds.remove(steed);
         steedConfig.set("steeds." + steed.uuid.toString(), null);
         SurvivalEnhanced.GetFileManager().SaveData("steed.yml");
+
+    }
+
+    public void SummonSteed (Steed steed, Location location) {
+
+
+        Messanger.InfoConsole(steed.type + "");
+
+        Entity entity = location.getWorld().spawnEntity(location, steed.type);
+        steed.MigrateEntityId(entity.getUniqueId());
 
     }
 
@@ -228,5 +243,9 @@ public class SteedManager {
         p.sendMessage(ChatColor.YELLOW + "Called " + steed.custom_name + " to you");
         entity.teleport(p);
 
+    }
+
+    public List<Steed> GetSteedList() {
+        return steeds;
     }
 }

@@ -6,6 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.UUID;
 
@@ -19,9 +20,10 @@ public class Steed {
     public float jump;
     public float max_health;
     public String custom_name;
-    public Horse.Style style;
+    public Horse.Style style = null;
     public EntityType type;
     public boolean isAlive = true;
+    public Horse.Color horse_color;
 
 
     public Entity entity;
@@ -49,6 +51,7 @@ public class Steed {
 
         this.entity = horse;
         this.type = EntityType.HORSE;
+        this.horse_color = horse.getColor();
     }
     public Steed (Donkey donkey, UUID owner_id, UUID uuid) {
         this.entity_id = donkey.getUniqueId();
@@ -116,10 +119,21 @@ public class Steed {
                 .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".jump"));
         creature.getAttribute(Attribute.GENERIC_MAX_HEALTH)
                 .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".health"));
+        creature.setCustomName(config.getString("steeds." + this.uuid.toString() + ".custom_name"));
         if (creature instanceof Horse) {
 
-            ((Horse) creature).setStyle(Horse.Style.valueOf(
-                    config.getString("steeds." + this.uuid.toString()) + ".custom_name"));
+            Horse.Style _style = Horse.Style.valueOf(
+                    config.getString("steeds." + this.uuid.toString() + ".style")
+            );
+            Horse.Color _color = Horse.Color.valueOf(
+                    config.getString("steeds." + this.uuid.toString() + ".horse_color")
+            );
+
+            Messanger.InfoConsole(_style + " Is the style");
+
+            ((Horse) creature).setStyle(_style);
+            ((Horse) creature).setColor(_color);
+
         }
 
 
