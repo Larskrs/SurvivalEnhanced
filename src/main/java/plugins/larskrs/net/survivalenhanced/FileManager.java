@@ -8,6 +8,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,15 @@ public class FileManager {
         instance = this;
 
         LoadDataFolder();
+    }
+
+    public YamlConfiguration GetYamlConfig(String identity) {
+
+        if (!fileMap.containsKey(identity)) {
+            return null;
+        }
+
+        return fileMap.get(identity);
     }
 
     public static FileManager getInstance() {
@@ -103,5 +113,39 @@ public class FileManager {
                 0f,
                 0f
         );
+    }
+    public Location ReadLocation (String identity, String address ) {
+
+        YamlConfiguration config = GetYamlConfig(identity);
+        ConfigurationSection section = config.getConfigurationSection(address);
+
+        return new Location(
+                Bukkit.getWorld(section.getString("world")),
+                        section.getDouble("x"),
+                        section.getDouble("y"),
+                        section.getDouble("z"),
+                (float) section.getDouble("yaw"),
+                (float) section.getDouble("pitch")
+        );
+    }
+
+    public void SaveLocation(String identity, String address, Location location) {
+
+        YamlConfiguration config = GetYamlConfig(identity);
+
+        ConfigurationSection section = config.createSection(address);
+        Messanger.InfoConsole(address);
+
+
+        // Serialization
+        section.set("world", location.getWorld().getName());
+        //
+        section.set("x", location.getX());
+        section.set("y", location.getY());
+        section.set("z", location.getZ());
+        section.set("pitch", location.getPitch());
+        section.set("yaw", location.getYaw());
+        //
+        SaveData(identity);
     }
 }

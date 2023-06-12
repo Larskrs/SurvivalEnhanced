@@ -117,6 +117,18 @@ public class SteedManager {
 
     }
 
+    public void StoreSteed (Steed steed) {
+
+        steedConfig.set("steeds." + steed.uuid.toString() + ".stored", true);
+        FileManager.getInstance().SaveData("steed.yml");
+
+    }
+    public void UnStoreSteed (Steed steed) {
+
+        steedConfig.set("steeds." + steed.uuid.toString() + ".stored", false);
+        FileManager.getInstance().SaveData("steed.yml");
+
+    }
     public void AddSteed(UUID owner_id, UUID entity_id, String horseName) {
 
         Entity entity =  Bukkit.getEntity(entity_id);
@@ -194,10 +206,22 @@ public class SteedManager {
     public void SummonSteed (Steed steed, Location location) {
 
 
-        Messanger.InfoConsole(steed.type + "");
+        Messanger.InfoConsole("Steed Type " + steed.type + "");
+        Messanger.InfoConsole("Custom Name" + steed.custom_name);
+        Messanger.InfoConsole("Entity Id " + steed.entity_id);
+        Messanger.InfoConsole("Alive: " + steed.isAlive);
+
+        if (!steedConfig.getBoolean("steeds." + steed.uuid.toString() + ".stored")) {
+            Bukkit.getPlayer(steed.owner_id).sendMessage(ChatColor.RED + "Your steed is already summoned.");
+            return;
+        }
+
 
         Entity entity = location.getWorld().spawnEntity(location, steed.type);
         steed.MigrateEntityId(entity.getUniqueId());
+
+        // Unset steed as stored.
+        UnStoreSteed(steed);
 
     }
 

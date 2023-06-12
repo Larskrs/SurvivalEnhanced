@@ -2,9 +2,12 @@ package plugins.larskrs.net.survivalenhanced.steed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
@@ -120,7 +123,28 @@ public class Steed {
         creature.getAttribute(Attribute.GENERIC_MAX_HEALTH)
                 .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".health"));
         creature.setCustomName(config.getString("steeds." + this.uuid.toString() + ".custom_name"));
+
+
+
+        if (creature instanceof Mule) {
+            Mule mule = (Mule) creature;
+
+            mule.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+            mule.setTamed(true);
+        }
+        if (creature instanceof Donkey) {
+            Donkey donkey = (Donkey) creature;
+
+            donkey.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+            donkey.setTamed(true);
+        }
+
         if (creature instanceof Horse) {
+
+            Horse horse = (Horse) creature;
+            horse.setTamed(true);
+
+            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
 
             Horse.Style _style = Horse.Style.valueOf(
                     config.getString("steeds." + this.uuid.toString() + ".style")
@@ -156,5 +180,27 @@ public class Steed {
 
         SteedManager.getInstance().steedConfig.set("steeds." + uuid.toString() + ".alive", false);
         FileManager.getInstance().SaveData("steed.yml");
+    }
+
+    public void DespawnSteed() {
+
+        Messanger.InfoConsole("This is to be despawned ; " + entity_id.toString());
+
+        Entity _ent = Bukkit.getEntity(entity_id);
+        Messanger.InfoConsole(_ent.getCustomName() + " - ");
+        _ent.remove();
+
+    }
+
+    public void SaveLastLocation(Location location) {
+
+        FileManager.getInstance().SaveLocation("steed.yml", "steeds." + uuid.toString() + ".last_location", location);
+
+
+    }
+
+    public Location GetLastLocation () {
+
+        return FileManager.getInstance().ReadLocation("steed.yml", "steeds." + uuid.toString() + ".last_location");
     }
 }

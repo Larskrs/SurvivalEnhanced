@@ -1,10 +1,13 @@
 package plugins.larskrs.net.survivalenhanced.steed;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.world.EntitiesUnloadEvent;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +29,19 @@ public class SteedListener implements Listener {
         }
         steed.KillSteed();
         Bukkit.getConsoleSender().sendMessage("Steed killed");
+    }
+
+    @EventHandler
+    public void OnEntityUnload (EntitiesUnloadEvent e) {
+        for (Entity ent : e.getEntities()
+             ) {
+
+            Steed steed = SteedManager.getInstance().GetSteed(ent);
+            if (steed == null ) { continue; }
+            Messanger.InfoConsole("Unloading a steed with name of : " + steed.custom_name);
+            steed.SaveLastLocation(ent.getLocation());
+
+        }
     }
 
 

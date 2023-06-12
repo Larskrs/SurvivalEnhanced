@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
+import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.HashMap;
@@ -83,6 +84,7 @@ public class StableManager {
     }
     public void StoreSteed (Steed steed) {
         Messanger.InfoConsole("Storing steed, " + steed.custom_name);
+        SteedManager.getInstance().StoreSteed(steed);
     }
 
     public boolean StableExists (String stableName) {

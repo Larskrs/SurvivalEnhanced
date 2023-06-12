@@ -72,6 +72,20 @@ public class StableCommand extends Command {
 
     private void StoreSteed(CommandSender sender, String[] args) {
 
+        if (!(sender instanceof Player)) { return; }
+
+        Player p = (Player) sender;
+
+        Steed steed = SteedManager.getInstance().GetSteed(p);
+
+        if (!steed.isAlive) {
+            p.sendMessage(ChatColor.RED + "Your steed is not alive.");
+            return;
+        }
+
+        steed.DespawnSteed();
+        StableManager.getInstance().StoreSteed(steed);
+
     }
 
     private void TeleportStable(CommandSender sender, String[] args) {

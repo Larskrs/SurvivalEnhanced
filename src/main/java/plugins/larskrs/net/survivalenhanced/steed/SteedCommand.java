@@ -2,11 +2,13 @@ package plugins.larskrs.net.survivalenhanced.steed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.Command;
+import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
 import java.util.ArrayList;
@@ -86,16 +88,20 @@ public class SteedCommand extends Command {
         }
 
         Entity entity = Bukkit.getEntity(steed.entity_id);
+        Location location = null;
         if (entity == null) {
-            sender.sendMessage(ChatColor.RED + steed.custom_name + " is not loaded by the server.");
-            return;
+            sender.sendMessage(ChatColor.RED + steed.custom_name + " was last seen here: ");
+            location = steed.GetLastLocation();
+        } else {
+            location = entity.getLocation();
         }
+
 
         player.sendMessage(ChatColor.YELLOW + steed.custom_name + " is at: " + ChatColor.WHITE
                         + " ("
-               + " X: " + entity.getLocation().getBlockX()
-               + " Y: " + entity.getLocation().getBlockY()
-               + " Z: " + entity.getLocation().getBlockZ()
+               + " X: " + location.getBlockX()
+               + " Y: " + location.getBlockY()
+               + " Z: " + location.getBlockZ()
                        + " ) "
 
         );
