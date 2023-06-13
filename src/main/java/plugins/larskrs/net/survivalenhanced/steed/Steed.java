@@ -107,7 +107,8 @@ public class Steed {
     public void MigrateEntityId (UUID newEntity) {
 
         // Change
-        this.entity_id = newEntity;
+
+        UpdateSteedEntityID (newEntity);
 
         Entity entity = Bukkit.getEntity(entity_id);
         Creature creature = (Creature) entity;
@@ -161,8 +162,12 @@ public class Steed {
         }
 
 
+    }
 
-
+    private void UpdateSteedEntityID(UUID newEntity) {
+        this.entity_id = newEntity;
+        SteedManager.getInstance().steedConfig.set("steeds." + uuid.toString() + ".entity", newEntity.toString());
+        FileManager.getInstance().SaveData("steed.yml");
     }
 
 
