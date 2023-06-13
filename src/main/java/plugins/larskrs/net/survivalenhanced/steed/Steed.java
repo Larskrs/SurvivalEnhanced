@@ -26,6 +26,7 @@ public class Steed {
     public Horse.Style style = null;
     public EntityType type;
     public boolean isAlive = true;
+    public boolean isStored = false;
     public Horse.Color horse_color;
 
 
@@ -55,6 +56,7 @@ public class Steed {
         this.entity = horse;
         this.type = EntityType.HORSE;
         this.horse_color = horse.getColor();
+        SaveLastLocation(horse.getLocation());
     }
     public Steed (Donkey donkey, UUID owner_id, UUID uuid) {
         this.entity_id = donkey.getUniqueId();
@@ -71,6 +73,7 @@ public class Steed {
 
         this.entity = donkey;
         this.type = EntityType.DONKEY;
+        SaveLastLocation(donkey.getLocation());
     }
     public Steed (Mule mule, UUID owner_id, UUID uuid) {
         this.entity_id = mule.getUniqueId();
@@ -87,6 +90,7 @@ public class Steed {
 
         this.entity = mule;
         this.type = EntityType.DONKEY;
+        SaveLastLocation(mule.getLocation());
     }
 
     public void SetSpeed (float speed) {
@@ -102,7 +106,7 @@ public class Steed {
         this.custom_name = custom_name;
     }
     public void SetAlive (boolean alive ) { this.isAlive = alive; }
-
+    public void SetStored (boolean stored) { this.isStored = stored; }
 
     public void MigrateEntityId (UUID newEntity) {
 

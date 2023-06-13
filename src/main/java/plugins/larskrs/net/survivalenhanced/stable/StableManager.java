@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
@@ -28,6 +29,7 @@ public class StableManager {
         this.stableConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("stable.yml");
 
         LoadStables();
+        SetDefaultConfigValues();
     }
     public static StableManager getInstance() {
         return instance;
@@ -45,8 +47,8 @@ public class StableManager {
     public Stable GetStable (String name) {
         return stables.get(name);
     }
-    public float GetStableRange (Stable stable) {
-        return (float) stableConfig.getDouble("stables."+stable.getName()+".radius");
+    public float GetStableRadius () {
+        return (float) stableConfig.getDouble("settings.stable-radius");
     }
 
     public void RegisterStable (String name, UUID owner, Location location) {
@@ -116,6 +118,17 @@ public class StableManager {
 
         return closest;
 
+
+
+    }
+
+    private void SetDefaultConfigValues () {
+        if (!stableConfig.contains("settings.stable-radius")) {
+            stableConfig.set("settings.stable-radius", 5);
+        }
+
+
+        FileManager.getInstance().SaveData("stable.yml");
 
 
     }

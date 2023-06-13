@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced.stable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +64,17 @@ public class StableCommand extends Command {
         Steed steed = SteedManager.getInstance().GetSteed(p);
 
         if (!steed.isAlive) {
-            p.sendMessage(ChatColor.RED + "Your steed is not alive.");
+            p.sendMessage(ChatColor.RED + steed.custom_name + " is not alive.");
+            return;
+        }
+
+        Stable stable = StableManager.getInstance().GetClosestStable(p.getLocation());
+        Location storingLocation = stable.getLocation();
+        double distance = p.getLocation().distance(storingLocation);
+
+        if (distance > StableManager.getInstance().GetStableRadius()) {
+            p.sendMessage(ChatColor.RED + "You are too far away from any stables.");
+            p.sendMessage(ChatColor.YELLOW + "Closest stable " + stable.getName() + " is at ");
             return;
         }
 
@@ -80,6 +92,17 @@ public class StableCommand extends Command {
 
         if (!steed.isAlive) {
             p.sendMessage(ChatColor.RED + "Your steed is not alive.");
+            return;
+        }
+
+        // The location that will have to be close to a stable.
+        Stable stable = StableManager.getInstance().GetClosestStable(p.getLocation());
+        Location storingLocation = stable.getLocation();
+        double distance = p.getLocation().distance(storingLocation);
+
+        if (distance > StableManager.getInstance().GetStableRadius()) {
+            p.sendMessage(ChatColor.RED + "You are too far away from any stables.");
+            p.sendMessage(ChatColor.YELLOW + "Closest stable " + stable.getName() + " is at ");
             return;
         }
 
@@ -170,6 +193,9 @@ public class StableCommand extends Command {
             if (args[0].equalsIgnoreCase("summon")) {
                 for (Steed steed : SteedManager.getInstance().GetSteedList()
                      ) {
+
+                    if (!steed.isAlive) { continue; }
+
                     options.add(steed.custom_name);
                 }
                 return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
