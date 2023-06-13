@@ -10,6 +10,7 @@ import plugins.larskrs.net.survivalenhanced.steed.Steed;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -141,4 +142,7 @@ public class StableManager {
     }
 
 
+    public Stable[] GetStables() {
+        return Arrays.asList(stables.values().toArray()).toArray(new Stable[0]);
+    }
 }

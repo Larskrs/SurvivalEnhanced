@@ -160,6 +160,7 @@ public class StableCommand extends Command {
                 options.add("create");
                 options.add("store");
                 options.add("summon");
+                options.add("tp");
 
             return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
         }
@@ -173,9 +174,13 @@ public class StableCommand extends Command {
                 }
                 return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
             }
-
-            options.add("store");
-            options.add("summon");
+            if (args[0].equalsIgnoreCase("tp")) {
+                for (Stable stable : StableManager.getInstance().GetStables()
+                ) {
+                    options.add(stable.getName() + "");
+                }
+                return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
+            }
 
             return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
         }
