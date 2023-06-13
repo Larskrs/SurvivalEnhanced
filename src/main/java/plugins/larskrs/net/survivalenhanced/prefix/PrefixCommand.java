@@ -1,5 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.prefix;
 
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -7,6 +8,7 @@ import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,21 @@ public class PrefixCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            // TODO: Open prefix menu.
+
+            if (!(sender instanceof Player)) {
+                Messanger.ErrorConsole("Invalid Usage, You need to specify, set or clear? /prefix <set/clear>");
+                return;
+            }
+            Player p = (Player) sender;
+            new PrefixMenu(p);
+
             return;
         }
 
         if (args.length >= 1) {
-            if (args[0].equals("add"))      { SetPrefix(sender, args); }
-            if (args[0].equals("glow"))     { ClearPrefix(sender, args); }
+            String arg = args[0].toLowerCase();
+            if (arg.equals("set"))      { SetPrefix(sender, args); }
+            if (arg.equals("clear"))     { ClearPrefix(sender, args); }
             return;
         }
     }
@@ -48,7 +58,10 @@ public class PrefixCommand extends Command {
             return;
         }
 
-        Player player = (Player) sender;
+        Player p = (Player) sender;
+
+        p.sendMessage(ChatColor.YELLOW + "Clearing your prefix. ");
+        PrefixManager.getInstance().ClearPrefix(p.getUniqueId());
 
     }
 
@@ -63,7 +76,25 @@ public class PrefixCommand extends Command {
             return;
         }
 
-        Player player = (Player) sender;
+        Player p = (Player) sender;
+
+        if (args.length <= 1) {
+
+            new PrefixMenu(p);
+
+            return;
+        }
+
+        Prefix prefix = PrefixManager.getInstance().GetPrefix(args[1]);
+
+        if (prefix == null) {
+            p.sendMessage(ChatColor.RED + "Could not find a prefix with the name of: " + args[1]);
+            p.sendMessage(ChatColor.RED + "Invalid Usage, /prefix set <prefix>");
+            return;
+        }
+
+        PrefixManager.getInstance().SetPrefix(p.getUniqueId(), prefix);
+        p.sendMessage(ChatColor.YELLOW + "Set your prefix as " + prefix.GetDisplay());
 
     }
 
@@ -81,7 +112,6 @@ public class PrefixCommand extends Command {
         }
 
         if (args.length == 2) {
-            sender.sendMessage("[" + args[1]);
             for (Prefix prefix : PrefixManager.getInstance().GetPrefixes()
                  ) {
                 options.add(prefix.GetName());

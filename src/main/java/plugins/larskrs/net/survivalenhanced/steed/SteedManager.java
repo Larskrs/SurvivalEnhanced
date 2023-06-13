@@ -29,11 +29,16 @@ public class SteedManager {
         instance = this;
         FileManager.getInstance().LoadFile("steed.yml");
         steedConfig = FileManager.getInstance().GetYamlFromString("steed.yml");
-
         SetDefaultConfigValues();
+
+        if (!steedConfig.getBoolean("enabled")) {
+            return;
+        }
+
         steeds = LoadSteedsFromFile();
 
         new SteedCommand(se);
+        Bukkit.getPluginManager().registerEvents(new SteedListener(), se);
     }
 
     public static SteedManager getInstance() {
@@ -111,6 +116,9 @@ public class SteedManager {
         }
         if (!steedConfig.contains("settings.glow-duration")) {
             steedConfig.set("settings.glow-duration", 5);
+        }
+        if (!steedConfig.contains("enabled")) {
+            steedConfig.set("enabled", true);
         }
 
 

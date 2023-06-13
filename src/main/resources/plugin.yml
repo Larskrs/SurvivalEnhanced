@@ -3,6 +3,9 @@ version: '${project.version}'
 main: plugins.larskrs.net.survivalenhanced.SurvivalEnhanced
 api-version: 1.19
 
+softdepend:
+  - Vault
+
 permissions:
   survivalenhanced.command.prefix:
     default: not op

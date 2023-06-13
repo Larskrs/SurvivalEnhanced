@@ -5,7 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import plugins.larskrs.net.survivalenhanced.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +25,27 @@ public class PrefixManager {
 
     public void Setup(SurvivalEnhanced survivalEnhanced) {
         instance = this;
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("vault")) {
+            Messanger.ErrorConsole("You have to have vault installed to be able to use the prefix system");
+            return;
+        }
+
         SurvivalEnhanced.GetFileManager().LoadFile("prefix.yml");
         this.holders = new HashMap<>();
         this.prefixes = new ArrayList<>();
         this.prefixConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("prefix.yml");
 
+        SetDefaultConfigValues();
 
+        if (!prefixConfig.getBoolean("enabled")) {
+
+            return;
+        }
 
         LoadPrefixes();
         new PrefixCommand(survivalEnhanced);
+        Bukkit.getPluginManager().registerEvents(new PrefixListener(), survivalEnhanced);
     }
     public static PrefixManager getInstance() {
         return instance;
@@ -64,9 +80,49 @@ public class PrefixManager {
 
         }
 
+        this.prefixes = prefixes;
+
+    }
+
+    public Prefix GetPrefix ( String name ) {
+        for (Prefix prefix : prefixes) {
+            if (name.equals(prefix.GetName())) {
+                return prefix;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Prefix> GetPrefixes() {
         return prefixes;
+    }
+
+    public void SetPrefix(UUID holderID, Prefix prefix) {
+
+        if (holders.containsKey(holderID)) {
+            holders.remove(holderID);
+        }
+        holders.put(holderID, prefix);
+
+        VaultDependency.GetChat().setPlayerPrefix(Bukkit.getPlayer(holderID), prefix.GetDisplay());
+    }
+    public void ClearPrefix (UUID holderID) {
+        holders.remove(holderID);
+
+        VaultDependency.GetChat().setPlayerPrefix(Bukkit.getPlayer(holderID), "");
+    }
+    public Prefix GetPrefix(Player player) {
+        return holders.get(player.getUniqueId());
+    }
+
+    private void SetDefaultConfigValues () {
+        if (!prefixConfig.contains("enabled")) {
+            prefixConfig.set("enabled", true);
+        }
+
+
+        FileManager.getInstance().SaveData("prefix.yml");
+
+
     }
 }

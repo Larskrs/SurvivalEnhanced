@@ -27,9 +27,14 @@ public class StableManager {
         SurvivalEnhanced.GetFileManager().LoadFile("stable.yml");
         this.stables = new HashMap<>();
         this.stableConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("stable.yml");
+        SetDefaultConfigValues();
+
+        if (!stableConfig.getBoolean("enabled")) {
+
+            return;
+        }
 
         LoadStables();
-        SetDefaultConfigValues();
 
         new StableCommand(survivalEnhanced);
     }
@@ -128,6 +133,9 @@ public class StableManager {
     private void SetDefaultConfigValues () {
         if (!stableConfig.contains("settings.stable-radius")) {
             stableConfig.set("settings.stable-radius", 5);
+        }
+        if (!stableConfig.contains("enabled")) {
+            stableConfig.set("enabled", true);
         }
 
 

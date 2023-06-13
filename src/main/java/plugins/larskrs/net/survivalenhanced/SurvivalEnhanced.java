@@ -2,7 +2,9 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixCommand;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixListener;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
 import plugins.larskrs.net.survivalenhanced.stable.StableCommand;
 import plugins.larskrs.net.survivalenhanced.stable.StableManager;
@@ -28,20 +30,27 @@ public final class SurvivalEnhanced extends JavaPlugin {
         fileManager = new FileManager(this);
         interactionManager = new InteractionManager(this);
 
+        // ------------------
+        //   Setup Managers
+        // ------------------
+
         new SteedManager().Setup(this);
         new StableManager().Setup(this);
         new PrefixManager().Setup(this);
 
 
         // ------------------
-        //     COMMANDS
+        //    Dependencies
         // ------------------
+
+        new VaultDependency().Setup(this);
 
         // ------------------
         //     LISTENERS
         // ------------------
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new SteedListener(), this);
+
+
     }
 
     @Override
