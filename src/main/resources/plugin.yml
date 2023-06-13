@@ -4,6 +4,12 @@ main: plugins.larskrs.net.survivalenhanced.SurvivalEnhanced
 api-version: 1.19
 
 permissions:
+  survivalenhanced.command.prefix:
+    default: not op
+    description: Players with this can use the prefix command to set their own prefix.
+  survivalenhanced.command.prefix.admin:
+    default: op
+    description: Allows admins to add, remove and set others prefixes.
   survivalenhanced:
     default: not op
     description: Essential for the plugin to be used by your players.

@@ -32,6 +32,8 @@ public class SteedManager {
 
         SetDefaultConfigValues();
         steeds = LoadSteedsFromFile();
+
+        new SteedCommand(se);
     }
 
     public static SteedManager getInstance() {
@@ -98,7 +100,7 @@ public class SteedManager {
 
 
             steeds.add(steed);
-            Bukkit.getConsoleSender().sendMessage("   " + (steed.isAlive ? ChatColor.GREEN + "Alive " : ChatColor.RED + "Dead  ") + ChatColor.GRAY + " - " + section.getString("custom_name"));
+            Bukkit.getConsoleSender().sendMessage("   " +  ChatColor.GRAY + " - " + section.getString("custom_name") + "   " + (steed.isAlive ? ChatColor.GREEN + "Alive " : ChatColor.RED + "Dead  "));
         }
         return steeds;
 

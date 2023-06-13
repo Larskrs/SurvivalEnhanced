@@ -83,14 +83,15 @@ public class FileManager {
                 throw new RuntimeException(e);
             }
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Loaded " + fileName);
+//        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Loaded " + fileName);
+
         // Attempt to load file and put it in the fileMap
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         fileMap.put(fileName, config);
     }
 
     public void SaveData (String fileName) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Attempting " + fileName);
+//        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Attempting " + fileName);
         File file = new File(se.getDataFolder(), fileName);
 
         try {

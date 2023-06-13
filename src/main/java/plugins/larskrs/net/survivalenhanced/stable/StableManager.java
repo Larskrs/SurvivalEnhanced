@@ -30,6 +30,8 @@ public class StableManager {
 
         LoadStables();
         SetDefaultConfigValues();
+
+        new StableCommand(survivalEnhanced);
     }
     public static StableManager getInstance() {
         return instance;
@@ -73,7 +75,7 @@ public class StableManager {
 
     public void LoadStables () {
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loading stables:");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "-- Stables Loaded --");
         ConfigurationSection stableSection = stableConfig.getConfigurationSection("stables");
         if (stableSection == null) { return; }
         for (String stableName : stableSection.getKeys(false)) {
@@ -81,6 +83,7 @@ public class StableManager {
             UUID owner = UUID.fromString(section.getString("owner"));
             Location location = SurvivalEnhanced.GetFileManager().ReadBlockLocation(section.getConfigurationSection("location"));
             Stable stable = new Stable(stableName, owner, location);
+            Bukkit.getConsoleSender().sendMessage("   " +  ChatColor.GRAY + " - " + stableName);
             SetStable(stableName, stable);
         }
 

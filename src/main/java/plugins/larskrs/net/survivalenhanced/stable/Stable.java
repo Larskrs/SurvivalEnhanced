@@ -17,7 +17,6 @@ public class Stable {
             this.centerPoint = centerPoint;
             this.name = name;
             this.owner = owner;
-            Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + " Loaded stable " + ChatColor.AQUA + name);
     }
 
     public String getName () {

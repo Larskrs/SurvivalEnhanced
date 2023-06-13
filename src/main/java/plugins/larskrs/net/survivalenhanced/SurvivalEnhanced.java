@@ -2,6 +2,8 @@ package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixCommand;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
 import plugins.larskrs.net.survivalenhanced.stable.StableCommand;
 import plugins.larskrs.net.survivalenhanced.stable.StableManager;
 import plugins.larskrs.net.survivalenhanced.steed.SteedCommand;
@@ -28,13 +30,12 @@ public final class SurvivalEnhanced extends JavaPlugin {
 
         new SteedManager().Setup(this);
         new StableManager().Setup(this);
+        new PrefixManager().Setup(this);
 
 
         // ------------------
         //     COMMANDS
         // ------------------
-        new StableCommand(this);
-        new SteedCommand(this);
 
         // ------------------
         //     LISTENERS
