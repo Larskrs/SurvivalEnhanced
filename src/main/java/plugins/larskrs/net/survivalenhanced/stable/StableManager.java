@@ -87,6 +87,38 @@ public class StableManager {
         SteedManager.getInstance().StoreSteed(steed);
     }
 
+    public Stable GetClosestStable (Location location) {
+
+        boolean defined = false;
+        double shortest = 0;
+        Stable closest = null;
+        for (Stable stable : stables.values()
+             ) {
+
+
+            Location stableLocation = stable.getLocation();
+            double distance = location.distance(stableLocation);
+
+            if (!defined) {
+                defined = true;
+                shortest = distance;
+                closest = stable;
+                continue;
+            }
+
+            if (distance < shortest) {
+                shortest = distance;
+                closest = stable;
+            }
+
+        }
+
+        return closest;
+
+
+
+    }
+
     public boolean StableExists (String stableName) {
         return stables.containsKey(stableName);
     }

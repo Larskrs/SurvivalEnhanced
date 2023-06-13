@@ -92,8 +92,18 @@ public class StableCommand extends Command {
         if (!(sender instanceof Player)) { return; }
         Player p = (Player) sender;
 
-        if (args.length == 0) {
-            p.sendMessage(ChatColor.RED + "Invalid Usage, /stable create " + ChatColor.YELLOW + "(stable-name)");
+        if (args.length == 1) {
+
+
+            Stable closest = StableManager.getInstance().GetClosestStable(p.getLocation());
+            if (closest == null) {
+                p.sendMessage(ChatColor.RED + "Could not find a stable nearby.");
+                return;
+            }
+
+            p.teleport(closest.getLocation().toVector().add(new Vector(0.5f, 1f,0.5f)).toLocation(closest.getLocation().getWorld()));
+            p.sendMessage(ChatColor.AQUA + "Sent you to the closest stable");
+
             return;
         }
 
