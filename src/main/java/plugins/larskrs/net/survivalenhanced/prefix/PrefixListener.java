@@ -24,10 +24,12 @@ public class PrefixListener implements Listener {
                 PrefixManager.getInstance().GetPrefix(e.getPlayer()).GetDisplay());
     }
 
+    int page = 1;
+
     @EventHandler
     public void OnMenuInteract (InventoryClickEvent e) {
 
-        if (!e.getView().getTitle().equals("Prefix > Select Prefix")) {
+        if (!e.getView().getTitle().startsWith("Prefix > Select Prefix")) {
             return;
         }
 
@@ -46,16 +48,29 @@ public class PrefixListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         String name = meta.getLocalizedName();
 
+        Player p = (Player) e.getWhoClicked();;
+
+        if (meta.getDisplayName().equals(ChatColor.AQUA + "Next Page") || meta.getDisplayName().equals(ChatColor.AQUA + "Last Page")) {
+            page = Integer.parseInt(name);
+
+            PrefixMenu menu = new PrefixMenu(p);
+
+            menu.OpenGUI(p, page);
+            return;
+        }
+
+
         Prefix prefix = PrefixManager.getInstance().GetPrefix(name);
 
         if (prefix == null) {
             return;
         }
 
-        Player p = (Player) e.getWhoClicked();
+
         p.performCommand("prefix set " + name);
 
-        new PrefixMenu(p);
+        PrefixMenu menu = new PrefixMenu(p);
+        menu.OpenGUI(p, page);
 
     }
 

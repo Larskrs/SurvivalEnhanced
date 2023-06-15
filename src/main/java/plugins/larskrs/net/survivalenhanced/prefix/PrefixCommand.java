@@ -2,6 +2,7 @@ package plugins.larskrs.net.survivalenhanced.prefix;
 
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -34,7 +35,11 @@ public class PrefixCommand extends Command {
                 return;
             }
             Player p = (Player) sender;
-            new PrefixMenu(p);
+
+            PrefixMenu menu = new PrefixMenu(p);
+
+
+            menu.OpenGUI(p, 1);
 
             return;
         }
@@ -80,8 +85,9 @@ public class PrefixCommand extends Command {
 
         if (args.length <= 1) {
 
-            new PrefixMenu(p);
+            PrefixMenu menu = new PrefixMenu(p);
 
+            menu.OpenGUI(p, 1);
             return;
         }
 

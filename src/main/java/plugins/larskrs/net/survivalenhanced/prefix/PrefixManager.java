@@ -76,7 +76,7 @@ public class PrefixManager {
             );
 
             prefixes.add(prefix);
-            Bukkit.getConsoleSender().sendMessage("   " +  ChatColor.GRAY + " - " + s + " - " + display);
+            Bukkit.getConsoleSender().sendMessage("   " +  ChatColor.GRAY + " - " + s + " - " + display + " - " + prefix.GetIcon().toString());
 
         }
 

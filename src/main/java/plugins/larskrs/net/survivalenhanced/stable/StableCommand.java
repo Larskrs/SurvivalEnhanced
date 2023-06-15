@@ -1,22 +1,22 @@
 package plugins.larskrs.net.survivalenhanced.stable;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
 import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+import plugins.larskrs.net.survivalenhanced.tools.NumberTools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class StableCommand extends Command {
 
-    private SurvivalEnhanced se;
+    private final SurvivalEnhanced se;
 
     public StableCommand(SurvivalEnhanced se) {
         super(
@@ -50,8 +50,57 @@ public class StableCommand extends Command {
         if (args[0].equals("tp")) { TeleportStable(sender, args); }
         if (args[0].equals("store")) { StoreSteed(sender, args); }
         if (args[0].equals("summon")) { SummonSteed(sender, args); }
+        if (args[0].equals("list")) { ListStables(sender, args); }
 
         
+
+    }
+
+
+    private void ListStables(CommandSender sender, String[] args) {
+
+        if (!(sender instanceof Player)) { return; }
+
+        Player p = (Player) sender;
+        int page = 1;
+        if (args.length == 2) {
+            if (NumberTools.isNumeric(args[1])) {
+                page = Integer.parseInt(args[1]);
+            }
+        }
+
+        DynamicContentGUI stableGUI = new DynamicContentGUI(6, "Stable List");
+
+//        for (Material mat : Material.values()) {
+//
+//            ItemStack item = new ItemStack(mat);
+//
+//            if (item.hasItemMeta()) {
+//                // Handle item meta if possible
+//                ItemMeta meta = item.getItemMeta();
+//                meta.setDisplayName(ChatColor.YELLOW  + mat.name());
+//                item.setItemMeta(meta);
+//                //
+//            }
+//            stableGUI.RegisterItemStack(item);
+//        }
+//
+        for (Stable stable : StableManager.getInstance().GetStables()) {
+
+            ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+
+            Player player = Bukkit.getPlayer(stable.getOwner());
+
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            meta.setOwner(player.getName());
+            meta.setDisplayName(ChatColor.YELLOW + stable.getName());
+            skull.setItemMeta(meta);
+
+            stableGUI.RegisterItemStack(skull);
+        }
+
+        stableGUI.OpenGUI(p, page);
+
 
     }
 
@@ -203,7 +252,7 @@ public class StableCommand extends Command {
             if (args[0].equalsIgnoreCase("tp")) {
                 for (Stable stable : StableManager.getInstance().GetStables()
                 ) {
-                    options.add(stable.getName() + "");
+                    options.add(stable.getName());
                 }
                 return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
             }
