@@ -25,21 +25,25 @@ public class GUIListener implements Listener {
 
 
     @EventHandler
-    public void OnInventoryInteract (InventoryInteractEvent e) {
+    public void OnInventoryInteract (InventoryClickEvent e) {
 
         Player p = (Player) e.getWhoClicked();
 
-        if (GUIManagar.getInstance().isGUILinked(p)) {
-            p.sendMessage("You linked");
+        if (!GUIManagar.getInstance().isGUILinked(p)) {
             return;
         }
-
         GeneralGUI gui = GUIManagar.getInstance().GetGUI(p);
-
 
         e.setCancelled(true);
 
-        gui.InteractItem(e.getView().getCursor());
+        if (e.getCurrentItem() == null) {
+            return;
+        }
+
+        gui.InteractItem(e.getCurrentItem());
+
+
+
     }
 
 }
