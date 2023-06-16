@@ -69,7 +69,7 @@ public class StableCommand extends Command {
             }
         }
 
-        DynamicContentGUI stableGUI = new DynamicContentGUI(6, "Stable List");
+//        DynamicContentGUI stableGUI = new DynamicContentGUI(page, 6, "Stable List");
 
 //        for (Material mat : Material.values()) {
 //
@@ -84,22 +84,23 @@ public class StableCommand extends Command {
 //            }
 //            stableGUI.RegisterItemStack(item);
 //        }
+
 //
-        for (Stable stable : StableManager.getInstance().GetStables()) {
-
-            ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
-
-            Player player = Bukkit.getPlayer(stable.getOwner());
-
-            SkullMeta meta = (SkullMeta) skull.getItemMeta();
-            meta.setOwner(player.getName());
-            meta.setDisplayName(ChatColor.YELLOW + stable.getName());
-            skull.setItemMeta(meta);
-
-            stableGUI.RegisterItemStack(skull);
-        }
-
-        stableGUI.OpenGUI(p, page);
+//        for (Stable stable : StableManager.getInstance().GetStables()) {
+//
+//            ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+//
+//            Player player = Bukkit.getPlayer(stable.getOwner());
+//
+//            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+//            meta.setOwner(player.getName());
+//            meta.setDisplayName(ChatColor.YELLOW + stable.getName());
+//            skull.setItemMeta(meta);
+//
+//            stableGUI.RegisterItemStack(skull);
+//        }
+//
+//        stableGUI.OpenGUI(p, page);
 
 
     }

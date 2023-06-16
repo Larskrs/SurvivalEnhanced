@@ -12,7 +12,7 @@ import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DynamicContentGUI {
+public abstract class DynamicContentGUI extends GeneralGUI {
 
     private List<ItemStack> items;
     private Inventory inv;
@@ -20,13 +20,18 @@ public class DynamicContentGUI {
     private int rows;
     private int startingIndex = 0;
     private String title;
+    private int page;
 
-    public DynamicContentGUI (int rows, String title) {
+    public DynamicContentGUI (String id, int page, int rows, String title) {
+        super(
+            id,
+            rows
+        );
         this.title = title;
         this.rows = rows;
         this.items = new ArrayList<>();
+        this.page = page;
         CalcSpaces();
-
     }
 
     public void CalcSpaces () {
@@ -51,27 +56,15 @@ public class DynamicContentGUI {
         }
     }
 
-    public void OpenGUI (Player player, int page) {
-
-
-
-        List<ItemStack> pageItems = GUIPageUtil.GetPageItems(items, spaces, page);
-
+    @Override
+    public void onRenderGUI (Player p) {
         inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+( (items.size()/spaces) + 1 )+") ");
 
-        FillBorders();
-        EmptySpaces();
+        onItemsRender();
+        renderPageItems();
 
-        for (int i = 0; i < pageItems.size(); i++) {
-            ItemStack item = pageItems.get(i);
 
-            int index = startingIndex + i;
-            inv.setItem(index, item);
-        }
-
-        NavItems(page);
-
-        player.openInventory(inv);
+        p.openInventory(inv);
     }
 
     private void NavItems(int page) {
@@ -106,5 +99,25 @@ public class DynamicContentGUI {
                 }
             }
     }
+    public abstract void onItemsRender ();
 
+    public void renderPageItems () {
+
+        List<ItemStack> pageItems = GUIPageUtil.GetPageItems(items, spaces, page);
+
+        FillBorders();
+        EmptySpaces();
+
+        for (int i = 0; i < pageItems.size(); i++) {
+            ItemStack item = pageItems.get(i);
+
+            int index = startingIndex + i;
+            inv.setItem(index, item);
+        }
+
+        NavItems(page);
+    }
+
+
+    public abstract void onItemClick (ItemStack item);
 }

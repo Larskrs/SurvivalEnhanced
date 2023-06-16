@@ -3,6 +3,7 @@ package plugins.larskrs.net.survivalenhanced;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
+import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixCommand;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixListener;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
@@ -37,6 +38,7 @@ public final class SurvivalEnhanced extends JavaPlugin {
         new SteedManager().Setup(this);
         new StableManager().Setup(this);
         new PrefixManager().Setup(this);
+        new GUIManagar().Setup(this);
 
 
         // ------------------

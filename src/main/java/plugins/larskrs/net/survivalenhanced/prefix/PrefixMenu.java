@@ -20,21 +20,16 @@ import java.util.List;
 
 public class PrefixMenu extends DynamicContentGUI {
 
-
-    private Player holder;
     private Inventory inv;
     private Prefix playerPrefix;
 
-    public PrefixMenu ( Player player ) {
+    public PrefixMenu ( int page) {
         super(
+                "prefix-menu",
+                page,
                 6,
                 "Prefix > Select Prefix"
         );
-
-        this.holder = player;
-        playerPrefix = PrefixManager.getInstance().GetPrefix(player);
-
-        AddPrefixItems ();
     }
 
     private void AddPrefixItems() {
@@ -51,7 +46,7 @@ public class PrefixMenu extends DynamicContentGUI {
 
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.AQUA + "[ Click ] " + ChatColor.WHITE + "to set your prefix.");
-            lore.add("   " + prefix.GetDisplay() + ChatColor.GRAY + " | " + ChatColor.WHITE + holder.getName());
+            lore.add("   " + prefix.GetDisplay() + ChatColor.GRAY + " | " + ChatColor.WHITE + getPlayer().getName());
 
                 if (playerPrefix != null && playerPrefix.GetName().equals(meta.getLocalizedName())) {
 
@@ -70,6 +65,18 @@ public class PrefixMenu extends DynamicContentGUI {
             RegisterItemStack(item);
         }
 
+    }
+
+    @Override
+    public void onItemClick(ItemStack item) {
+        Messanger.InfoConsole(item.getItemMeta().getDisplayName());
+    }
+
+    @Override
+    public void onItemsRender() {
+        Messanger.InfoConsole(getPlayer().getName() + " - is here in prefix menu");
+        playerPrefix = PrefixManager.getInstance().GetPrefix(getPlayer());
+        AddPrefixItems();
     }
 
 }

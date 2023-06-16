@@ -36,10 +36,8 @@ public class PrefixCommand extends Command {
             }
             Player p = (Player) sender;
 
-            PrefixMenu menu = new PrefixMenu(p);
-
-
-            menu.OpenGUI(p, 1);
+            PrefixMenu menu = new PrefixMenu(1);
+            menu.OpenGUI(p);
 
             return;
         }
@@ -85,9 +83,8 @@ public class PrefixCommand extends Command {
 
         if (args.length <= 1) {
 
-            PrefixMenu menu = new PrefixMenu(p);
-
-            menu.OpenGUI(p, 1);
+            PrefixMenu menu = new PrefixMenu(1);
+            menu.OpenGUI(p);
             return;
         }
 

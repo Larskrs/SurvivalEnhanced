@@ -38,7 +38,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>E:\TestServer\plugins</outputDirectory>
+                            <outputDirectory>C:\Users\lksyv\Desktop\MC SERVEr\plugins</outputDirectory>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>

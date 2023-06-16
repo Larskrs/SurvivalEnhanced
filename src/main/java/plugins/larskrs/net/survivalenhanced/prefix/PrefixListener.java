@@ -29,9 +29,13 @@ public class PrefixListener implements Listener {
     @EventHandler
     public void OnMenuInteract (InventoryClickEvent e) {
 
+
+
         if (!e.getView().getTitle().startsWith("Prefix > Select Prefix")) {
             return;
         }
+        if (true)
+        return;
 
         e.setCancelled(true);
 
@@ -53,9 +57,8 @@ public class PrefixListener implements Listener {
         if (meta.getDisplayName().equals(ChatColor.AQUA + "Next Page") || meta.getDisplayName().equals(ChatColor.AQUA + "Last Page")) {
             page = Integer.parseInt(name);
 
-            PrefixMenu menu = new PrefixMenu(p);
-
-            menu.OpenGUI(p, page);
+            PrefixMenu menu = new PrefixMenu(page);
+            menu.OpenGUI(p);
             return;
         }
 
@@ -69,8 +72,8 @@ public class PrefixListener implements Listener {
 
         p.performCommand("prefix set " + name);
 
-        PrefixMenu menu = new PrefixMenu(p);
-        menu.OpenGUI(p, page);
+        PrefixMenu menu = new PrefixMenu(page);
+        menu.OpenGUI(p);
 
     }
 
