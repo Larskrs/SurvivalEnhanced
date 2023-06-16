@@ -26,9 +26,9 @@ public abstract class GeneralGUI {
 
     public void OpenGUI (Player p) {
         this.holder = p;
+        onRenderGUI(p);
         GUIManagar.getInstance().LinkGUI(p, this);
         Messanger.InfoConsole("Opened gui");
-        onRenderGUI(p);
     }
 
     public abstract void onRenderGUI (Player p);
@@ -43,9 +43,9 @@ public abstract class GeneralGUI {
         return id;
     }
 
-    public abstract void onItemClick (ItemStack item);
+    public abstract void onItemClick (ItemStack item, Player p);
 
-    public void InteractItem(ItemStack currentItem) {
-        onItemClick(currentItem);
+    public void InteractItem(ItemStack currentItem, Player p) {
+        onItemClick(currentItem, p);
     }
 }

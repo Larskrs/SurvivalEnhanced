@@ -35,12 +35,12 @@ public class GUIManagar {
 
     public void LinkGUI (Player p, GeneralGUI gui) {
         guis.put(p.getUniqueId(),gui);
-        Messanger.All("Linked you to a gui");
+//        Messanger.All("Linked you to a gui");
     }
 
     public void UnlinkGUI(Player p) {
         guis.remove(p.getUniqueId());
-        Messanger.All("UnLinked you to a gui");
+//        Messanger.All("UnLinked you to a gui");
     }
     public boolean isGUILinked (Player p) {
         return guis.containsKey(p.getUniqueId());

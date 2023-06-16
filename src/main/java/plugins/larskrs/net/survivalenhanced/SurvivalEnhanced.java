@@ -1,6 +1,7 @@
 package plugins.larskrs.net.survivalenhanced;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
@@ -58,5 +59,11 @@ public final class SurvivalEnhanced extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        for (Player player : Bukkit.getOnlinePlayers()
+             ) {
+            player.closeInventory();
+        }
+
     }
 }

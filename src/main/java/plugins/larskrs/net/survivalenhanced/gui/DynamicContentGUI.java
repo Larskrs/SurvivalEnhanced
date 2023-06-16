@@ -34,6 +34,10 @@ public abstract class DynamicContentGUI extends GeneralGUI {
         CalcSpaces();
     }
 
+    public int getPage () {
+        return page;
+    }
+
     public void CalcSpaces () {
 
         spaces = rows * 9;
@@ -119,5 +123,5 @@ public abstract class DynamicContentGUI extends GeneralGUI {
     }
 
 
-    public abstract void onItemClick (ItemStack item);
+    public abstract void onItemClick (ItemStack item, Player p);
 }

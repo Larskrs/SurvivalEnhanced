@@ -68,8 +68,27 @@ public class PrefixMenu extends DynamicContentGUI {
     }
 
     @Override
-    public void onItemClick(ItemStack item) {
+    public void onItemClick(ItemStack item, Player p) {
         Messanger.InfoConsole(item.getItemMeta().getDisplayName());
+
+        String localizedName = item.getItemMeta().getLocalizedName();
+        if (localizedName == null) {
+            return;
+        }
+
+        Prefix prefix = PrefixManager.getInstance().GetPrefix(localizedName);
+
+        if (prefix == null) {
+            return;
+        }
+
+
+        p.performCommand("prefix set " + localizedName);
+
+        PrefixMenu menu = new PrefixMenu(getPage());
+        menu.OpenGUI(p);
+
+
     }
 
     @Override
