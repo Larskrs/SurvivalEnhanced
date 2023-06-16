@@ -27,7 +27,7 @@ public class PrefixMenu extends DynamicContentGUI {
         super(
                 "prefix-menu",
                 page,
-                6,
+                5,
                 "Prefix > Select Prefix"
         );
     }

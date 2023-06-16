@@ -62,9 +62,9 @@ public abstract class DynamicContentGUI extends GeneralGUI {
 
     @Override
     public void onRenderGUI (Player p) {
-        inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+( (items.size()/spaces) + 1 )+") ");
 
         onItemsRender();
+        inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+ GUIPageUtil.pageAmount(items, spaces) +") ");
         renderPageItems();
 
 

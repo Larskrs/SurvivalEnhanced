@@ -1,6 +1,7 @@
 package plugins.larskrs.net.survivalenhanced.gui;
 
 import org.bukkit.inventory.ItemStack;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,15 @@ public class GUIPageUtil {
         int lowerBound = upperBound - spaces;
 
         return items.size() > lowerBound;
+    }
+
+    public static long pageAmount (List<ItemStack> items, int spaces) {
+
+        long x = (items.size() / spaces);
+        long round = Math.round(x + 0.4);
+        Messanger.InfoConsole(x + " | " + spaces + " | " + round);
+        return round + 1;
+
     }
 
 

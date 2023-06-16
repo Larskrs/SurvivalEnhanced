@@ -20,8 +20,14 @@ public class PrefixListener implements Listener {
 
     @EventHandler
     public void onJoin (PlayerJoinEvent e) {
+
+        Prefix prefix = PrefixManager.getInstance().GetPrefix(e.getPlayer());
+        if (prefix == null) {
+            return;
+        }
+
         VaultDependency.GetChat().setPlayerPrefix(e.getPlayer(),
-                PrefixManager.getInstance().GetPrefix(e.getPlayer()).GetDisplay());
+                prefix.GetDisplay());
     }
 
     int page = 1;

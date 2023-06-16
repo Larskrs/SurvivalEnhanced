@@ -18,7 +18,7 @@ public class PrefixCommand extends Command {
     public PrefixCommand(SurvivalEnhanced survivalEnhanced) {
         super(
                 "prefix",
-                "enhancedsurvival.command.prefix",
+                "survivalenhanced.command.prefix",
                 "This command will let you manage your personal prefix",
                 "prefix",
                 (new String[]{"pfix", "pf"})
