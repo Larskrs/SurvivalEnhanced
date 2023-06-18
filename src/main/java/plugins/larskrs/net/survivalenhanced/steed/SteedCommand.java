@@ -20,7 +20,7 @@ public class SteedCommand extends Command {
     public SteedCommand(SurvivalEnhanced se) {
         super(
                 "steed",
-                "enhancedsurvival",
+                "survivalenhanced.command.steed",
                 "This command will let you manage your steeds/horses",
                 "steed",
                 (new String[]{"donkey", "mule", "horse"})

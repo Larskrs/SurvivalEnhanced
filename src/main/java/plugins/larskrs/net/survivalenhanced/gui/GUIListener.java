@@ -57,8 +57,7 @@ public class GUIListener implements Listener {
                 return;
             }
         }
-
-        gui.InteractItem(e.getCurrentItem(), p);
+        gui.InteractItem(e.getCurrentItem(), p, e.getAction());
 
 
 

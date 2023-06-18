@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 import plugins.larskrs.net.survivalenhanced.Interaction;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
@@ -36,7 +37,10 @@ public class SteedAddInteraction extends Interaction {
             return;
         }
 
-
+        if (SteedManager.getInstance().isSteedTaken(entity)) {
+            holder.sendMessage(ChatColor.RED + "Whoops! This steed is already taken. Don't worry, there are plenty of " + entity.getType().getName() + " in the sea.");
+            return;
+        }
 
         // Set horse.
         SteedManager.getInstance().AddSteed(holder.getUniqueId(), entity.getUniqueId(), horseName);

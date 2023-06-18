@@ -69,6 +69,10 @@ public class SteedManager {
         return null;
     }
 
+    public boolean isSteedTaken (Entity entity) {
+        return (GetSteed(entity) != null);
+    }
+
 //  |------------------------------|
 //  |        Serialize Steeds      |
 //  |------------------------------|

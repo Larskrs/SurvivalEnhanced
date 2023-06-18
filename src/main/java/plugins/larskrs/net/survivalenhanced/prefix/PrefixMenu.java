@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -42,7 +43,7 @@ public class PrefixMenu extends DynamicContentGUI {
             meta.setDisplayName(prefix.GetDisplay() + ChatColor.WHITE + " (" + prefix.GetName() + ")");
             meta.setLocalizedName(prefix.GetName());
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.AQUA + "[ Click ] " + ChatColor.WHITE + "to set your prefix.");
@@ -57,6 +58,7 @@ public class PrefixMenu extends DynamicContentGUI {
 
                 }
 
+
             meta.setLore(lore);
 
 
@@ -68,7 +70,7 @@ public class PrefixMenu extends DynamicContentGUI {
     }
 
     @Override
-    public void onItemClick(ItemStack item, Player p) {
+    public void onItemClick(ItemStack item, Player p, InventoryAction action) {
         Messanger.InfoConsole(item.getItemMeta().getDisplayName());
 
         String localizedName = item.getItemMeta().getLocalizedName();
