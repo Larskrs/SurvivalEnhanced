@@ -3,6 +3,9 @@ package plugins.larskrs.net.survivalenhanced;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import plugins.larskrs.net.survivalenhanced.Watchover.WatchoverCommand;
+import plugins.larskrs.net.survivalenhanced.database.Database;
+import plugins.larskrs.net.survivalenhanced.database.SQLite;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixCommand;
@@ -13,6 +16,11 @@ import plugins.larskrs.net.survivalenhanced.stable.StableManager;
 import plugins.larskrs.net.survivalenhanced.steed.SteedCommand;
 import plugins.larskrs.net.survivalenhanced.steed.SteedListener;
 import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public final class SurvivalEnhanced extends JavaPlugin {
 
@@ -25,6 +33,12 @@ public final class SurvivalEnhanced extends JavaPlugin {
     public static InteractionManager GetInteractionManager() {
         return interactionManager;
     }
+
+    private static Database db;
+    public static Database getDatabase () {
+        return db;
+    }
+
 
     @Override
     public void onEnable() {
@@ -41,9 +55,16 @@ public final class SurvivalEnhanced extends JavaPlugin {
         new PrefixManager().Setup(this);
         new GUIManagar().Setup(this);
 
+        // ------------------
+        //      Database
+        // ------------------
+        this.db = new SQLite(this);
+        this.db.load();
+
+        new WatchoverCommand(this);
 
         // ------------------
-        //    Dependencies
+        //    Dependencies1
         // ------------------
 
         new VaultDependency().Setup(this);
@@ -52,6 +73,17 @@ public final class SurvivalEnhanced extends JavaPlugin {
         //     LISTENERS
         // ------------------
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
+
+        try {
+            Statement statement = db.getSQLConnection().createStatement();
+
+            ResultSet resultSet = statement.executeQuery("select * from steeds");
+
+        } catch (SQLException e) {
+            Messanger.ErrorConsole(e.getSQLState() + e.getErrorCode());
+        }
+
+
 
 
     }
