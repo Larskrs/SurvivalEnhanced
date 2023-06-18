@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced.Watchover;
+package plugins.larskrs.net.survivalenhanced.watchover;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +12,6 @@ import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class PlayerWatchoverMenu extends DynamicContentGUI {
 

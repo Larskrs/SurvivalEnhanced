@@ -1,17 +1,10 @@
-package plugins.larskrs.net.survivalenhanced.Watchover;
+package plugins.larskrs.net.survivalenhanced.watchover;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import plugins.larskrs.net.survivalenhanced.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class WatchoverCommand extends Command {

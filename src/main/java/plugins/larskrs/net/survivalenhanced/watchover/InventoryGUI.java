@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced.Watchover;
+package plugins.larskrs.net.survivalenhanced.watchover;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
