@@ -19,7 +19,7 @@ public class SteedListener implements Listener {
 
 
         // This is a lot more efficient way to do it, we skip the getSteed method if the entity is not a possible steed.
-        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY);
+        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY, EntityType.CAMEL);
         if (!(entityTypeList.contains(e.getEntity().getType()))) {
             return; }
 
