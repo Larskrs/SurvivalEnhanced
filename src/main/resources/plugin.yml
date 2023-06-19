@@ -13,6 +13,9 @@ permissions:
   survivalenhanced.command.prefix.admin:
     default: op
     description: Allows admins to add, remove and set others prefixes.
+  survivalenhanced.command.stable.tp:
+    default: op
+    description: Allows admins to tp to stables.
   survivalenhanced:
     default: not op
     description: Essential for the plugin to be used by your players.

@@ -23,14 +23,14 @@ public class SteedAddInteraction extends Interaction {
     public SteedAddInteraction(Player holder, String horseName) {
         super(holder);
         holder.sendMessage(ChatColor.GREEN + "Selecting Steed...");
-        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse/donkey/mule you want to select.");
+        holder.sendMessage(ChatColor.YELLOW + "Right Click on the horse/donkey/mule/camel you want to select.");
         this.horseName = horseName;
     }
 
     @Override
     public void onInteractEntity(Entity entity) {
 
-        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY);
+        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY, EntityType.CAMEL);
 
         if (!entityTypeList.contains(entity.getType())) {
             holder.sendMessage(ChatColor.RED + "Wrong mob!");
@@ -47,9 +47,9 @@ public class SteedAddInteraction extends Interaction {
         SteedManager.getInstance().HighlightSteed(SteedManager.getInstance().GetSteed(holder));
 
         if (entity.getCustomName() == null) {
-            holder.sendMessage(ChatColor.GREEN + "Changed your main steed.");
+            holder.sendMessage(ChatColor.GREEN + "Changed your main " + entity.getType().name() + ". ");
         } else {
-            holder.sendMessage(ChatColor.GREEN + "Set " + ChatColor.AQUA + entity.getCustomName() + ChatColor.GREEN + " as your main horse.");
+            holder.sendMessage(ChatColor.GREEN + "Set " + ChatColor.AQUA + entity.getCustomName() + ChatColor.GREEN + " as your main " + entity.getType().name() + ". ");
         }
     }
 

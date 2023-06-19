@@ -92,6 +92,23 @@ public class Steed {
         this.type = EntityType.DONKEY;
         SaveLastLocation(mule.getLocation());
     }
+    public Steed (Camel camel, UUID owner_id, UUID uuid) {
+        this.entity_id = camel.getUniqueId();
+        this.owner_id = owner_id;
+        this.uuid = uuid;
+
+
+        // Assign values
+        speed =      (float)    camel.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue();
+        jump =       (float)    camel.getAttribute(Attribute.HORSE_JUMP_STRENGTH).getBaseValue();
+        max_health = (float)    camel.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+        custom_name = camel.getCustomName();
+
+        this.entity = camel;
+        this.type = EntityType.CAMEL;
+        SaveLastLocation(camel.getLocation());
+    }
 
     public void SetSpeed (float speed) {
         this.speed = speed;
@@ -142,6 +159,12 @@ public class Steed {
 
             donkey.getInventory().setSaddle(new ItemStack(Material.SADDLE));
             donkey.setTamed(true);
+        }
+        if (creature instanceof Camel) {
+            Camel camel = (Camel) creature;
+
+            camel.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+            camel.setTamed(true);
         }
 
         if (creature instanceof Horse) {

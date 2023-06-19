@@ -23,7 +23,7 @@ public class SteedCommand extends Command {
                 "survivalenhanced.command.steed",
                 "This command will let you manage your steeds/horses",
                 "steed",
-                (new String[]{"donkey", "mule", "horse"})
+                (new String[]{"donkey", "mule", "horse", "camel"})
 
         );
     }

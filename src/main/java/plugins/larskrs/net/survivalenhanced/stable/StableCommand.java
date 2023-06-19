@@ -165,6 +165,11 @@ public class StableCommand extends Command {
         if (!(sender instanceof Player)) { return; }
         Player p = (Player) sender;
 
+        if (!p.hasPermission("survivalenhanced.command.stable.tp")) {
+            p.sendMessage(ChatColor.RED + "You don't have permission to teleport to stables.");
+            return;
+        }
+
         if (args.length == 1) {
 
 
@@ -233,7 +238,10 @@ public class StableCommand extends Command {
                 options.add("create");
                 options.add("store");
                 options.add("summon");
-                options.add("tp");
+                if (player.hasPermission("survivalenhanced.command.stable.tp")) {
+                    options.add("tp");
+                }
+
 
             return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
         }

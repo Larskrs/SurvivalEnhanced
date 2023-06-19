@@ -6,7 +6,7 @@
 
     <groupId>plugins.larskrs.net</groupId>
     <artifactId>SurvivalEnhanced</artifactId>
-    <version>1.0.8</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>SurvivalEnhanced</name>
@@ -38,7 +38,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>C:\Users\lar30042\Documents\Programming\TestServer\plugins</outputDirectory>
+                            <outputDirectory>E:\TestServer\plugins</outputDirectory>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <version>1.20-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

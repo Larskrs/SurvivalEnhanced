@@ -147,7 +147,7 @@ public class SteedManager {
 
         Entity entity =  Bukkit.getEntity(entity_id);
 
-        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY);
+        List<EntityType> entityTypeList = Arrays.asList(EntityType.HORSE, EntityType.MULE, EntityType.DONKEY, EntityType.CAMEL);
 
         if (!(entityTypeList.contains(entity.getType()))) {
             return; }
@@ -173,6 +173,10 @@ public class SteedManager {
         if (entity.getType().equals(EntityType.MULE)) {
             Mule mule = (Mule) entity;
             steed = new Steed(mule, owner_id, UUID.randomUUID());
+        }
+        if (entity.getType().equals(EntityType.CAMEL)) {
+            Camel camel = (Camel) entity;
+            steed = new Steed(camel, owner_id, UUID.randomUUID());
         }
 
         if (GetSteed(player) != null) {
