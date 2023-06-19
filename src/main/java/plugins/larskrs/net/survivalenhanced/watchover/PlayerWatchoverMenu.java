@@ -5,10 +5,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
+import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
     }
 
     @Override
-    public void onItemClick(ItemStack item, Player p, InventoryAction action) {
+    public void onItemClick(int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type) {
 
         if (action.equals(InventoryAction.PICKUP_ALL)) {  // Left Click
 
@@ -88,4 +90,5 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         p.closeInventory();
         new InventoryGUI(target).OpenGUI(p);
     }
+
 }

@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -124,5 +125,14 @@ public abstract class DynamicContentGUI extends GeneralGUI {
     }
 
 
-    public abstract void onItemClick (ItemStack item, Player p, InventoryAction action);
+    public abstract void onItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
+    @Override
+    public void onRenderUpdate() {
+        getInventory().clear();
+        renderPageItems();
+    }
+    @Override
+    public Inventory getInventory () {
+        return this.inv;
+    }
 }

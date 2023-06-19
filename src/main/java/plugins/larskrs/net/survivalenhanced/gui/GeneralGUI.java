@@ -3,6 +3,8 @@ package plugins.larskrs.net.survivalenhanced.gui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.joml.Math;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
@@ -45,9 +47,18 @@ public abstract class GeneralGUI {
         return id;
     }
 
-    public abstract void onItemClick (ItemStack item, Player p, InventoryAction action);
+    public abstract void onItemClick (int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type);
 
-    public void InteractItem(ItemStack currentItem, Player p, InventoryAction action) {
-        onItemClick(currentItem, p, action);
+    public void InteractItem(int slotId, ItemStack currentItem, Player p, InventoryAction action,  InventoryType type) {
+        onItemClick(slotId, currentItem, p, action, type);
     }
+
+    public void Update() {
+        getInventory().clear();
+        onRenderUpdate();
+    }
+
+    public abstract void onRenderUpdate();
+
+    public abstract Inventory getInventory();
 }
