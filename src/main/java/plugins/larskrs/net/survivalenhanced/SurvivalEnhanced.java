@@ -1,5 +1,7 @@
 package plugins.larskrs.net.survivalenhanced;
 
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.CustomChart;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +37,11 @@ public final class SurvivalEnhanced extends JavaPlugin {
         // Plugin startup logic
         fileManager = new FileManager(this);
         interactionManager = new InteractionManager(this);
+
+        int pluginId = 18851; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
+
+
 
         // ------------------
         //   Setup Managers
