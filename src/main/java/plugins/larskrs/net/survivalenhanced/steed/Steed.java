@@ -143,7 +143,8 @@ public class Steed {
         creature.getAttribute(Attribute.HORSE_JUMP_STRENGTH)
                 .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".jump"));
         creature.getAttribute(Attribute.GENERIC_MAX_HEALTH)
-                .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".health"));
+                .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".max_health"));
+        creature.setHealth(creature.getMaxHealth());
         creature.setCustomName(config.getString("steeds." + this.uuid.toString() + ".custom_name"));
 
 
