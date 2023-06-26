@@ -23,7 +23,7 @@ public class SteedListener implements Listener {
         if (!(entityTypeList.contains(e.getEntity().getType()))) {
             return; }
 
-        Steed steed = SteedManager.getInstance().GetSteed(e.getEntity());
+        Steed steed = SteedModule.getInstance().GetSteed(e.getEntity());
         if (steed == null) {
             return;
         }
@@ -36,7 +36,7 @@ public class SteedListener implements Listener {
         for (Entity ent : e.getEntities()
              ) {
 
-            Steed steed = SteedManager.getInstance().GetSteed(ent);
+            Steed steed = SteedModule.getInstance().GetSteed(ent);
             if (steed == null ) { continue; }
             Messanger.InfoConsole("Unloading a steed with name of : " + steed.custom_name);
             steed.SaveLastLocation(ent.getLocation());

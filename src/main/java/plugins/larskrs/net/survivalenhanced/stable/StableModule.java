@@ -5,31 +5,30 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
-import plugins.larskrs.net.survivalenhanced.database.Database;
-import plugins.larskrs.net.survivalenhanced.general.Errors;
+import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
-import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
+import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 
-public class StableManager {
+public class StableModule extends Module {
 
     public HashMap<String, Stable> stables;
     private YamlConfiguration stableConfig;
-    private static StableManager instance;
+    private static StableModule instance;
 
-    public void Setup(SurvivalEnhanced survivalEnhanced) {
+    public StableModule() {
+        super("StableModule");
+    }
+
+    @Override
+    public boolean onLoadModule() {
+
         instance = this;
         SurvivalEnhanced.GetFileManager().LoadFile("stable.yml");
         this.stables = new HashMap<>();
@@ -38,14 +37,16 @@ public class StableManager {
 
         if (!stableConfig.getBoolean("enabled")) {
 
-            return;
+            return true; // Module failed to load
         }
 
         LoadStables();
 
-        new StableCommand(survivalEnhanced);
+        new StableCommand(SurvivalEnhanced.getInstance());
+
+        return false; // Module successfully loaded
     }
-    public static StableManager getInstance() {
+    public static StableModule getInstance() {
         return instance;
     }
 
@@ -103,7 +104,7 @@ public class StableManager {
 
     public void StoreSteed (Steed steed) {
         Messanger.InfoConsole("Storing steed, " + steed.custom_name);
-        SteedManager.getInstance().StoreSteed(steed);
+        SteedModule.getInstance().StoreSteed(steed);
     }
 
     public Stable GetClosestStable (Location location) {
@@ -177,4 +178,5 @@ public class StableManager {
     public Stable[] GetStables() {
         return Arrays.asList(stables.values().toArray()).toArray(new Stable[0]);
     }
+
 }

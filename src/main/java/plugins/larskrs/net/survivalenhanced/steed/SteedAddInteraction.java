@@ -4,14 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.C;
-import plugins.larskrs.net.survivalenhanced.Interaction;
-import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.interaction.Interaction;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,14 +32,14 @@ public class SteedAddInteraction extends Interaction {
             return;
         }
 
-        if (SteedManager.getInstance().isSteedTaken(entity)) {
+        if (SteedModule.getInstance().isSteedTaken(entity)) {
             holder.sendMessage(ChatColor.RED + "Whoops! This steed is already taken. Don't worry, there are plenty of " + entity.getType().getName() + " in the sea.");
             return;
         }
 
         // Set horse.
-        SteedManager.getInstance().AddSteed(holder.getUniqueId(), entity.getUniqueId(), horseName);
-        SteedManager.getInstance().HighlightSteed(SteedManager.getInstance().GetSteed(holder));
+        SteedModule.getInstance().AddSteed(holder.getUniqueId(), entity.getUniqueId(), horseName);
+        SteedModule.getInstance().HighlightSteed(SteedModule.getInstance().GetSteed(holder));
 
         if (entity.getCustomName() == null) {
             holder.sendMessage(ChatColor.GREEN + "Changed your main " + entity.getType().name() + ". ");

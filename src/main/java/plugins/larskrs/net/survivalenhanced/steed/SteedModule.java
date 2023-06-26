@@ -8,8 +8,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
@@ -17,31 +18,37 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class SteedManager {
+public class SteedModule extends Module {
 
     List<Steed> steeds;
-    private SurvivalEnhanced se;
-    public static SteedManager instance;
+    public static SteedModule instance;
 
     public YamlConfiguration steedConfig;
 
-    public void Setup(SurvivalEnhanced se) {
+    public SteedModule() {
+        super("SteedModule");
+    }
+
+    @Override
+    public boolean onLoadModule() {
         instance = this;
         FileManager.getInstance().LoadFile("steed.yml");
         steedConfig = FileManager.getInstance().GetYamlFromString("steed.yml");
         SetDefaultConfigValues();
 
         if (!steedConfig.getBoolean("enabled")) {
-            return;
+            return true;
         }
 
         steeds = LoadSteedsFromFile();
 
-        new SteedCommand(se);
-        Bukkit.getPluginManager().registerEvents(new SteedListener(), se);
+        new SteedCommand(SurvivalEnhanced.getInstance());
+        Bukkit.getPluginManager().registerEvents(new SteedListener(), SurvivalEnhanced.getInstance());
+
+        return false;
     }
 
-    public static SteedManager getInstance() {
+    public static SteedModule getInstance() {
         return instance;
     }
 
@@ -290,4 +297,5 @@ public class SteedManager {
     public List<Steed> GetSteedList() {
         return steeds;
     }
+
 }

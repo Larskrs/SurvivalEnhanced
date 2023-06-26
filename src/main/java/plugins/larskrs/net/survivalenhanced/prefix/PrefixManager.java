@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;

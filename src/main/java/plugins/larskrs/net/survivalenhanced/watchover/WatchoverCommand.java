@@ -2,7 +2,7 @@ package plugins.larskrs.net.survivalenhanced.watchover;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import plugins.larskrs.net.survivalenhanced.Command;
+import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
 import java.util.List;

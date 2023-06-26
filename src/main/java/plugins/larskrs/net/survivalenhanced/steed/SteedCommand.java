@@ -7,8 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
-import plugins.larskrs.net.survivalenhanced.Command;
-import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class SteedCommand extends Command {
         if (args.length == 1) {
             options.add("add");
 
-            if (SteedManager.getInstance().GetSteed(player) == null ) {
+            if (SteedModule.getInstance().GetSteed(player) == null ) {
                 return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
             }
             options.add("call");
@@ -75,7 +74,7 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedManager.getInstance().GetSteed(player);
+        Steed steed = SteedModule.getInstance().GetSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
@@ -114,14 +113,14 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedManager.getInstance().GetSteed(player);
+        Steed steed = SteedModule.getInstance().GetSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
             return;
         }
 
-        SteedManager.getInstance().CallSteed(steed);
+        SteedModule.getInstance().CallSteed(steed);
     }
 
     private void HighlightSteed(CommandSender sender, String[] args) {
@@ -131,14 +130,14 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedManager.getInstance().GetSteed(player);
+        Steed steed = SteedModule.getInstance().GetSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
             return;
         }
 
-        SteedManager.getInstance().HighlightSteed(steed);
+        SteedModule.getInstance().HighlightSteed(steed);
 
     }
 

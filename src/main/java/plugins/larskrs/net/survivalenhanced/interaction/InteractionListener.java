@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced;
+package plugins.larskrs.net.survivalenhanced.interaction;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +7,7 @@ import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 
 public class InteractionListener implements Listener {
 

@@ -8,7 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
-import plugins.larskrs.net.survivalenhanced.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.UUID;
@@ -136,7 +136,7 @@ public class Steed {
 
         this.entity = entity;
 
-        YamlConfiguration config = SteedManager.getInstance().steedConfig;
+        YamlConfiguration config = SteedModule.getInstance().steedConfig;
         // Change entity stats;
         creature.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)
                 .setBaseValue(config.getDouble("steeds." + this.uuid.toString() + ".speed"));
@@ -194,7 +194,7 @@ public class Steed {
 
     private void UpdateSteedEntityID(UUID newEntity) {
         this.entity_id = newEntity;
-        SteedManager.getInstance().steedConfig.set("steeds." + uuid.toString() + ".entity", newEntity.toString());
+        SteedModule.getInstance().steedConfig.set("steeds." + uuid.toString() + ".entity", newEntity.toString());
         FileManager.getInstance().SaveData("steed.yml");
     }
 
@@ -211,7 +211,7 @@ public class Steed {
         p.sendMessage(ChatColor.RED + custom_name + " has perished. Your steed is no longer available.");
 
 
-        SteedManager.getInstance().steedConfig.set("steeds." + uuid.toString() + ".alive", false);
+        SteedModule.getInstance().steedConfig.set("steeds." + uuid.toString() + ".alive", false);
         FileManager.getInstance().SaveData("steed.yml");
     }
 

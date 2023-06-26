@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced;
+package plugins.larskrs.net.survivalenhanced.interaction;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

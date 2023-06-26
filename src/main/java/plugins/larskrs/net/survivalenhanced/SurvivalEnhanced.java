@@ -1,17 +1,19 @@
 package plugins.larskrs.net.survivalenhanced;
 
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.CustomChart;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugins.larskrs.net.survivalenhanced.database.Database;
 import plugins.larskrs.net.survivalenhanced.database.SQLite;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
+import plugins.larskrs.net.survivalenhanced.general.FileManager;
+import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
+import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
+import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
-import plugins.larskrs.net.survivalenhanced.stable.StableManager;
-import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
+import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
 import plugins.larskrs.net.survivalenhanced.watchover.WatchoverCommand;
 
 public final class SurvivalEnhanced extends JavaPlugin {
@@ -31,9 +33,17 @@ public final class SurvivalEnhanced extends JavaPlugin {
         return db;
     }
 
+    public static SurvivalEnhanced instance;
+    public static SurvivalEnhanced getInstance () {
+        return instance;
+    }
+
 
     @Override
     public void onEnable() {
+
+        instance = this;
+
         // Plugin startup logic
         fileManager = new FileManager(this);
         interactionManager = new InteractionManager(this);
@@ -44,11 +54,19 @@ public final class SurvivalEnhanced extends JavaPlugin {
 
 
         // ------------------
+        //   Load Managers
+        // ------------------
+
+        this.getConfig().options().copyDefaults();
+        this.saveDefaultConfig();
+
+        new ModuleManager().Load();
+
+
+        // ------------------
         //   Setup Managers
         // ------------------
 
-        new SteedManager().Setup(this);
-        new StableManager().Setup(this);
         new PrefixManager().Setup(this);
         new GUIManagar().Setup(this);
 

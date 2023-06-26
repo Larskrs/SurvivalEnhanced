@@ -1,10 +1,9 @@
-package plugins.larskrs.net.survivalenhanced;
+package plugins.larskrs.net.survivalenhanced.interaction;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.interaction.Interaction;
 
 import java.util.HashMap;
 import java.util.UUID;

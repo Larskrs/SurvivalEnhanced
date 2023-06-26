@@ -1,14 +1,11 @@
 package plugins.larskrs.net.survivalenhanced.prefix;
 
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
-import plugins.larskrs.net.survivalenhanced.Command;
+import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
-import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;

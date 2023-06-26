@@ -3,23 +3,15 @@ package plugins.larskrs.net.survivalenhanced.stable;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
-import plugins.larskrs.net.survivalenhanced.Command;
+import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
-import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
-import plugins.larskrs.net.survivalenhanced.steed.SteedManager;
-import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
 import plugins.larskrs.net.survivalenhanced.tools.NumberTools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -111,24 +103,24 @@ public class StableCommand extends Command {
 
         Player p = (Player) sender;
 
-        Steed steed = SteedManager.getInstance().GetSteed(p);
+        Steed steed = SteedModule.getInstance().GetSteed(p);
 
         if (!steed.isAlive) {
             p.sendMessage(ChatColor.RED + steed.custom_name + " is not alive.");
             return;
         }
 
-        Stable stable = StableManager.getInstance().GetClosestStable(p.getLocation());
+        Stable stable = StableModule.getInstance().GetClosestStable(p.getLocation());
         Location storingLocation = stable.getLocation();
         double distance = p.getLocation().distance(storingLocation);
 
-        if (distance > StableManager.getInstance().GetStableRadius()) {
+        if (distance > StableModule.getInstance().GetStableRadius()) {
             p.sendMessage(ChatColor.RED + "You are too far away from any stables.");
             p.sendMessage(ChatColor.YELLOW + "Closest stable " + stable.getName() + " is at ");
             return;
         }
 
-        SteedManager.getInstance().SummonSteed(steed, p.getLocation());
+        SteedModule.getInstance().SummonSteed(steed, p.getLocation());
     }
 
 
@@ -138,7 +130,7 @@ public class StableCommand extends Command {
 
         Player p = (Player) sender;
 
-        Steed steed = SteedManager.getInstance().GetSteed(p);
+        Steed steed = SteedModule.getInstance().GetSteed(p);
 
         if (!steed.isAlive) {
             p.sendMessage(ChatColor.RED + "Your steed is not alive.");
@@ -146,18 +138,18 @@ public class StableCommand extends Command {
         }
 
         // The location that will have to be close to a stable.
-        Stable stable = StableManager.getInstance().GetClosestStable(p.getLocation());
+        Stable stable = StableModule.getInstance().GetClosestStable(p.getLocation());
         Location storingLocation = stable.getLocation();
         double distance = p.getLocation().distance(storingLocation);
 
-        if (distance > StableManager.getInstance().GetStableRadius()) {
+        if (distance > StableModule.getInstance().GetStableRadius()) {
             p.sendMessage(ChatColor.RED + "You are too far away from any stables.");
             p.sendMessage(ChatColor.YELLOW + "Closest stable " + stable.getName() + " is at ");
             return;
         }
 
         steed.DespawnSteed();
-        StableManager.getInstance().StoreSteed(steed);
+        StableModule.getInstance().StoreSteed(steed);
 
     }
 
@@ -173,7 +165,7 @@ public class StableCommand extends Command {
         if (args.length == 1) {
 
 
-            Stable closest = StableManager.getInstance().GetClosestStable(p.getLocation());
+            Stable closest = StableModule.getInstance().GetClosestStable(p.getLocation());
             if (closest == null) {
                 p.sendMessage(ChatColor.RED + "Could not find a stable nearby.");
                 return;
@@ -187,12 +179,12 @@ public class StableCommand extends Command {
 
         String stableName = args[1];
 
-        if (!StableManager.getInstance().StableExists(stableName)) {
+        if (!StableModule.getInstance().StableExists(stableName)) {
             p.sendMessage(ChatColor.RED + "Invalid Usage, the stable " + ChatColor.YELLOW + stableName + ChatColor.RED + " does not exist. Use a different name.");
             return;
         }
 
-        Stable stable = StableManager.getInstance().GetStable(stableName);
+        Stable stable = StableModule.getInstance().GetStable(stableName);
 
         p.teleport((stable.getLocation().toVector().add(new Vector(.5f, 1, .5f))).toLocation(stable.getLocation().getWorld()));
     }
@@ -210,12 +202,12 @@ public class StableCommand extends Command {
         String stableName = args[1];
 
 
-        if (StableManager.getInstance().StableExists(stableName)) {
+        if (StableModule.getInstance().StableExists(stableName)) {
             p.sendMessage(ChatColor.RED + "The stable named, " + ChatColor.YELLOW + stableName + ChatColor.RED + " exists. Use a different name.");
             return;
         }
 
-        StableManager.getInstance().RegisterStable(stableName, p.getUniqueId(), p.getLocation());
+        StableModule.getInstance().RegisterStable(stableName, p.getUniqueId(), p.getLocation());
         SurvivalEnhanced.GetInteractionManager().SetInteraction(p.getUniqueId(), new SetStableCenterInteraction(p));
 
 
@@ -249,7 +241,7 @@ public class StableCommand extends Command {
         if (args.length == 2) {
 
             if (args[0].equalsIgnoreCase("summon")) {
-                for (Steed steed : SteedManager.getInstance().GetSteedList()
+                for (Steed steed : SteedModule.getInstance().GetSteedList()
                      ) {
 
                     if (!steed.isAlive) { continue; }
@@ -259,7 +251,7 @@ public class StableCommand extends Command {
                 return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());
             }
             if (args[0].equalsIgnoreCase("tp")) {
-                for (Stable stable : StableManager.getInstance().GetStables()
+                for (Stable stable : StableModule.getInstance().GetStables()
                 ) {
                     options.add(stable.getName());
                 }

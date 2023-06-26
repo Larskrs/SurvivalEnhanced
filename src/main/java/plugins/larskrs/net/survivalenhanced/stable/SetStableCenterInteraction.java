@@ -1,13 +1,10 @@
 package plugins.larskrs.net.survivalenhanced.stable;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import plugins.larskrs.net.survivalenhanced.Interaction;
-import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.interaction.Interaction;
 
 public class SetStableCenterInteraction extends Interaction {
 
@@ -30,8 +27,8 @@ public class SetStableCenterInteraction extends Interaction {
 
 
 
-        Stable stable = StableManager.getInstance().GetStable(holder.getUniqueId());
-        StableManager.getInstance().SetStableCenter(stable.getName(), block.getLocation());
+        Stable stable = StableModule.getInstance().GetStable(holder.getUniqueId());
+        StableModule.getInstance().SetStableCenter(stable.getName(), block.getLocation());
 
         holder.sendMessage(ChatColor.GREEN + "Set the center of the stable.");
 

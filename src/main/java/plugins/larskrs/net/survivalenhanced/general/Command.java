@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced;
+package plugins.larskrs.net.survivalenhanced.general;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
