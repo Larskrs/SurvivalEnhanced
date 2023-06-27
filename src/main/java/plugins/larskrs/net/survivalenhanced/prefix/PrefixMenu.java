@@ -70,7 +70,7 @@ public class PrefixMenu extends DynamicContentGUI {
     }
 
     @Override
-    public void onItemClick(int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type) {
+    public void onPageItemClick(int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type) {
         Messanger.InfoConsole(item.getItemMeta().getDisplayName());
 
         String localizedName = item.getItemMeta().getLocalizedName();

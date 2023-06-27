@@ -54,8 +54,8 @@ public class GUIListener implements Listener {
                 int page;
                 page = Integer.parseInt(meta.getLocalizedName());
 
-                PrefixMenu menu = new PrefixMenu(page);
-                menu.OpenGUI(p);
+                ((DynamicContentGUI) gui).SetPage(page);
+                gui.OpenGUI(p);
 
                 return;
             }

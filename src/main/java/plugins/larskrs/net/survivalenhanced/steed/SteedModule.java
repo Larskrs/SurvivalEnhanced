@@ -13,10 +13,7 @@ import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SteedModule extends Module {
 
@@ -24,6 +21,7 @@ public class SteedModule extends Module {
     public static SteedModule instance;
 
     public YamlConfiguration steedConfig;
+    public HashMap<UUID, Steed> mainSteed;
 
     public SteedModule() {
         super("SteedModule");
@@ -41,6 +39,7 @@ public class SteedModule extends Module {
         }
 
         steeds = LoadSteedsFromFile();
+        LoadMainSteedsFromFile();
 
         new SteedCommand(SurvivalEnhanced.getInstance());
         Bukkit.getPluginManager().registerEvents(new SteedListener(), SurvivalEnhanced.getInstance());
@@ -57,8 +56,8 @@ public class SteedModule extends Module {
 //  |------------------------------|
 
     public Steed GetSteed (Entity entity) {
-        for (Steed steed : steeds
-             ) {
+        for (Steed steed : steeds)
+            {
             if (steed.entity_id.equals(entity.getUniqueId())) {
                 return steed;
             }
@@ -67,13 +66,30 @@ public class SteedModule extends Module {
     }
 
     public Steed GetSteed (Player owner) {
-        for (Steed steed : steeds
-        ) {
+        for (Steed steed : steeds)
+        {
             if (steed.owner_id.equals(owner.getUniqueId())) {
                 return steed;
             }
         }
         return null;
+    }
+    public Steed GetMainSteed (Player owner) {
+
+        return mainSteed.get(owner.getUniqueId());
+    }
+
+    private void GetNewMainSteed(Player owner) {
+
+        Steed steed = GetSteed(owner);
+        if (steed == null || !steed.isAlive) {
+            owner.sendMessage(ChatColor.RED + "You don't have any spare steeds.");
+            return;
+        }
+
+
+        owner.sendMessage(ChatColor.YELLOW + "Set " + steed.custom_name + " as your main steed.");
+        SetMainSteed(owner, steed);
     }
 
     public boolean isSteedTaken (Entity entity) {
@@ -83,6 +99,20 @@ public class SteedModule extends Module {
 //  |------------------------------|
 //  |        Serialize Steeds      |
 //  |------------------------------|
+
+    public void LoadMainSteedsFromFile () {
+        mainSteed = new HashMap<>();
+
+        if (!steedConfig.contains("steeds")) {
+            Messanger.ErrorConsole("No main steeds set in steed.yml");
+            return;
+        }
+        for (String s : steedConfig.getStringList("main")) {
+            Steed steed = GetSteed(UUID.fromString(s));
+            mainSteed.put(steed.owner_id, steed);
+        }
+
+    }
 
     public List<Steed> LoadSteedsFromFile () {
 
@@ -112,6 +142,7 @@ public class SteedModule extends Module {
 
             if (steed.type.equals(EntityType.HORSE)) {
                 steed.SetStyle(Horse.Style.valueOf(section.getString("style")));
+                steed.SetHorseColor(Horse.Color.valueOf(section.getString("horse_color")));
             }
 
 
@@ -186,9 +217,9 @@ public class SteedModule extends Module {
             steed = new Steed(camel, owner_id, UUID.randomUUID());
         }
 
-        if (GetSteed(player) != null) {
-            RemoveSteed(GetSteed(player));
-        }
+//        if (GetSteed(player) != null) {
+//            RemoveSteed(GetSteed(player));
+//        }
         steeds.add(steed);
 
 
@@ -298,4 +329,26 @@ public class SteedModule extends Module {
         return steeds;
     }
 
+    public Steed GetSteed(UUID uuid) {
+        for (Steed steed : steeds
+             ) {
+            if (steed.uuid.equals(uuid)) {
+                return steed;
+            }
+        }
+        return null;
+    }
+
+    public void SetMainSteed(Player p, Steed steed) {
+        if (mainSteed.containsKey(p.getUniqueId())) {
+            mainSteed.remove(p.getUniqueId());
+        }
+        mainSteed.put(p.getUniqueId(), steed);
+        List<String> stringList = steedConfig.getStringList("main");
+        stringList.remove(steed.uuid.toString());
+        stringList.add(steed.uuid.toString());
+
+        steedConfig.set("main", stringList);
+        FileManager.getInstance().SaveData("steed.yml");
+    }
 }

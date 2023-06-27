@@ -49,7 +49,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
     }
 
     @Override
-    public void onItemClick(int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type) {
+    public void onPageItemClick(int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type) {
 
         if (action.equals(InventoryAction.PICKUP_ALL)) {  // Left Click
 
@@ -66,6 +66,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
 
 
     }
+
 
     private void TeleportAction(ItemStack item, Player p) {
         if (!item.hasItemMeta()) {

@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixMenu;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class SteedCommand extends Command {
             options.add("call");
             options.add("glow");
             options.add("locate");
+
             return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
         }
 
@@ -55,17 +58,34 @@ public class SteedCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
+            OpenSteedMenu(sender, args);
             return;
         }
 
         if (args.length >= 1) {
-            if (args[0].equals("add"))      { AddSteed(sender, args); }
-            if (args[0].equals("glow"))     { HighlightSteed(sender, args); }
-            if (args[0].equals("call"))     { CallSteed(sender, args); }
-            if (args[0].equals("locate"))   { LocateSteed(sender, args); }
+            if (args[0].equals("add"))      { AddSteed(sender, args); return;}
+            if (args[0].equals("glow"))     { HighlightSteed(sender, args); return;}
+            if (args[0].equals("call"))     { CallSteed(sender, args); return; }
+            if (args[0].equals("locate"))   { LocateSteed(sender, args); return;}
+            OpenSteedMenu(sender, args);
             return;
         }
     }
+
+    private void OpenSteedMenu(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            Messanger.ErrorConsole("Invalid Usage, You need to specify /steed <add/glow/call/locate>");
+            return;
+        }
+        Player p = (Player) sender;
+
+        SteedMenu menu = new SteedManageMenu(1);
+        menu.OpenGUI(p);
+
+
+    }
+
+
 
     private void LocateSteed(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
@@ -74,7 +94,14 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedModule.getInstance().GetSteed(player);
+
+
+        if (SteedModule.getInstance().GetSteed(player) == (null)) {
+            sender.sendMessage(ChatColor.RED + "You don't have a steed.");
+            return;
+        }
+
+        Steed steed = SteedModule.getInstance().GetMainSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
@@ -113,7 +140,12 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedModule.getInstance().GetSteed(player);
+        if (SteedModule.getInstance().GetSteed(player) == (null)) {
+            sender.sendMessage(ChatColor.RED + "You don't have a steed.");
+            return;
+        }
+
+        Steed steed = SteedModule.getInstance().GetMainSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
@@ -130,10 +162,20 @@ public class SteedCommand extends Command {
 
         Player player = (Player) sender;
 
-        Steed steed = SteedModule.getInstance().GetSteed(player);
+        if (SteedModule.getInstance().GetSteed(player) == (null)) {
+            sender.sendMessage(ChatColor.RED + "You don't have a steed.");
+            return;
+        }
+
+        Steed steed = SteedModule.getInstance().GetMainSteed(player);
 
         if (steed == (null)) {
             sender.sendMessage(ChatColor.RED + "You don't have a steed.");
+            return;
+        }
+
+        if (!steed.isAlive) {
+            sender.sendMessage(ChatColor.RED + steed.custom_name + " is 7 feet under. Hope that helps to locate em.");
             return;
         }
 

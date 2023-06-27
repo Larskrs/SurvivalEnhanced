@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixMenu;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
@@ -124,15 +125,43 @@ public abstract class DynamicContentGUI extends GeneralGUI {
         NavItems(page);
     }
 
+    @Override
+    public void onItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type) {
 
-    public abstract void onItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta.getDisplayName().equals(ChatColor.AQUA + "Next Page") || meta.getDisplayName().equals(ChatColor.AQUA + "Last Page")) {
+            int page = Integer.parseInt(meta.getLocalizedName());
+
+            this.page = page;
+            OpenGUI(p);
+            return;
+        }
+
+        onPageItemClick(slotId, item, p, action, type);
+    }
+    public abstract void onPageItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
     @Override
     public void onRenderUpdate() {
         getInventory().clear();
         renderPageItems();
     }
+    public void RefreshItems () {
+        items.clear();
+        onItemsRender();
+    }
     @Override
     public Inventory getInventory () {
         return this.inv;
+    }
+    public List<ItemStack> getItems () {
+        return items;
+    }
+    public void SetItems(List<ItemStack> items) {
+        this.items = items;
+    }
+
+    public void SetPage(int page) {
+        this.page = page;
     }
 }

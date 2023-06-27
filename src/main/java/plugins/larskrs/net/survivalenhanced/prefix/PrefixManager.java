@@ -45,7 +45,7 @@ public class PrefixManager {
 
         LoadPrefixes();
         new PrefixCommand(survivalEnhanced);
-        Bukkit.getPluginManager().registerEvents(new PrefixListener(), survivalEnhanced);
+//        Bukkit.getPluginManager().registerEvents(new PrefixListener(), survivalEnhanced);
     }
     public static PrefixManager getInstance() {
         return instance;

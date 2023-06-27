@@ -236,4 +236,8 @@ public class Steed {
 
         return FileManager.getInstance().ReadLocation("steed.yml", "steeds." + uuid.toString() + ".last_location");
     }
+
+    public void SetHorseColor(Horse.Color horse_color) {
+        this.horse_color = horse_color;
+    }
 }

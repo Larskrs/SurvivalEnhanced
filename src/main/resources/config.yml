@@ -1,7 +1,7 @@
 
 modules:
-  - StableManager: true
-  - SteedManager: true
+  - StableModule: true
+  - SteedModule: true
   - RaceManager: true
   - PrefixManager: true
   - CharacterManager: true
