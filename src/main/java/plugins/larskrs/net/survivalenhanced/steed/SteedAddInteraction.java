@@ -2,9 +2,12 @@ package plugins.larskrs.net.survivalenhanced.steed;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import plugins.larskrs.net.survivalenhanced.interaction.Interaction;
 
 import java.util.Arrays;
@@ -39,7 +42,10 @@ public class SteedAddInteraction extends Interaction {
 
         // Set horse.
         SteedModule.getInstance().AddSteed(holder.getUniqueId(), entity.getUniqueId(), horseName);
-        SteedModule.getInstance().HighlightSteed(SteedModule.getInstance().GetSteed(holder));
+        Steed mainSteed = SteedModule.getInstance().GetMainSteed(holder);
+        if (mainSteed != null) {
+            ((Creature) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Math.round(5 * 20), 3));
+        }
 
         if (entity.getCustomName() == null) {
             holder.sendMessage(ChatColor.GREEN + "Changed your main " + entity.getType().name() + ". ");

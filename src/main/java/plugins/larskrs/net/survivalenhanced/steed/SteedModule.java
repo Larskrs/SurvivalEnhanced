@@ -283,6 +283,7 @@ public class SteedModule extends Module {
 
     public void HighlightSteed(Steed steed) {
 
+
         Player player = Bukkit.getPlayer(steed.owner_id);
         Entity entity = Bukkit.getEntity(steed.entity_id);
         if (entity == null) {

@@ -12,15 +12,17 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
-import plugins.larskrs.net.survivalenhanced.gui.GeneralGUI;
-import plugins.larskrs.net.survivalenhanced.gui.SkullEnum;
 import plugins.larskrs.net.survivalenhanced.tools.SkullTool;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class SteedMenu extends DynamicContentGUI {
+
+
+
     public SteedMenu(int page) {
         super("SteedMenu", page, 3, "Select Steed");
     }
@@ -67,7 +69,10 @@ public abstract class SteedMenu extends DynamicContentGUI {
         //identity
         meta.setLocalizedName(steed.uuid.toString());
 
-        if (SteedModule.getInstance().GetMainSteed(Bukkit.getPlayer(steed.owner_id)).equals(steed)) {
+        Steed mainSteed = SteedModule.getInstance().GetMainSteed(Bukkit.getPlayer(steed.owner_id));
+
+
+        if (mainSteed != null && mainSteed.equals(steed)) {
 
             lore.add(" ");
             lore.add(ChatColor.GREEN + "  This is your main steed.");

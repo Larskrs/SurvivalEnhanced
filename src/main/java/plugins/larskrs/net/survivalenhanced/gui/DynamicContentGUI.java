@@ -143,6 +143,9 @@ public abstract class DynamicContentGUI extends GeneralGUI {
     public abstract void onPageItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
     @Override
     public void onRenderUpdate() {
+
+        RefreshItems();
+
         getInventory().clear();
         renderPageItems();
     }
