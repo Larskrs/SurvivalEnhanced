@@ -4,13 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class Command extends BukkitCommand {
+
+
 
 
     public Command(String command, String permission, String description, String usage, String[] aliases) {
@@ -22,6 +30,7 @@ public abstract class Command extends BukkitCommand {
         this.setPermissionMessage(ChatColor.RED + " ☠ You do not have permission to use this command ☠ ");
         this.setUsage(usage);
 
+        RegisterCommandPermission (permission, description);
 
         try
         {
@@ -36,6 +45,17 @@ public abstract class Command extends BukkitCommand {
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loaded command: " + command);
     }
+
+    private void RegisterCommandPermission(String permission, String description) {
+        Set<Permission> permissions = Bukkit.getPluginManager().getPermissions();
+        List<String> permissionStrings = permissions.stream().map(Permission::getName).collect(Collectors.toList());
+
+        if (!permissionStrings.contains(permission)) {
+            Bukkit.getPluginManager().addPermission(new Permission(permission, description));
+            Messanger.InfoConsole("Registered new permission: " + permission);
+        }
+    }
+
     public Command(String command, String permission, String description, String usage) {
         super(command);
 
@@ -43,6 +63,8 @@ public abstract class Command extends BukkitCommand {
         this.setPermission(permission);
         this.setPermissionMessage(ChatColor.RED + " ☠ You do not have permission to use this command ☠ ");
         this.setUsage(usage);
+
+        RegisterCommandPermission (permission, description);
 
         try
         {

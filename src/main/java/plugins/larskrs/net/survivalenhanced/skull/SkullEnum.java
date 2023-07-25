@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced.gui;
+package plugins.larskrs.net.survivalenhanced.skull;
 
 public enum SkullEnum {
     CAMEL (
@@ -33,6 +33,22 @@ public enum SkullEnum {
     ),
     DARK_BROWN_HORSE (
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTU2YjdiYzFhNDgzNmViNDI4ZWE4OTI1ZWNlYjVlMDFkZmJkMzBjN2RlZmY2Yzk0ODI2ODk4MjMyMDNjZmQyZiJ9fX0="
+    ),
+
+
+
+
+    ICON_LOCK (
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJlMGJjZDA4OTUwNDFmNzk3ZWYzNjQ0YmUxMTc1MGNjY2VhMjU1OGM2MDZhNGJhY2U3MmY3NzE5YTQ2NTYxOCJ9fX0="
+    ),
+    ICON_SILVER_BADGE (
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDhlODkwNzFjMzAwNDYxZTc4YjRjMmZjZmJhODBmODI2N2VjN2I0NzM5YWE5YTI1ZGY4MmZmMjAxNWI3NTQwZiJ9fX0="
+    ),
+    ICON_GOLDEN_BADGE (
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzhjNzU4MDY5MGU3NzE3YWI2ZTE5Mzg1MTczODYyNjY4MjIwMzNkNjZjMmU5YThmNDE4OTdjNGIyMjJmNDg0YiJ9fX0="
+    ),
+    ICON_EMERALD_BADGE (
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdjZDg5OWEwYWI0ZWM5YTc0OGVkY2U2NDMxNDI3MmFlOTliZmZiMDlmY2Y2MjRiY2RmNjBjNWYyZjZiM2YwMCJ9fX0="
     )
 
 

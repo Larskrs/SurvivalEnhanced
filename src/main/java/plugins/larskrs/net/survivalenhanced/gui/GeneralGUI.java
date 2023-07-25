@@ -41,7 +41,7 @@ public abstract class GeneralGUI {
     public void setRows (int rows) {
         this.rows = Math.clamp(1, 6, rows);
     }
-
+    public int getRows () { return this.rows; }
 
     public String GetID() {
         return id;

@@ -1,17 +1,14 @@
-package plugins.larskrs.net.survivalenhanced.tools;
+package plugins.larskrs.net.survivalenhanced.skull;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.apache.commons.codec.binary.Base64;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.Material;
-import plugins.larskrs.net.survivalenhanced.gui.SkullEnum;
+import plugins.larskrs.net.survivalenhanced.skull.SkullEnum;
 import plugins.larskrs.net.survivalenhanced.steed.Steed;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;

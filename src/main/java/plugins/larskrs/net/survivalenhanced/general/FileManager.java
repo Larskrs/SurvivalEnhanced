@@ -114,6 +114,7 @@ public class FileManager {
     }
     public Location ReadLocation (String identity, String address ) {
 
+
         YamlConfiguration config = GetYamlConfig(identity);
         ConfigurationSection section = config.getConfigurationSection(address);
 

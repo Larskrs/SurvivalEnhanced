@@ -2,6 +2,7 @@
 modules:
   - StableModule: true
   - SteedModule: true
-  - RaceManager: true
-  - PrefixManager: true
-  - CharacterManager: true
+  - PrefixModule: true
+  - QuestModule: true
+  - WatchoverModule: true
+  - DungeonModule: true

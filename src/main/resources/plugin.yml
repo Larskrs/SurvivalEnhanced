@@ -2,9 +2,14 @@ name: SurvivalEnhanced
 version: '${project.version}'
 main: plugins.larskrs.net.survivalenhanced.SurvivalEnhanced
 api-version: 1.19
+description: "This is my wierd description that someone required me to write about my random features packed survival plugin."
+
+depend:
+  - Citizens
 
 softdepend:
   - Vault
+
 
 permissions:
   survivalenhanced.command.prefix:
@@ -25,4 +30,32 @@ permissions:
   survivalenhanced.stable.delete.bypass:
     default: op
     description: Allows admins to override the stable deletion restriction that prevents non stable owners to delete stables.
+  survivalenhanced.command.enchant:
+    default: op
+  survivalenhanced.command.skull:
+    default: op
+  survivalenhanced.command.rtp:
+    default: op
+  survivalenhanced.command.steed:
+    default: op
+  survivalenhanced.command.dungeon:
+    default: op
+
+
+
+# Staff Commands
+
+  survivalenhanced.command.spawnmob:
+    default: op
+  survivalenhanced.command.world:
+    default: op
+  survivalenhanced.command.watchover:
+    default: op
+    description: Command to let admins manage and view players.
+  survivalenhanced.command.vanish:
+    default: op
+    description: Command to let admins hide themselves from players.
+  survivalenhanced.vanish.see:
+    default: op
+    description: Permission to see others who are vanished.
 

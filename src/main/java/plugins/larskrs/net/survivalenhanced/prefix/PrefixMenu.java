@@ -95,9 +95,13 @@ public class PrefixMenu extends DynamicContentGUI {
 
     @Override
     public void onItemsRender() {
-        Messanger.InfoConsole(getPlayer().getName() + " - is here in prefix menu");
         playerPrefix = PrefixManager.getInstance().GetPrefix(getPlayer());
         AddPrefixItems();
+    }
+
+    @Override
+    public void onToolsRender() {
+
     }
 
 }

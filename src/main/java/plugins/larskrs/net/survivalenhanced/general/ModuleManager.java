@@ -3,9 +3,12 @@ package plugins.larskrs.net.survivalenhanced.general;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.dungeons.DungeonModule;
+import plugins.larskrs.net.survivalenhanced.quest.QuestModule;
 import plugins.larskrs.net.survivalenhanced.stable.StableModule;
 import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.util.HashMap;
 
@@ -29,6 +32,9 @@ public class ModuleManager extends Module {
         // Manually add a modules to load here.
         RegisterModule(new StableModule());
         RegisterModule(new SteedModule());
+        RegisterModule(new QuestModule());
+        RegisterModule(new WatchoverModule());
+        RegisterModule(new DungeonModule());
 
 
         // List all modules

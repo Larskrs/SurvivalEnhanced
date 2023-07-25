@@ -107,6 +107,7 @@ public abstract class DynamicContentGUI extends GeneralGUI {
             }
     }
     public abstract void onItemsRender ();
+    public abstract void onToolsRender ();
 
     public void renderPageItems () {
 
@@ -123,6 +124,7 @@ public abstract class DynamicContentGUI extends GeneralGUI {
         }
 
         NavItems(page);
+        onToolsRender();
     }
 
     @Override
@@ -140,6 +142,7 @@ public abstract class DynamicContentGUI extends GeneralGUI {
 
         onPageItemClick(slotId, item, p, action, type);
     }
+
     public abstract void onPageItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
     @Override
     public void onRenderUpdate() {

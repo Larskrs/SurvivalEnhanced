@@ -31,4 +31,8 @@ public class SteedManageMenu extends SteedMenu {
         }
     }
 
+    @Override
+    public void onToolsRender() {
+
+    }
 }

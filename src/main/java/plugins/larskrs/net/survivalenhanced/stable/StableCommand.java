@@ -103,7 +103,7 @@ public class StableCommand extends Command {
 
         Player p = (Player) sender;
 
-        Steed steed = SteedModule.getInstance().GetSteed(p);
+        Steed steed = SteedModule.getInstance().GetMainSteed(p);
 
         if (!steed.isAlive) {
             p.sendMessage(ChatColor.RED + steed.custom_name + " is not alive.");
@@ -130,7 +130,7 @@ public class StableCommand extends Command {
 
         Player p = (Player) sender;
 
-        Steed steed = SteedModule.getInstance().GetSteed(p);
+        Steed steed = SteedModule.getInstance().GetMainSteed(p);
 
         if (!steed.isAlive) {
             p.sendMessage(ChatColor.RED + "Your steed is not alive.");
