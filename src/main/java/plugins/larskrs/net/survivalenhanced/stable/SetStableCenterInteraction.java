@@ -30,6 +30,8 @@ public class SetStableCenterInteraction extends Interaction {
         Stable stable = StableModule.getInstance().GetStable(holder.getUniqueId());
         StableModule.getInstance().SetStableCenter(stable.getName(), block.getLocation());
 
+//        holder.sendMessage(ChatColor.YELLOW + LocationTools.StringifyLocation(block.getLocation()));
+
         holder.sendMessage(ChatColor.GREEN + "Set the center of the stable.");
 
 

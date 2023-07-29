@@ -7,9 +7,8 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
-import org.bukkit.util.Vector;
 import plugins.larskrs.net.survivalenhanced.general.Command;
-import plugins.larskrs.net.survivalenhanced.tools.LocationTools;
+import plugins.larskrs.net.survivalenhanced.location.LocationTools;
 
 import java.util.ArrayList;
 import java.util.List;

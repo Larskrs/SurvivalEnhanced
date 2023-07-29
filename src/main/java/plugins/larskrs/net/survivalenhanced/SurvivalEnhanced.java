@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 import plugins.larskrs.net.survivalenhanced.commands.*;
 import plugins.larskrs.net.survivalenhanced.database.Database;
 import plugins.larskrs.net.survivalenhanced.database.SQLite;
@@ -17,15 +16,13 @@ import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
+import plugins.larskrs.net.survivalenhanced.location.LocationManager;
+import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
 import plugins.larskrs.net.survivalenhanced.skull.SkullCommand;
-import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
-import plugins.larskrs.net.survivalenhanced.tools.LocationTools;
-import plugins.larskrs.net.survivalenhanced.watchover.WatchoverCommand;
+import plugins.larskrs.net.survivalenhanced.location.LocationTools;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 import plugins.larskrs.net.survivalenhanced.world.WorldCommand;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class SurvivalEnhanced extends JavaPlugin implements Listener {
 
@@ -57,6 +54,13 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
 
         // Plugin startup logic
         fileManager = new FileManager(this);
+
+        // ------------------
+        //      Database
+        // ------------------
+        this.db = new SQLite(this);
+        this.db.load();
+
         interactionManager = new InteractionManager(this);
 
         int pluginId = 18851; // <-- Replace with the id of your plugin!
@@ -82,19 +86,13 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         new WorldCommand();
         new CustomModelCommand();
 
-
         // ------------------
         //   Setup Managers
         // ------------------
 
         new PrefixManager().Setup(this);
         new GUIManagar().Setup(this);
-
-        // ------------------
-        //      Database
-        // ------------------
-        this.db = new SQLite(this);
-        this.db.load();
+        new LocationManager().Setup();
 
 
 
@@ -110,6 +108,11 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
         Bukkit.getPluginManager().registerEvents(this, this);
 
+
+        for (StoredLocation stored : LocationManager.GetAllStoredLocations()
+             ) {
+            Messanger.InfoConsole( LocationTools.StringifyLocation(stored.getLocation()) + " - " + stored.getChange().name());
+        }
 
     }
 

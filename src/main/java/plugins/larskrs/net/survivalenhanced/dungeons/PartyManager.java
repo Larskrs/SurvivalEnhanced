@@ -34,6 +34,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.checkerframework.checker.units.qual.A;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
+import plugins.larskrs.net.survivalenhanced.location.LocationChange;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
@@ -85,7 +86,7 @@ public class PartyManager extends BukkitRunnable implements Listener  {
             player.showPlayer(p);
         }
 
-        player.teleport(WatchoverModule.getLastLocation(player.getUniqueId()));
+        player.teleport(WatchoverModule.getLastLocation(player.getUniqueId()).getLocation());
 
         party.RemoveMember(player.getUniqueId());
         parties.remove(player.getUniqueId());
@@ -139,7 +140,7 @@ public class PartyManager extends BukkitRunnable implements Listener  {
 
         Location spawnLocation = FileManager.getInstance().ReadLocation("party.yml", "party.spawn");
         player.teleport(spawnLocation);
-        WatchoverModule.SaveLastLocation(player, false, true);
+        WatchoverModule.SaveLastLocation(player, true, LocationChange.SPECIAL);
 
         party.AddMember(player.getUniqueId());
         AddToParty(player.getUniqueId(), party);
@@ -200,12 +201,10 @@ public class PartyManager extends BukkitRunnable implements Listener  {
 
         return npc;
     }
-
-
+    
     public static void AddToParty(UUID uuid, Party party) {
         parties.put(uuid, party);
     }
-
 
     public static boolean HasParty(UUID uuid) {
         return parties.containsKey(uuid);

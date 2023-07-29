@@ -15,6 +15,9 @@ import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.dungeons.PartyManager;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.Module;
+import plugins.larskrs.net.survivalenhanced.location.LocationChange;
+import plugins.larskrs.net.survivalenhanced.location.LocationManager;
+import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.*;
@@ -25,7 +28,7 @@ public class WatchoverModule extends Module implements Listener {
     private static List<UUID> watchovers;
     private static List<UUID> vanished;
     private YamlConfiguration config;
-    private static HashMap<UUID, Location> lastLocations;
+    private static HashMap<UUID, StoredLocation> lastLocations;
 
 
     public WatchoverModule() {
@@ -50,12 +53,14 @@ public class WatchoverModule extends Module implements Listener {
         this.config = SurvivalEnhanced.GetFileManager().GetYamlFromString("watchover.yml");
 
         SetDefaultConfigValues();
+        StoredLocation[] storedLocations = LocationManager.GetAllStoredLocations();
+        Collections.reverse(Arrays.asList(storedLocations));
 
-        for (String s : config.getConfigurationSection("last-locations").getKeys(false)
-             ) {
-            Messanger.InfoConsole("Loading: " + s);
-            Location loc = FileManager.getInstance().ReadLocation("watchover.yml", "last-locations." + s);
-            lastLocations.put(UUID.fromString(s), loc);
+        for (StoredLocation stored : storedLocations)
+        {
+            if (!lastLocations.containsKey(stored.getPlayer())) {
+                lastLocations.put(stored.getPlayer(), stored);
+            }
         }
 
         return false;
@@ -125,43 +130,34 @@ public class WatchoverModule extends Module implements Listener {
                 "You vanished!");
 
     }
-    public static void SaveLastLocation (Player player, boolean save, boolean bypass) {
+    public static void SaveLastLocation (Player player, boolean bypass, LocationChange changeReason) {
 
 
         if (PartyManager.HasParty(player.getUniqueId()) || bypass) {
             return;
         }
 
-        Messanger.InfoConsole("Saving last location of player: " + player.getName() + " in world: " + player.getLocation());
+        LocationManager.StoreLocation(player.getLocation(), player, changeReason);
 
-        if (lastLocations.containsKey(player.getUniqueId())) {
-            lastLocations.remove(player.getUniqueId());
-        }
-        lastLocations.put(player.getUniqueId(), player.getLocation());
-        if (save) {
 
-            FileManager.getInstance().SaveLocation("watchover.yml", "last-locations." + player.getUniqueId(), player.getLocation());
-            FileManager.getInstance().SaveData("watchover.yml");
-
-        }
 
     }
 
-    public static Location getLastLocation(UUID uuid) {
+    public static StoredLocation getLastLocation(UUID uuid) {
         return lastLocations.get(uuid);
     }
 
     @EventHandler
     public void onPlayerQuit (PlayerQuitEvent e) {
-        SaveLastLocation(e.getPlayer(), true, false);
+        SaveLastLocation(e.getPlayer(),  false, LocationChange.QUIT_GAME);
     }
     @EventHandler
     public void onPlayerDeath (PlayerDeathEvent e) {
-        SaveLastLocation(e.getEntity(), false, false);
+        SaveLastLocation(e.getEntity(),  false, LocationChange.DEATH);
     }
     @EventHandler
     public void onPlayerTeleport (PlayerTeleportEvent e) {
-        SaveLastLocation(e.getPlayer(), false, false);
+        SaveLastLocation(e.getPlayer(), false, LocationChange.TELEPORT);
     }
 
     @EventHandler

@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
+import plugins.larskrs.net.survivalenhanced.location.LocationManager;
+import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
@@ -76,11 +78,11 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
     }
 
     private void RegisterPlayer(OfflinePlayer p, boolean isOnline) {
-        Location lastLoc = WatchoverModule.getLastLocation(p.getUniqueId());
-
-//            if (p.equals(getPlayer())) {
-//                continue; // Skip this player.
-//            }
+        StoredLocation[] storedLocations = LocationManager.GetPlayerLocations(p.getUniqueId());
+        StoredLocation lastLoc = null;
+        if (storedLocations != null && storedLocations.length > 0) {
+            lastLoc = storedLocations[storedLocations.length - 1];
+        }
 
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
 
@@ -112,7 +114,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
 
 
         if (lastLoc != null) {
-            lore.add(ChatColor.AQUA+ "[ Ctrl + Q ] " + ChatColor.YELLOW + "To teleport leave location. " + ChatColor.GRAY + "( " + lastLoc.getWorld().getName() + " )");
+            lore.add(ChatColor.AQUA+ "[ Ctrl + Q ] " + ChatColor.YELLOW + "To teleport last location. " + ChatColor.GRAY + "( " + lastLoc.getChange().name()+ " " + lastLoc.getId() + " )");
         }
 
         meta.setLore(lore);
@@ -182,7 +184,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             }
         }
 
-        Location lastLoc = WatchoverModule.getLastLocation(target.getUniqueId());
+        Location lastLoc = WatchoverModule.getLastLocation(target.getUniqueId()).getLocation();
         if (Arrays.asList(InventoryAction.DROP_ALL_CURSOR, InventoryAction.DROP_ALL_SLOT)
                 .contains(action))
         {

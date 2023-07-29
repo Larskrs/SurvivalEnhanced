@@ -4,14 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.general.Command;
-import plugins.larskrs.net.survivalenhanced.tools.LocationTools;
+import plugins.larskrs.net.survivalenhanced.location.LocationTools;
 import plugins.larskrs.net.survivalenhanced.tools.NumberTools;
 
 import java.util.ArrayList;

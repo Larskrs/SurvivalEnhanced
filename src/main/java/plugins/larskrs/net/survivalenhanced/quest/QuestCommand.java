@@ -1,10 +1,9 @@
 package plugins.larskrs.net.survivalenhanced.quest;
 
-import net.milkbowl.vault.chat.Chat;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import plugins.larskrs.net.survivalenhanced.general.Command;
+import plugins.larskrs.net.survivalenhanced.location.LocationTools;
 
 import java.util.List;
 
@@ -23,6 +22,9 @@ public class QuestCommand extends Command {
             return;
         }
         Player player = (Player) sender;
+
+        String locationString = args[0];
+        player.teleport(LocationTools.TranslateStringLocation(locationString));
 
     }
 
