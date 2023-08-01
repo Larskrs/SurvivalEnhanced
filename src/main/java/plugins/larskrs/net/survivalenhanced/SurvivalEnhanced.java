@@ -61,6 +61,7 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         this.db = new SQLite(this);
         this.db.load();
 
+        new LocationManager().Setup();
         interactionManager = new InteractionManager(this);
 
         int pluginId = 18851; // <-- Replace with the id of your plugin!
@@ -92,7 +93,6 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
 
         new PrefixManager().Setup(this);
         new GUIManagar().Setup(this);
-        new LocationManager().Setup();
 
 
 

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -138,8 +139,21 @@ public class WatchoverModule extends Module implements Listener {
         }
 
         LocationManager.StoreLocation(player.getLocation(), player, changeReason);
+    }
+    public static void SaveLastLocation (Player player, Location location, boolean bypass, LocationChange changeReason) {
 
 
+        if (PartyManager.HasParty(player.getUniqueId()) || bypass) {
+            return;
+        }
+
+        LocationManager.StoreLocation(location, player, changeReason);
+
+        if (lastLocations.containsKey(player.getUniqueId())) {
+            lastLocations.remove(player.getUniqueId());
+        }
+        StoredLocation stored = new StoredLocation(player.getUniqueId(), location, changeReason);
+        lastLocations.put(player.getUniqueId(), stored);
 
     }
 
@@ -157,7 +171,7 @@ public class WatchoverModule extends Module implements Listener {
     }
     @EventHandler
     public void onPlayerTeleport (PlayerTeleportEvent e) {
-        SaveLastLocation(e.getPlayer(), false, LocationChange.TELEPORT);
+        SaveLastLocation(e.getPlayer(), e.getFrom(), false, LocationChange.TELEPORT);
     }
 
     @EventHandler

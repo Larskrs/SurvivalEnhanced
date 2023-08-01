@@ -207,6 +207,9 @@ public class PartyManager extends BukkitRunnable implements Listener  {
     }
 
     public static boolean HasParty(UUID uuid) {
+        if (parties == null) {
+            return false;
+        }
         return parties.containsKey(uuid);
     }
 

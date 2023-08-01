@@ -34,4 +34,8 @@ public abstract class Module {
     protected boolean isEnabled() {
         return enabled;
     }
+
+    public void SetEnabled(boolean bool) {
+        this.enabled = bool;
+    }
 }

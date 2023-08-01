@@ -9,6 +9,7 @@ import plugins.larskrs.net.survivalenhanced.general.Errors;
 import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,7 +75,8 @@ public class LocationManager {
                             rs.getInt("location_id"),
                             UUID.fromString(rs.getString("player")),
                             LocationTools.TranslateStringLocation(rs.getString("location")),
-                            LocationChange.values()[rs.getInt("change")]
+                            LocationChange.values()[rs.getInt("change")],
+                            rs.getTimestamp("created_at")
                     );
                     locationList.add(stored);
                 }
@@ -112,7 +114,8 @@ public class LocationManager {
                             rs.getInt("location_id"),
                             UUID.fromString(rs.getString("player")),
                             LocationTools.TranslateStringLocation(rs.getString("location")),
-                            LocationChange.values()[rs.getInt("change")]
+                            LocationChange.values()[rs.getInt("change")],
+                            rs.getTimestamp("created_at")
                     );
                     locationList.add(stored);
             }
@@ -141,7 +144,8 @@ public class LocationManager {
             "`location_id` INTEGER PRIMARY KEY AUTOINCREMENT," +
             "`player` varchar(36) NOT NULL," +
             "`location` varchar(128)," +
-            "`change` int(11)" +
+            "`change` int(11)," +
+            "`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP" +
             ");";
 
     private void SetupTable() {

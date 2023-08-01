@@ -15,6 +15,7 @@ import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
+import plugins.larskrs.net.survivalenhanced.location.StoredLocationMenu;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
@@ -189,12 +190,23 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
                 .contains(action))
         {
             if (lastLoc != null) {
-                p.teleport(lastLoc);
-                p.sendMessage(ChatColor.GREEN + "Teleported to " + target.getName() +"'s last location.");
+                StoredLocations (item, p);
             }
         }
 
 
+    }
+
+    private void StoredLocations (ItemStack item, Player p) {
+        if (!item.hasItemMeta()) {
+            return;
+        }
+        Player target = Bukkit.getPlayer(item.getItemMeta().getLocalizedName());
+        if (target == null) {
+            return;
+        }
+        p.closeInventory();
+        new StoredLocationMenu(1, target).OpenGUI(p);
     }
 
 

@@ -21,8 +21,12 @@ public class ModuleManager extends Module {
 
     public void RegisterModule (Module module) {
         modules.put(module.getId(), module);
-        boolean isEnabled = SurvivalEnhanced.getInstance().getConfig().getBoolean("modules." + module.getId());
-        module.Load();
+        boolean isEnabled = SurvivalEnhanced.getInstance().getConfig().getBoolean("modules." + module.getId(), false);
+
+        module.SetEnabled(isEnabled);
+        if (isEnabled) {
+            module.Load();
+        }
     }
 
     @Override
