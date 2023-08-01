@@ -86,6 +86,8 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         new FeedCommand();
         new WorldCommand();
         new CustomModelCommand();
+        new FlyCommand();
+        new FlySpeedCommand();
 
         // ------------------
         //   Setup Managers
