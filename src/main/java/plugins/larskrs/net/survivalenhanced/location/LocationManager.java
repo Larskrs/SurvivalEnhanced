@@ -98,6 +98,51 @@ public class LocationManager {
         return null;
     }
 
+    public static StoredLocation[] GetPlayerLocations (UUID uuid, LocationChange change) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = SurvivalEnhanced.getDatabase().getSQLConnection();
+            ps = conn.prepareStatement("SELECT * FROM " + "locations" + " WHERE player = '"+uuid+"' AND WHERE change = '"+change.ordinal()+"';");
+
+            rs = ps.executeQuery();
+
+            List<StoredLocation> locationList = new ArrayList<>();
+            while(rs.next()){
+                if (rs.getString("player").equalsIgnoreCase(uuid.toString())) {
+                    continue;
+                }
+                if (rs.getInt("change") != change.ordinal()) {
+                    continue;
+                }
+
+                    StoredLocation stored = new StoredLocation(
+                            rs.getInt("location_id"),
+                            UUID.fromString(rs.getString("player")),
+                            LocationTools.TranslateStringLocation(rs.getString("location")),
+                            LocationChange.values()[rs.getInt("change")],
+                            rs.getTimestamp("created_at")
+                    );
+                    locationList.add(stored);
+            }
+
+            return locationList.toArray(new StoredLocation[0]);
+        } catch (SQLException ex) {
+            SurvivalEnhanced.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException ex) {
+                SurvivalEnhanced.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
+            }
+        }
+        return null;
+    }
+
     public static StoredLocation[] GetAllStoredLocations () {
         Connection conn = null;
         PreparedStatement ps = null;
