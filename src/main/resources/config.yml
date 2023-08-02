@@ -1,8 +1,8 @@
 
 modules:
-  - StableModule: true
-  - SteedModule: true
-  - PrefixModule: true
-  - QuestModule: true
-  - WatchoverModule: true
-  - DungeonModule: true
+  StableModule: true
+  SteedModule: true
+  PrefixModule: true
+  QuestModule: true
+  WatchoverModule: true
+  DungeonModule: true
