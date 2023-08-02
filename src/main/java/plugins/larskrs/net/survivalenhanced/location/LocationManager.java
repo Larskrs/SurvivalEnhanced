@@ -6,6 +6,7 @@ import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.database.Database;
 import plugins.larskrs.net.survivalenhanced.database.SQLite;
 import plugins.larskrs.net.survivalenhanced.general.Errors;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.sql.*;
@@ -27,7 +28,7 @@ public class LocationManager {
 
         try {
             conn = SurvivalEnhanced.getDatabase().getSQLConnection();
-            ps = conn.prepareStatement("INSERT INTO " + "locations" + " (player,location,change) VALUES(?,?,?)"); // IMPORTANT. In SQLite class, We made 3 colums. player, Kills, Total.
+            ps = conn.prepareStatement("INSERT INTO " + "locations" + " (player,location,change,created_at) VALUES(?,?,?,?)"); // IMPORTANT. In SQLite class, We made 3 colums. player, Kills, Total.
             ps.setString(1, player.getUniqueId().toString());                                             // YOU MUST put these into this line!! And depending on how many
             // colums you put (say you made 5) All 5 need to be in the brackets
             // Seperated with comma's (,) AND there needs to be the same amount of
@@ -39,8 +40,8 @@ public class LocationManager {
             // This would set the players kills instantly to 10. Sorry about the variable names, It sets their kills to 10 i just have the variable called
             // Tokens from another plugin :/
             ps.setInt(3, changeReason.ordinal());
+            ps.setTimestamp( 4,new Timestamp(System.currentTimeMillis()));
             ps.executeUpdate();
-
             return;
         } catch (SQLException ex) {
             SurvivalEnhanced.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
@@ -201,6 +202,8 @@ public class LocationManager {
             Statement s = conn.createStatement();
             s.executeUpdate(SQLiteCreateTokensTable);
             s.close();
+
+            Messanger.Console("[!] Attempting to create location table.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

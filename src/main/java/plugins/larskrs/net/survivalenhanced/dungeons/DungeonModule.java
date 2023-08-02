@@ -16,7 +16,7 @@ public class DungeonModule extends Module {
     @Override
     public boolean onLoadModule() {
 
-        if (!Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("citizens")) {
             Messanger.ErrorConsole("The DungeonModule requires the Citizens plugin.");
             return true;
         }

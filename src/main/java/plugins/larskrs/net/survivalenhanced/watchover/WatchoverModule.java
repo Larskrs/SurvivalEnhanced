@@ -13,9 +13,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.dungeons.DungeonModule;
 import plugins.larskrs.net.survivalenhanced.dungeons.PartyManager;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.Module;
+import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
 import plugins.larskrs.net.survivalenhanced.location.LocationChange;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
@@ -131,20 +133,13 @@ public class WatchoverModule extends Module implements Listener {
                 "You vanished!");
 
     }
-    public static void SaveLastLocation (Player player, boolean bypass, LocationChange changeReason) {
-
-
-        if (PartyManager.HasParty(player.getUniqueId()) || bypass) {
-            return;
-        }
-
-        LocationManager.StoreLocation(player.getLocation(), player, changeReason);
-    }
     public static void SaveLastLocation (Player player, Location location, boolean bypass, LocationChange changeReason) {
 
-
-        if (PartyManager.HasParty(player.getUniqueId()) || bypass) {
-            return;
+        if (ModuleManager.isModuleLoaded("DungeonModule")) {
+            Messanger.InfoConsole("DUNGEON IS ONLINE");
+            if (PartyManager.GetParty(player.getUniqueId()) != null) {
+                return;
+            }
         }
 
         LocationManager.StoreLocation(location, player, changeReason);
@@ -163,11 +158,11 @@ public class WatchoverModule extends Module implements Listener {
 
     @EventHandler
     public void onPlayerQuit (PlayerQuitEvent e) {
-        SaveLastLocation(e.getPlayer(),  false, LocationChange.QUIT_GAME);
+        SaveLastLocation(e.getPlayer(),  e.getPlayer().getLocation(), false, LocationChange.QUIT_GAME);
     }
     @EventHandler
     public void onPlayerDeath (PlayerDeathEvent e) {
-        SaveLastLocation(e.getEntity(),  false, LocationChange.DEATH);
+        SaveLastLocation(e.getEntity(),  e.getEntity().getLocation(), false, LocationChange.DEATH);
     }
     @EventHandler
     public void onPlayerTeleport (PlayerTeleportEvent e) {

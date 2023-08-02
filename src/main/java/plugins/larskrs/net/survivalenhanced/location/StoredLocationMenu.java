@@ -11,10 +11,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
-import plugins.larskrs.net.survivalenhanced.tools.TimeTool;
+import plugins.larskrs.net.survivalenhanced.tools.TimeUtil;
 import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,10 +50,13 @@ public class StoredLocationMenu extends DynamicContentGUI {
         ItemStack item = new ItemStack(stored.change.icon);
         ItemMeta meta = item.getItemMeta();
 
-        Long time = Timestamp.from(Instant.now()).getTime() - stored.getCreatedAt().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = new Date(stored.getCreatedAt().getTime());
+        long startTime = System.currentTimeMillis();
+        String timeAgo = TimeUtil.getRelativeTime(start.getTime());
 
         meta.setLocalizedName(stored.getId() + "");
-        meta.setDisplayName(stored.getId() + " - " + ChatColor.YELLOW + time + ". - " + stored.getChange().name());
+        meta.setDisplayName(stored.getId() + " - " + ChatColor.YELLOW + timeAgo + ". - " + stored.getChange().name());
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         List<String> lore = new ArrayList<>();
@@ -65,7 +69,7 @@ public class StoredLocationMenu extends DynamicContentGUI {
             );
 
 
-        lore.add(ChatColor.YELLOW + TimeTool.toDuration(time) + ".");
+        lore.add(ChatColor.YELLOW + timeAgo + ".");
         lore.add(ChatColor.YELLOW + "Cause: " + stored.getChange().name());
         meta.setLore(lore);
         item.setItemMeta(meta);

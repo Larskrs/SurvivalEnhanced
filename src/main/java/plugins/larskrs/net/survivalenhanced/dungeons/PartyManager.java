@@ -140,7 +140,7 @@ public class PartyManager extends BukkitRunnable implements Listener  {
 
         Location spawnLocation = FileManager.getInstance().ReadLocation("party.yml", "party.spawn");
         player.teleport(spawnLocation);
-        WatchoverModule.SaveLastLocation(player, true, LocationChange.SPECIAL);
+        WatchoverModule.SaveLastLocation(player,player.getLocation(),  true, LocationChange.SPECIAL);
 
         party.AddMember(player.getUniqueId());
         AddToParty(player.getUniqueId(), party);

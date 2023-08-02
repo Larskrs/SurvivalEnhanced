@@ -18,7 +18,7 @@ public class ModuleManager extends Module {
         super("ModuleManager");
     }
 
-    HashMap<String, Module> modules;
+    private static HashMap<String, Module> modules;
 
     public void RegisterModule (Module module) {
         modules.put(module.getId(), module);
@@ -50,6 +50,16 @@ public class ModuleManager extends Module {
         }
 
 
+        return false;
+    }
+
+    public static boolean isModuleLoaded (String id) {
+        for (Module module : modules.values())
+        {
+            if (module.getId().equals(id)) {
+                return module.isEnabled();
+            }
+        }
         return false;
     }
 }
