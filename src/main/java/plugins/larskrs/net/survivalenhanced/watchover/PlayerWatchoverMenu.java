@@ -21,6 +21,7 @@ import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlayerWatchoverMenu extends DynamicContentGUI {
@@ -201,7 +202,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         if (!item.hasItemMeta()) {
             return;
         }
-        Player target = Bukkit.getPlayer(item.getItemMeta().getLocalizedName());
+        Player target = Bukkit.getPlayerExact(item.getItemMeta().getLocalizedName());
         if (target == null) {
             return;
         }

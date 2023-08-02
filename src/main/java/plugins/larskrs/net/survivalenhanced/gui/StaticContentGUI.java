@@ -26,4 +26,7 @@ public abstract class StaticContentGUI extends GeneralGUI {
     public Inventory getInventory () {
         return this.inv;
     }
+    public void setInventory (Inventory inv) {
+        this.inv = inv;
+    }
 }

@@ -10,6 +10,8 @@ import java.util.List;
 
 public class FlyCommand extends Command {
 
+
+
     public FlyCommand () {
 
         super(
@@ -40,11 +42,10 @@ public class FlyCommand extends Command {
             return;
         }
 
-        target.setAllowFlight(!target.isFlying());
-        sender.sendMessage(ChatColor.GREEN + target.getName() + (target.isFlying()
+        target.setAllowFlight(!target.getAllowFlight());
+        sender.sendMessage(ChatColor.GREEN + target.getName() + (target.getAllowFlight()
                 ? " is now flying."
                 : " is no longer flying"));
-
     }
 
     @Override

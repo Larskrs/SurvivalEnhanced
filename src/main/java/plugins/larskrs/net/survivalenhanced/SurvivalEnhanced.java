@@ -18,6 +18,7 @@ import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
+import plugins.larskrs.net.survivalenhanced.motd.MotdCommand;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
 import plugins.larskrs.net.survivalenhanced.skull.SkullCommand;
 import plugins.larskrs.net.survivalenhanced.location.LocationTools;
@@ -88,6 +89,8 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         new CustomModelCommand();
         new FlyCommand();
         new FlySpeedCommand();
+
+        new MotdCommand();
 
         // ------------------
         //   Setup Managers
