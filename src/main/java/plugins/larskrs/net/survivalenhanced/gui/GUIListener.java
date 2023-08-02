@@ -6,9 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
-import plugins.larskrs.net.survivalenhanced.prefix.PrefixMenu;
-
-import java.util.Arrays;
 
 public class GUIListener implements Listener {
 
@@ -17,8 +14,8 @@ public class GUIListener implements Listener {
 
         Player p = (Player) e.getPlayer();
 
-        if (GUIManagar.getInstance().isGUILinked(p)) {
-            GUIManagar.getInstance().UnlinkGUI(p);
+        if (GUIManager.getInstance().isGUILinked(p)) {
+            GUIManager.getInstance().UnlinkGUI(p);
         }
     }
 
@@ -33,10 +30,10 @@ public class GUIListener implements Listener {
 
         Player p = (Player) e.getWhoClicked();
 
-        if (!GUIManagar.getInstance().isGUILinked(p)) {
+        if (!GUIManager.getInstance().isGUILinked(p)) {
             return;
         }
-        GeneralGUI gui = GUIManagar.getInstance().GetGUI(p);
+        GeneralGUI gui = GUIManager.getInstance().GetGUI(p);
 
 
         e.setCancelled(true);

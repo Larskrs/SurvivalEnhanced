@@ -4,12 +4,9 @@ main: plugins.larskrs.net.survivalenhanced.SurvivalEnhanced
 api-version: 1.19
 description: "This is my wierd description that someone required me to write about my random features packed survival plugin."
 
-depend:
-  - Citizens
-
 softdepend:
   - Vault
-
+  - Citizens
 
 permissions:
   survivalenhanced.command.prefix:

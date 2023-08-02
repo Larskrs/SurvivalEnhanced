@@ -1,15 +1,12 @@
 package plugins.larskrs.net.survivalenhanced.gui;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.joml.Math;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
-
-import java.util.List;
 
 public abstract class GeneralGUI {
 
@@ -31,7 +28,7 @@ public abstract class GeneralGUI {
     public void OpenGUI (Player p) {
         this.holder = p;
         onRenderGUI(p);
-        GUIManagar.getInstance().LinkGUI(p, this);
+        GUIManager.getInstance().LinkGUI(p, this);
         Messanger.InfoConsole("Opened gui");
     }
 

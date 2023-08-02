@@ -5,14 +5,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.general.Command;
-import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PrefixCommand extends Command {
-    public PrefixCommand(SurvivalEnhanced survivalEnhanced) {
+    public PrefixCommand() {
         super(
                 "prefix",
                 "survivalenhanced.command.prefix",
@@ -61,7 +60,7 @@ public class PrefixCommand extends Command {
         Player p = (Player) sender;
 
         p.sendMessage(ChatColor.YELLOW + "Clearing your prefix. ");
-        PrefixManager.getInstance().ClearPrefix(p.getUniqueId());
+        PrefixModule.getInstance().ClearPrefix(p.getUniqueId());
 
     }
 
@@ -85,7 +84,7 @@ public class PrefixCommand extends Command {
             return;
         }
 
-        Prefix prefix = PrefixManager.getInstance().GetPrefix(args[1]);
+        Prefix prefix = PrefixModule.getInstance().GetPrefix(args[1]);
 
         if (prefix == null) {
             p.sendMessage(ChatColor.RED + "Could not find a prefix with the name of: " + args[1]);
@@ -93,7 +92,7 @@ public class PrefixCommand extends Command {
             return;
         }
 
-        PrefixManager.getInstance().SetPrefix(p.getUniqueId(), prefix);
+        PrefixModule.getInstance().SetPrefix(p.getUniqueId(), prefix);
         p.sendMessage(ChatColor.YELLOW + "Set your prefix as " + prefix.GetDisplay());
 
     }
@@ -112,7 +111,7 @@ public class PrefixCommand extends Command {
         }
 
         if (args.length == 2) {
-            for (Prefix prefix : PrefixManager.getInstance().GetPrefixes()
+            for (Prefix prefix : PrefixModule.getInstance().GetPrefixes()
                  ) {
                 options.add(prefix.GetName());
             }

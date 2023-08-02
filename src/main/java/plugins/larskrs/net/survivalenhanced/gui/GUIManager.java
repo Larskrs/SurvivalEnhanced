@@ -5,21 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
-import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
-import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
-public class GUIManagar extends BukkitRunnable {
+public class GUIManager extends BukkitRunnable {
 
     HashMap<UUID, GeneralGUI> guis;
     private SurvivalEnhanced se;
-    private static GUIManagar instance;
+    private static GUIManager instance;
     private BukkitTask task;
-    public GUIManagar () {
+    public GUIManager() {
     }
 
     public void Setup (SurvivalEnhanced se) {
@@ -36,7 +32,7 @@ public class GUIManagar extends BukkitRunnable {
         this.task = null;
     }
 
-    public static GUIManagar getInstance() {
+    public static GUIManager getInstance() {
         return instance;
     }
 

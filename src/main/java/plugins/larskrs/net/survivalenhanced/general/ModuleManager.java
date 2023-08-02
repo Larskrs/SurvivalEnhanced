@@ -4,6 +4,7 @@ import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.dungeons.DungeonModule;
+import plugins.larskrs.net.survivalenhanced.prefix.PrefixModule;
 import plugins.larskrs.net.survivalenhanced.quest.QuestModule;
 import plugins.larskrs.net.survivalenhanced.stable.StableModule;
 import plugins.larskrs.net.survivalenhanced.steed.SteedModule;
@@ -39,6 +40,7 @@ public class ModuleManager extends Module {
         RegisterModule(new QuestModule());
         RegisterModule(new WatchoverModule());
         RegisterModule(new DungeonModule());
+        RegisterModule(new PrefixModule());
 
 
         // List all modules

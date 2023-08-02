@@ -13,13 +13,12 @@ import plugins.larskrs.net.survivalenhanced.database.SQLite;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
-import plugins.larskrs.net.survivalenhanced.gui.GUIManagar;
+import plugins.larskrs.net.survivalenhanced.gui.GUIManager;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.motd.MotdCommand;
-import plugins.larskrs.net.survivalenhanced.prefix.PrefixManager;
 import plugins.larskrs.net.survivalenhanced.skull.SkullCommand;
 import plugins.larskrs.net.survivalenhanced.location.LocationTools;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
@@ -96,8 +95,7 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         //   Setup Managers
         // ------------------
 
-        new PrefixManager().Setup(this);
-        new GUIManagar().Setup(this);
+        new GUIManager().Setup(this);
 
 
 

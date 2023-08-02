@@ -9,45 +9,24 @@ import org.bukkit.entity.Player;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
+import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PrefixManager {
-
-
+public class PrefixModule extends Module {
     public HashMap<UUID, Prefix> holders;
     private ArrayList<Prefix> prefixes;
     private YamlConfiguration prefixConfig;
-    private static PrefixManager instance;
+    private static PrefixModule instance;
 
-    public void Setup(SurvivalEnhanced survivalEnhanced) {
-        instance = this;
-
-        if (!Bukkit.getPluginManager().isPluginEnabled("vault")) {
-            Messanger.ErrorConsole("You have to have vault installed to be able to use the prefix system");
-            return;
-        }
-
-        SurvivalEnhanced.GetFileManager().LoadFile("prefix.yml");
-        this.holders = new HashMap<>();
-        this.prefixes = new ArrayList<>();
-        this.prefixConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("prefix.yml");
-
-        SetDefaultConfigValues();
-
-        if (!prefixConfig.getBoolean("enabled")) {
-
-            return;
-        }
-
-        LoadPrefixes();
-        new PrefixCommand(survivalEnhanced);
-//        Bukkit.getPluginManager().registerEvents(new PrefixListener(), survivalEnhanced);
+    public PrefixModule() {
+        super("PrefixModule");
     }
-    public static PrefixManager getInstance() {
+
+    public static PrefixModule getInstance() {
         return instance;
     }
 
@@ -119,10 +98,30 @@ public class PrefixManager {
         if (!prefixConfig.contains("enabled")) {
             prefixConfig.set("enabled", true);
         }
-
-
         FileManager.getInstance().SaveData("prefix.yml");
+    }
 
+    @Override
+    public boolean onLoadModule() {
 
+        instance = this;
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("vault")) {
+            Messanger.ErrorConsole("You have to have vault installed to be able to use the prefix system!");
+            return true;
+        }
+
+        SurvivalEnhanced.GetFileManager().LoadFile("prefix.yml");
+        this.holders = new HashMap<>();
+        this.prefixes = new ArrayList<>();
+        this.prefixConfig = SurvivalEnhanced.GetFileManager().GetYamlFromString("prefix.yml");
+
+        SetDefaultConfigValues();
+
+        LoadPrefixes();
+        new PrefixCommand();
+//        Bukkit.getPluginManager().registerEvents(new PrefixListener(), survivalEnhanced);
+
+        return false;
     }
 }

@@ -1,9 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.prefix;
 
-import net.milkbowl.vault.chat.Chat;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -16,7 +13,6 @@ import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PrefixMenu extends DynamicContentGUI {
@@ -36,7 +32,7 @@ public class PrefixMenu extends DynamicContentGUI {
     private void AddPrefixItems() {
 
 
-        for (Prefix prefix : PrefixManager.getInstance().GetPrefixes()) {
+        for (Prefix prefix : PrefixModule.getInstance().GetPrefixes()) {
 
             ItemStack item = new ItemStack(prefix.GetIcon());
             ItemMeta meta = item.getItemMeta();
@@ -78,7 +74,7 @@ public class PrefixMenu extends DynamicContentGUI {
             return;
         }
 
-        Prefix prefix = PrefixManager.getInstance().GetPrefix(localizedName);
+        Prefix prefix = PrefixModule.getInstance().GetPrefix(localizedName);
 
         if (prefix == null) {
             return;
@@ -95,7 +91,7 @@ public class PrefixMenu extends DynamicContentGUI {
 
     @Override
     public void onItemsRender() {
-        playerPrefix = PrefixManager.getInstance().GetPrefix(getPlayer());
+        playerPrefix = PrefixModule.getInstance().GetPrefix(getPlayer());
         AddPrefixItems();
     }
 
