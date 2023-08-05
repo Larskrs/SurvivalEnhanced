@@ -1,7 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.location;
 
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
@@ -10,28 +9,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
-import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
 import plugins.larskrs.net.survivalenhanced.tools.TimeUtil;
-import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class StoredLocationMenu extends DynamicContentGUI {
 
     private boolean showOffline;
-    private Player target;
+    private OfflinePlayer target;
     StoredLocation[] locations = null;
 
-    public StoredLocationMenu(int page, Player target) {
+    public StoredLocationMenu(int page, OfflinePlayer target, StoredLocation[] locations) {
         super("StoredLocationMenu", page, 5, target.getName() + "'s locations");
         this.target = target;
         showOffline = false;
 
-        locations = LocationManager.GetPlayerLocations(target.getUniqueId());
+        this.locations = locations;
         Collections.reverse(Arrays.asList(locations));
     }
 
@@ -151,6 +146,11 @@ public class StoredLocationMenu extends DynamicContentGUI {
     public void onPageItemClick(int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type) {
 
         if (!type.equals(InventoryType.CHEST)) {
+            return;
+        }
+
+        String localName = item.getItemMeta().getLocalizedName();
+        if (localName == null || localName == "") {
             return;
         }
 

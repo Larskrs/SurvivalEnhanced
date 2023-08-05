@@ -91,7 +91,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
 
         meta.setOwningPlayer(p);
-        meta.setLocalizedName(p.getName());
+        meta.setLocalizedName(p.getUniqueId().toString());
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.setDisplayName(
@@ -149,7 +149,6 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
     @Override
     public void onPageItemClick(int slotId, ItemStack item, Player p, InventoryAction action,  InventoryType type) {
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(item.getItemMeta().getLocalizedName());
 
 
         if (item.getItemMeta().getLocalizedName().equalsIgnoreCase("toggle_offline_players")) {
@@ -160,6 +159,11 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             return;
         }
 
+        String localName = item.getItemMeta().getLocalizedName();
+        if (localName == null || localName == "") {
+            return;
+        }
+        OfflinePlayer target = Bukkit.getPlayer(localName);
 
         if (action.equals(InventoryAction.PICKUP_ALL)) {  // Left Click
 
@@ -176,7 +180,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         if (Arrays.asList(InventoryAction.DROP_ONE_CURSOR, InventoryAction.DROP_ONE_SLOT)
                 .contains(action))
         {
-            if (target == null && target.isOnline()) {
+            if (target == null || !target.isOnline()) {
                 return;
             }
             ((Player) target).teleport(p);
@@ -186,13 +190,11 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             }
         }
 
-        Location lastLoc = WatchoverModule.getLastLocation(target.getUniqueId()).getLocation();
         if (Arrays.asList(InventoryAction.DROP_ALL_CURSOR, InventoryAction.DROP_ALL_SLOT)
                 .contains(action))
         {
-            if (lastLoc != null) {
                 StoredLocations (item, p);
-            }
+
         }
 
 
@@ -202,12 +204,13 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         if (!item.hasItemMeta()) {
             return;
         }
-        Player target = Bukkit.getPlayerExact(item.getItemMeta().getLocalizedName());
+        OfflinePlayer target = Bukkit.getOfflinePlayer(UUID.fromString(item.getItemMeta().getLocalizedName()));
         if (target == null) {
             return;
         }
+
         p.closeInventory();
-        new StoredLocationMenu(1, target).OpenGUI(p);
+        new StoredLocationMenu(1, target, LocationManager.GetPlayerLocations(target.getUniqueId())).OpenGUI(p);
     }
 
 
