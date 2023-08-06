@@ -163,18 +163,18 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         if (localName == null || localName == "") {
             return;
         }
-        OfflinePlayer target = Bukkit.getPlayer(localName);
+        Player target = Bukkit.getPlayer(UUID.fromString(localName));
 
         if (action.equals(InventoryAction.PICKUP_ALL)) {  // Left Click
 
             TeleportAction (item, p);
-
+            return;
         }
 
         if (action.equals(InventoryAction.PICKUP_HALF)) { // Right Click
 
             InspectGUI(item, p);
-
+            return;
         }
 
         if (Arrays.asList(InventoryAction.DROP_ONE_CURSOR, InventoryAction.DROP_ONE_SLOT)
@@ -183,17 +183,20 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             if (target == null || !target.isOnline()) {
                 return;
             }
-            ((Player) target).teleport(p);
+            target.teleport(p);
             p.sendMessage(ChatColor.GREEN + "Teleported " + target.getName() +" to you!");
             if (!WatchoverModule.isVanished(p.getUniqueId())) {
-                ((Player) target).sendMessage(ChatColor.GREEN + "You were teleported to " + p.getName() + "!");
+                target.sendMessage(ChatColor.GREEN + "You were teleported to " + p.getName() + "!");
             }
+
+            return;
         }
 
         if (Arrays.asList(InventoryAction.DROP_ALL_CURSOR, InventoryAction.DROP_ALL_SLOT)
                 .contains(action))
         {
                 StoredLocations (item, p);
+                return;
 
         }
 
@@ -215,23 +218,30 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
 
 
     private void TeleportAction(ItemStack item, Player p) {
+
+        String localName = item.getItemMeta().getLocalizedName();
+
         if (!item.hasItemMeta()) {
             return;
         }
-        Player target = Bukkit.getPlayer(item.getItemMeta().getLocalizedName());
+        Player target = Bukkit.getPlayer(UUID.fromString(localName));
         if (target == null) {
             return;
         }
+        Messanger.InfoConsole("TEST 3");
 
         p.teleport(target);
         p.closeInventory();
     }
 
     private void InspectGUI (ItemStack item, Player p) {
+
+        String localName = item.getItemMeta().getLocalizedName();
+
         if (!item.hasItemMeta()) {
             return;
         }
-        Player target = Bukkit.getPlayer(item.getItemMeta().getLocalizedName());
+        Player target = Bukkit.getPlayer(UUID.fromString(localName));
         if (target == null) {
             return;
         }

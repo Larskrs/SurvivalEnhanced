@@ -39,13 +39,21 @@ public class GUIPageUtil {
         return items.size() > lowerBound;
     }
 
-    public static long pageAmount (List<ItemStack> items, int spaces) {
+    public static long pageAmount_old (List<ItemStack> items, int spaces) {
 
         long x = (items.size() / spaces);
         long round = Math.round(x + 0.4);
         Messanger.InfoConsole(x + " | " + spaces + " | " + round);
         return round + 1;
 
+    }
+    public static long pageAmount (List<ItemStack> items, int spaces) {
+
+        Messanger.InfoAll("Amount of items: " + items.size());
+        Long divided = (long) (items.size() / spaces);
+        Messanger.InfoAll("pages: " + divided);
+
+        return divided;
     }
 
 

@@ -66,8 +66,10 @@ public abstract class DynamicContentGUI extends GeneralGUI {
     @Override
     public void onRenderGUI (Player p) {
 
+        items.clear(); // Important to prevent accidental additions on move page.
         onItemsRender();
-        inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+ GUIPageUtil.pageAmount(items, spaces) +") ");
+        float pages = GUIPageUtil.pageAmount(items, spaces);
+        inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+ (pages + 1) +") ");
         renderPageItems();
 
 
@@ -146,10 +148,8 @@ public abstract class DynamicContentGUI extends GeneralGUI {
     public abstract void onPageItemClick (int slotId, ItemStack item, Player p, InventoryAction action, InventoryType type);
     @Override
     public void onRenderUpdate() {
-
-        RefreshItems();
-
         getInventory().clear();
+        RefreshItems();
         renderPageItems();
     }
     public void RefreshItems () {
