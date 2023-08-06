@@ -71,7 +71,7 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
         );
         List<String> lore = new ArrayList<>();
 
-                    lore.add(ChatColor.AQUA+ "[ Left Click ] " + ChatColor.YELLOW + (showOffline ? "To Hide Offline Players" : "To Show Offline Players"));
+                    lore.add(ChatColor.AQUA+ "Left Click " + ChatColor.GRAY + (showOffline ? "To Hide Offline Players" : "To Show Offline Players"));
 
         meta.setLore(lore);
 
@@ -110,13 +110,13 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             );
 
         }
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Left Click ] " + ChatColor.YELLOW + "To Watchover " + p.getName());
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Right Click ] " + ChatColor.YELLOW + "Inspect inventory.");
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Q ] " + ChatColor.YELLOW + "Teleport player to you.");
+        if (isOnline)   lore.add(ChatColor.AQUA+ "Left Click " + ChatColor.GRAY + "To Watchover " + p.getName());
+        if (isOnline)   lore.add(ChatColor.AQUA+ "Right Click " + ChatColor.GRAY + "Inspect inventory.");
+        if (isOnline)   lore.add(ChatColor.AQUA+ "Q " + ChatColor.GRAY + "Teleport player to you.");
 
 
         if (lastLoc != null) {
-            lore.add(ChatColor.AQUA+ "[ Ctrl + Q ] " + ChatColor.YELLOW + "To teleport last location. " + ChatColor.GRAY + "( " + lastLoc.getChange().name()+ " " + lastLoc.getId() + " )");
+            lore.add(ChatColor.AQUA+ "Ctrl + Q " + ChatColor.GRAY + "To teleport last location. " + ChatColor.GRAY + "( " + lastLoc.getChange().name()+ " " + lastLoc.getId() + " )");
         }
 
         meta.setLore(lore);
@@ -232,6 +232,8 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
 
         p.teleport(target);
         p.closeInventory();
+
+        p.setSpectatorTarget(target);
     }
 
     private void InspectGUI (ItemStack item, Player p) {

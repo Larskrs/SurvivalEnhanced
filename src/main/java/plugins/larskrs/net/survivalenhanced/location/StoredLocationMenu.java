@@ -45,27 +45,23 @@ public class StoredLocationMenu extends DynamicContentGUI {
         ItemStack item = new ItemStack(stored.change.icon);
         ItemMeta meta = item.getItemMeta();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date start = new Date(stored.getCreatedAt().getTime());
-        long startTime = System.currentTimeMillis();
         String timeAgo = TimeUtil.getRelativeTime(start.getTime());
 
         meta.setLocalizedName(stored.getId() + "");
-        meta.setDisplayName(stored.getId() + " - " + ChatColor.YELLOW + timeAgo + ". - " + stored.getChange().name());
+        meta.setDisplayName(ChatColor.GREEN + stored.getChange().name() + " " + "[ " + stored.getId() + " ]");
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         List<String> lore = new ArrayList<>();
 
-            lore.add(ChatColor.DARK_GRAY + "Position: ( " +
+            lore.add(ChatColor.DARK_GRAY + "" +
                     stored.getLocation().getBlockX() + " " +
                     stored.getLocation().getBlockY() + " " +
                     stored.getLocation().getBlockZ() + "  " +
-                    getCardinalDirection(stored.getLocation()) + " )"
+                    stored.getLocation().getWorld().getName() + " )"
             );
 
-
-        lore.add(ChatColor.YELLOW + timeAgo + ".");
-        lore.add(ChatColor.YELLOW + "Cause: " + stored.getChange().name());
+        lore.add(ChatColor.AQUA + "Left Click " + ChatColor.GRAY + "to teleport to location.");
         meta.setLore(lore);
         item.setItemMeta(meta);
         RegisterItemStack(item);
@@ -74,51 +70,6 @@ public class StoredLocationMenu extends DynamicContentGUI {
     @Override
     public void onToolsRender() {
 
-    }
-
-    private void RegisterPlayer(OfflinePlayer p, boolean isOnline) {
-        StoredLocation[] storedLocations = LocationManager.GetPlayerLocations(p.getUniqueId());
-        StoredLocation lastLoc = null;
-        if (storedLocations != null && storedLocations.length > 0) {
-            lastLoc = storedLocations[storedLocations.length - 1];
-        }
-
-        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-
-        SkullMeta meta = (SkullMeta) skull.getItemMeta();
-
-        meta.setOwningPlayer(p);
-        meta.setLocalizedName(p.getName());
-
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.setDisplayName(
-                (isOnline ? ChatColor.GREEN : ChatColor.RED) +
-                p.getName()
-        );
-        List<String> lore = new ArrayList<>();
-
-        if (isOnline) {
-            Player player = (Player) p;
-            lore.add(ChatColor.DARK_GRAY + "Position: ( " +
-                    player.getLocation().getBlockX() + " " +
-                    player.getLocation().getBlockY() + " " +
-                    player.getLocation().getBlockZ() + " ) "
-            );
-
-        }
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Left Click ] " + ChatColor.YELLOW + "To Watchover " + p.getName());
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Right Click ] " + ChatColor.YELLOW + "Inspect inventory.");
-        if (isOnline)   lore.add(ChatColor.AQUA+ "[ Q ] " + ChatColor.YELLOW + "Teleport player to you.");
-
-
-        if (lastLoc != null) {
-            lore.add(ChatColor.AQUA+ "[ Ctrl + Q ] " + ChatColor.YELLOW + "To teleport last location. " + ChatColor.GRAY + "( " + lastLoc.getChange().name()+ " " + lastLoc.getId() + " )");
-        }
-
-        meta.setLore(lore);
-
-        skull.setItemMeta(meta);
-        RegisterItemStack(skull);
     }
 
     public String getCardinalDirection(Location location) {
