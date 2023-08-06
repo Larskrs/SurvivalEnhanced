@@ -68,7 +68,7 @@ public abstract class DynamicContentGUI extends GeneralGUI {
 
         items.clear(); // Important to prevent accidental additions on move page.
         onItemsRender();
-        float pages = GUIPageUtil.pageAmount(items, spaces);
+        int pages = (int) GUIPageUtil.pageAmount(items, spaces);
         inv = Bukkit.createInventory(null, rows * 9, title + " ("+page+"/"+ (pages + 1) +") ");
         renderPageItems();
 

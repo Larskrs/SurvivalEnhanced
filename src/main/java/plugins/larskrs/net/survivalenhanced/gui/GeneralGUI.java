@@ -29,7 +29,6 @@ public abstract class GeneralGUI {
         this.holder = p;
         onRenderGUI(p);
         GUIManager.getInstance().LinkGUI(p, this);
-        Messanger.InfoConsole("Opened gui");
     }
 
     public abstract void onRenderGUI (Player p);

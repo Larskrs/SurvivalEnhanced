@@ -49,9 +49,7 @@ public class GUIPageUtil {
     }
     public static long pageAmount (List<ItemStack> items, int spaces) {
 
-        Messanger.InfoAll("Amount of items: " + items.size());
         Long divided = (long) (items.size() / spaces);
-        Messanger.InfoAll("pages: " + divided);
 
         return divided;
     }
