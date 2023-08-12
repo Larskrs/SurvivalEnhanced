@@ -25,35 +25,30 @@ public class HealCommand extends Command {
     }
     @Override
     public void execute(CommandSender sender, String[] args) {
+
         Player target = null;
-        if (!(sender instanceof Player)) {
-            if (args.length > 0) {
-                target = Bukkit.getPlayer(args[0]);
-                if (target == null) {
-                    sender.sendMessage(ChatColor.RED + "Invalid Usage: There is not player with the name of: " + args[1]);
-                    return;
-                }
+        if (args.length > 0)
+        {
+            target = Bukkit.getPlayer(args[0]);
+            if (target == null) {
+                sender.sendMessage(ChatColor.RED + "Could not find " + args[0]);
+                return;
             }
-        } else {
+        }
+        if (sender instanceof Player && target == null) {
             target = (Player) sender;
+        }
+        if (target == null) {
+            sender.sendMessage(ChatColor.RED + "Invalid Usage: /heal <player> ");
+            return;
         }
 
         target.setHealth(target.getMaxHealth());
-        sender.sendMessage(ChatColor.GREEN + "You healed " +
-                (sender instanceof Player
-                ? "yourself."
-                : target.getName() + "!"
-                ));
-
-
-        if (sender instanceof Player) {
-            if (!WatchoverModule.isVanished(((Player) sender).getUniqueId())
-                    && (!(sender instanceof Player))) {
-                target.sendMessage(ChatColor.GREEN + "You have been healed by " + ((Player) sender).getName());
-            }
-
-        }
+        sender.sendMessage(ChatColor.GREEN + (target.equals(sender)
+                ? "You healed " + target.getName() + "!"
+                : "You healed yourself!"));
     }
+
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {

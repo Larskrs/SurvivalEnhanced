@@ -1,7 +1,9 @@
 package plugins.larskrs.net.survivalenhanced.watchover;
 
+import com.sun.jna.platform.win32.Sspi;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,6 +12,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import plugins.larskrs.net.survivalenhanced.gui.DynamicContentGUI;
 import plugins.larskrs.net.survivalenhanced.gui.InventoryGUI;
@@ -17,37 +20,56 @@ import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocationMenu;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+import plugins.larskrs.net.survivalenhanced.tools.TimeUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlayerWatchoverMenu extends DynamicContentGUI {
 
     private boolean showOffline;
+    private List<StoredLocation> locations;
 
     public PlayerWatchoverMenu(int page) {
         super("TeleportToPlayerMenu", page, 5, "Watchover - Online: " + Bukkit.getOnlinePlayers().size());
+
+        locations = new ArrayList<>();
+        for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+            StoredLocation sl = WatchoverModule.getLastLocation(p.getUniqueId());
+            if (sl == null) continue;
+            locations.remove(p.getUniqueId());
+            locations.add(sl);
+        }
+
+        Comparator<StoredLocation> reverseComparator = (c1, c2) -> {
+            if (c1 == null && c2 == null) return 0;
+            if (c1 == null && c2 != null) return 1;
+            if (c1 != null && c2 == null) return -1;
+            return c1.getCreatedAt().compareTo(c2.getCreatedAt());
+        };
+        Collections.sort(locations, reverseComparator);
+        Collections.reverse(locations);
+
         showOffline = false;
     }
 
     @Override
     public void onItemsRender() {
 
-        for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
-            if (p.isOnline())
-                RegisterPlayer(p, Bukkit.getOnlinePlayers().contains(p));
-        }
-        if (showOffline) {
 
-            for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
-                if (!p.isOnline())
-                    RegisterPlayer(p, Bukkit.getOnlinePlayers().contains(p));
+        for (StoredLocation sl : locations
+             ) {
+            if (sl == null) continue;
+            OfflinePlayer p = Bukkit.getOfflinePlayer(sl.getPlayer());
+
+            if (showOffline || p.isOnline()) {
+                RegisterPlayer(p, p.isOnline());
             }
 
+
         }
+
 
     }
 
@@ -110,6 +132,12 @@ public class PlayerWatchoverMenu extends DynamicContentGUI {
             );
 
         }
+            if (lastLoc != null) {
+                Timestamp last_online = lastLoc.getCreatedAt();
+                if (isOnline) lore.add(ChatColor.YELLOW + "Was online " + ChatColor.GRAY + TimeUtil.getRelativeTime(last_online.getTime()));
+                else lore.add(ChatColor.YELLOW + "Was last online " + ChatColor.GRAY + TimeUtil.getRelativeTime(last_online.getTime()));
+            }
+
         if (isOnline)   lore.add(ChatColor.AQUA+ "Left Click " + ChatColor.GRAY + "To Watchover " + p.getName());
         if (isOnline)   lore.add(ChatColor.AQUA+ "Right Click " + ChatColor.GRAY + "Inspect inventory.");
         if (isOnline)   lore.add(ChatColor.AQUA+ "Q " + ChatColor.GRAY + "Teleport player to you.");

@@ -21,6 +21,12 @@ public class StoredLocation {
         this.change = change;
         this.created_at = created_at;
     }
+    public StoredLocation (UUID player, Location location, LocationChange change, Timestamp created_at) {
+        this.player = player;
+        this.location = location;
+        this.change = change;
+        this.created_at = created_at;
+    }
     public StoredLocation (UUID player, Location location, LocationChange change) {
         this.id = -1;
         this.player = player;

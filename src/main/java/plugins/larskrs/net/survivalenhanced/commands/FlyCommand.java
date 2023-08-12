@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.general.Command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlyCommand extends Command {
@@ -43,13 +45,25 @@ public class FlyCommand extends Command {
         }
 
         target.setAllowFlight(!target.getAllowFlight());
-        sender.sendMessage(ChatColor.GREEN + target.getName() + (target.getAllowFlight()
-                ? " is now flying."
-                : " is no longer flying"));
+        sender.sendMessage(ChatColor.GREEN + (target.getAllowFlight()
+                ? "is now flying."
+                : "is no longer flying"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
+
+        List<String> options = new ArrayList<>();
+
+        if (args.length == 1) {
+            for (Player pl : Bukkit.getOnlinePlayers()
+            ) {
+                options.add(pl.getName());
+            }
+
+            return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
+        }
+
         return null;
     }
 }

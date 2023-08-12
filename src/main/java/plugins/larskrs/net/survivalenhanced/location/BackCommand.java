@@ -1,29 +1,31 @@
-package plugins.larskrs.net.survivalenhanced.commands;
+package plugins.larskrs.net.survivalenhanced.location;
 
+import net.milkbowl.vault.chat.Chat;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import plugins.larskrs.net.survivalenhanced.general.Command;
+import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class FeedCommand extends Command {
-
-
-
-    public FeedCommand () {
+public class BackCommand extends Command {
+    public BackCommand () {
 
         super(
-                "feed",
-                "survivalenhanced.command.feed",
-                "Feed players",
-                "feed"
+                "back",
+                "survivalenhanced.command.back",
+                "Back people",
+                "back"
         );
     }
-
     @Override
     public void execute(CommandSender sender, String[] args) {
 
@@ -40,14 +42,22 @@ public class FeedCommand extends Command {
             target = (Player) sender;
         }
         if (target == null) {
-            sender.sendMessage(ChatColor.RED + "Invalid Usage: /feed <player> ");
+            sender.sendMessage(ChatColor.RED + "Invalid Usage: /back <player> ");
             return;
         }
 
-        target.setSaturation(20L);
+        StoredLocation[] locations = LocationManager.GetPlayerLocations(target.getUniqueId());
+        Collections.reverse(Arrays.asList(locations));
+        if (locations.length <= 0) {
+            sender.sendMessage(ChatColor.RED + target.getName() + "Has no where to go back to...");
+            return;
+        }
+        target.teleport(locations[0].getLocation());
+
+
         sender.sendMessage(ChatColor.GREEN + (target.equals(sender)
-                ? "You fed " + target.getName() + "!"
-                : "You fed yourself!"));
+                ? "You teleported " + target.getName() + " to their last known location!"
+                : "You teleported to your last location"));
     }
 
 

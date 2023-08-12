@@ -11,16 +11,14 @@ import plugins.larskrs.net.survivalenhanced.watchover.WatchoverModule;
 
 import java.sql.*;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class LocationManager {
 
 
 
-    public static void StoreLocation(Location location, Player player, LocationChange changeReason) {
+    public static void StoreLocation(Location location, Player player, LocationChange changeReason, Timestamp timestamp) {
 
         Database db = SurvivalEnhanced.getDatabase();
         Connection conn = db.getSQLConnection();
@@ -40,7 +38,7 @@ public class LocationManager {
             // This would set the players kills instantly to 10. Sorry about the variable names, It sets their kills to 10 i just have the variable called
             // Tokens from another plugin :/
             ps.setInt(3, changeReason.ordinal());
-            ps.setTimestamp( 4,new Timestamp(System.currentTimeMillis()));
+            ps.setTimestamp( 4,timestamp);
             ps.executeUpdate();
             return;
         } catch (SQLException ex) {
@@ -99,7 +97,20 @@ public class LocationManager {
         return null;
     }
 
+    public static Timestamp LastOnlineTimeStamp (UUID uuid) {
+        StoredLocation[] leaveLocations = GetPlayerLocations(uuid, LocationChange.QUIT_GAME);
+        if (leaveLocations == null || leaveLocations.length <= 0) {
+            return null;
+        }
+        Collections.reverse(Arrays.asList(leaveLocations));
+        return leaveLocations[0].getCreatedAt();
+    }
+
     public static StoredLocation[] GetPlayerLocations (UUID uuid, LocationChange change) {
+
+        if (uuid == null) return null;
+        if (change == null) return null;
+
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

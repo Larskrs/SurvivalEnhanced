@@ -23,6 +23,7 @@ import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 public class WatchoverModule extends Module implements Listener {
@@ -142,12 +143,14 @@ public class WatchoverModule extends Module implements Listener {
             }
         }
 
-        LocationManager.StoreLocation(location, player, changeReason);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        LocationManager.StoreLocation(location, player, changeReason, timestamp);
 
         if (lastLocations.containsKey(player.getUniqueId())) {
             lastLocations.remove(player.getUniqueId());
         }
-        StoredLocation stored = new StoredLocation(player.getUniqueId(), location, changeReason);
+        StoredLocation stored = new StoredLocation(player.getUniqueId(), location, changeReason, timestamp);
         lastLocations.put(player.getUniqueId(), stored);
 
     }
@@ -166,6 +169,9 @@ public class WatchoverModule extends Module implements Listener {
     }
     @EventHandler
     public void onPlayerTeleport (PlayerTeleportEvent e) {
+        if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT) || e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
+            return;
+        }
         SaveLastLocation(e.getPlayer(), e.getFrom(), false, LocationChange.TELEPORT);
     }
 

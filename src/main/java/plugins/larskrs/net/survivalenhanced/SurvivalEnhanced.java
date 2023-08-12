@@ -14,8 +14,10 @@ import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManager;
+import plugins.larskrs.net.survivalenhanced.hats.HatCommand;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
+import plugins.larskrs.net.survivalenhanced.location.BackCommand;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
 import plugins.larskrs.net.survivalenhanced.motd.MotdCommand;
@@ -92,6 +94,8 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         new CustomModelCommand();
         new FlyCommand();
         new FlySpeedCommand();
+        new BackCommand();
+        new HatCommand();
 
         new MotdCommand();
 
@@ -115,11 +119,6 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
         Bukkit.getPluginManager().registerEvents(this, this);
 
-
-        for (StoredLocation stored : LocationManager.GetAllStoredLocations()
-             ) {
-            Messanger.InfoConsole( LocationTools.StringifyLocation(stored.getLocation()) + " - " + stored.getChange().name());
-        }
     }
 
     @EventHandler

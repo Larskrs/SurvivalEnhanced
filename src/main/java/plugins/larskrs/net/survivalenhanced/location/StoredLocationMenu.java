@@ -45,8 +45,7 @@ public class StoredLocationMenu extends DynamicContentGUI {
         ItemStack item = new ItemStack(stored.change.icon);
         ItemMeta meta = item.getItemMeta();
 
-        Date start = new Date(stored.getCreatedAt().getTime());
-        String timeAgo = TimeUtil.getRelativeTime(start.getTime());
+        String timeAgo = TimeUtil.getRelativeTime(stored.getCreatedAt().getTime());
 
         meta.setLocalizedName(stored.getId() + "");
         meta.setDisplayName(ChatColor.GREEN + stored.getChange().name() + " " + "[ " + stored.getId() + " ]");
@@ -62,6 +61,7 @@ public class StoredLocationMenu extends DynamicContentGUI {
             );
 
         lore.add(ChatColor.AQUA + "Left Click " + ChatColor.GRAY + "to teleport to location.");
+        lore.add(ChatColor.GRAY + "Created " + timeAgo);
         meta.setLore(lore);
         item.setItemMeta(meta);
         RegisterItemStack(item);

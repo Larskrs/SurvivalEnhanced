@@ -37,6 +37,10 @@ permissions:
     default: op
   survivalenhanced.command.dungeon:
     default: op
+  survivalenhanced.command.hat:
+    default: not op
+  survivalenhanced.command.hat.give:
+    default: op
 
 
 
