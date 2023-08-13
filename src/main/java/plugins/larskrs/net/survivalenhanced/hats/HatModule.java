@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.HorseInventory;
@@ -21,9 +23,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.Module;
+import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -140,6 +144,27 @@ public class HatModule extends Module implements Listener {
         e.getPlayer().getInventory().setHelmet(e.getItem());
         if (helmet != null) {
             e.getPlayer().getInventory().addItem(helmet);
+        }
+    }
+
+
+
+    @EventHandler
+    public void onFish(PlayerFishEvent event)  {
+        if (event.getCaught() instanceof Item)   {
+            Item stack = (Item) event.getCaught();
+            float chance = 5F;
+            Random r = new Random();
+            float pf = r.nextFloat(1, 100);
+
+            // Messanger.InfoAll(pf + "-" + chance + "-");
+
+            if (pf > chance) return;
+
+            HatItem hat = HatModule.GetHats()[r.nextInt(0, HatModule.GetHats().length) - 1];
+            stack.setItemStack(hat.getItem(ItemRarity.GetRandomRarity()));
+
+
         }
     }
 }
