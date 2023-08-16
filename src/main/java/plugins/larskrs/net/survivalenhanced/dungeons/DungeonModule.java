@@ -25,4 +25,13 @@ public class DungeonModule extends Module {
 
         return false;
     }
+
+    @Override
+    public boolean onUnloadModule() {
+        return false;
+    }
+    @Override
+    public boolean onReloadModule () {
+        return false;
+    }
 }

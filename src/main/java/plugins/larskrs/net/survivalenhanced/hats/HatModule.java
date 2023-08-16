@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -26,6 +27,7 @@ import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.tools.Messanger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -64,8 +66,16 @@ public class HatModule extends Module implements Listener {
         this.config = SurvivalEnhanced.GetFileManager().GetYamlFromString("hats.yml");
 
 
+        LoadHats ();
+
+
+        return false;
+    }
+
+    private void LoadHats() {
+        hats.clear();
         for (String s : config.getConfigurationSection("hats").getKeys(false)
-             ) {
+        ) {
 
             ConfigurationSection section = config.getConfigurationSection("hats." + s);
 
@@ -80,11 +90,25 @@ public class HatModule extends Module implements Listener {
             );
             hats.add(hat);
         }
+    }
 
-
+    @Override
+    public boolean onUnloadModule() {
         return false;
     }
 
+
+    public float getFishingChance () {
+        return (float) config.getDouble("fishing.chance", 5f);
+    }
+
+
+    public static HatItem GetRandomHat () {
+
+        Random r = new Random();
+        int index = r.nextInt(1, HatModule.GetHats().length + 1);
+        return HatModule.GetHats()[index -1];
+    }
     @EventHandler
     public void armourDispenser (BlockDispenseArmorEvent e) {
         if (!e.getItem().hasItemMeta()) return;
@@ -128,6 +152,10 @@ public class HatModule extends Module implements Listener {
     @EventHandler
     public void onRightClick (PlayerInteractEvent e) {
 
+        List<Action> allowed = Arrays.asList(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
+
+        if (!allowed.contains(e.getAction())) return;
+
         if (e.getItem() == null) return;
         if (!e.getItem().hasItemMeta()) return;
         if (!e.getHand().equals(EquipmentSlot.HAND)) return;
@@ -153,7 +181,7 @@ public class HatModule extends Module implements Listener {
     public void onFish(PlayerFishEvent event)  {
         if (event.getCaught() instanceof Item)   {
             Item stack = (Item) event.getCaught();
-            float chance = 5F;
+            float chance = getFishingChance();
             Random r = new Random();
             float pf = r.nextFloat(1, 100);
 
@@ -161,10 +189,22 @@ public class HatModule extends Module implements Listener {
 
             if (pf > chance) return;
 
-            HatItem hat = HatModule.GetHats()[r.nextInt(0, HatModule.GetHats().length) - 1];
-            stack.setItemStack(hat.getItem(ItemRarity.GetRandomRarity()));
+            HatItem hat = GetRandomHat();
+            ItemRarity rarity = ItemRarity.GetRandomRarity();
+            stack.setItemStack(hat.getItem(rarity));
 
+            event.getPlayer().sendMessage(ChatColor.YELLOW + "You found " + rarity.article + " " + rarity.getChatColor() + rarity.display + " " + ChatColor.AQUA + hat.getDisplay() + ChatColor.YELLOW );
 
         }
     }
+
+    @Override
+    public boolean onReloadModule () {
+        FileManager.getInstance().LoadFile("hats.yml");
+        config = FileManager.getInstance().GetYamlFromString("hats.yml");
+        LoadHats();
+        return false;
+    }
+
+
 }

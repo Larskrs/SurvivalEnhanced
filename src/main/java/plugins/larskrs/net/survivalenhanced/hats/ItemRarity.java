@@ -1,7 +1,8 @@
 package plugins.larskrs.net.survivalenhanced.hats;
 
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
+import plugins.larskrs.net.survivalenhanced.tools.ColorTool;
 
 import java.util.Random;
 
@@ -9,32 +10,37 @@ public enum ItemRarity {
     UNUSUAL (
             Color.fromRGB(10040115),
             "Unusual",
-            2F
+            2F,
+            "an"
     ),
     LEGENDARY (
             Color.fromRGB(14188339),
             "Legendary",
-            18F
+            18F,
+            "a"
     ),
     EPIC (
             Color.fromRGB(8339378),
             "Epic",
-            35F
+            35F,
+            "an"
     ),
     RARE (
             Color.fromRGB(3361970),
             "Rare",
-            60F
+            60F,
+            "a"
     ),
     NORMAL (
             Color.fromRGB(8375321),
             "Normal",
-            100F
+            100F,
+            "a"
     ),
     ;
 
     public final Color color;
-    public final String display;
+    public final String display, article;
     public final float percentage;
 
 
@@ -69,10 +75,16 @@ public enum ItemRarity {
     private ItemRarity (
             Color color,
             String display,
-            float percentage
+            float percentage,
+            String article
     ) {
         this.color = color;
         this.display = display;
         this.percentage = percentage;
+        this.article = article;
+    }
+
+    public ChatColor getChatColor() {
+        return net.md_5.bungee.api.ChatColor.of(ColorTool.toHex(this.color.asRGB()));
     }
 }

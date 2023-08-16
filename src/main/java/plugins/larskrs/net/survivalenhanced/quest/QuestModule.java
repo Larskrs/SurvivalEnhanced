@@ -35,6 +35,16 @@ public class QuestModule extends Module implements Listener {
         return false;
     }
 
+    @Override
+    public boolean onReloadModule() {
+        return false;
+    }
+
+    @Override
+    public boolean onUnloadModule() {
+        return false;
+    }
+
     @EventHandler
     public void onChat (AsyncPlayerChatEvent e) {
 

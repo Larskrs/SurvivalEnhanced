@@ -46,6 +46,19 @@ public class StableModule extends Module {
 
         return false; // Module successfully loaded
     }
+
+    @Override
+    public boolean onReloadModule() {
+        FileManager.getInstance().LoadFile("stable.yml");
+        stableConfig = FileManager.getInstance().GetYamlFromString("stable.yml");
+        return false;
+    }
+
+    @Override
+    public boolean onUnloadModule() {
+        return false;
+    }
+
     public static StableModule getInstance() {
         return instance;
     }

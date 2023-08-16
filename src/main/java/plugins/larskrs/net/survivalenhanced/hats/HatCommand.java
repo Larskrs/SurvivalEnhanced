@@ -33,14 +33,16 @@ public class HatCommand extends Command {
 
         if (args.length > 0 && args[0].equalsIgnoreCase("give") && sender.hasPermission("survivalenhanced.command.hat.give")) {
 
-            if (args.length == 1) {
-                sender.sendMessage(ChatColor.RED + "Invalid Usage: /hat give <hat>");
-                return;
+            HatItem hat = HatModule.GetRandomHat();
+            ItemRarity rarity = ItemRarity.GetRandomRarity();
+            if (args.length > 1) {
+                hat = HatModule.GetHat(args[1]);
+            }
+            if (args.length > 2) {
+                rarity = ItemRarity.valueOf(args[2]);
             }
 
-            ItemRarity rarity = ItemRarity.GetRandomRarity();
-
-            HatItem hat = HatModule.GetHat(args[1]);
+            sender.sendMessage(ChatColor.YELLOW + "You gave yourself " + rarity.article + " " + rarity.getChatColor() + rarity.display + " " + ChatColor.AQUA + hat.getDisplay() + ChatColor.YELLOW );
             player.getInventory().addItem(hat.getItem(rarity));
         }
 
@@ -50,10 +52,24 @@ public class HatCommand extends Command {
     public List<String> onTabComplete(CommandSender sender, String[] args) {
         List<String> options = new ArrayList<>();
 
+
+        if (args.length == 0) {
+            options.add("give");
+            return StringUtil.copyPartialMatches(args[0 ], options, new ArrayList<>());
+        }
+
         if (args.length > 1 && args[0].equalsIgnoreCase("give")) {
             for (HatItem h : HatModule.GetHats()
             ) {
                 options.add(h.getIdentity());
+            }
+            if (args.length > 2) {
+                options.clear();
+                for (ItemRarity r : ItemRarity.values()
+                     ) {
+                    options.add(r.name());
+                }
+                return StringUtil.copyPartialMatches(args[2], options, new ArrayList<>());
             }
 
             return StringUtil.copyPartialMatches(args[1], options, new ArrayList<>());

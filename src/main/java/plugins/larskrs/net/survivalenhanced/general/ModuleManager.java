@@ -1,5 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.general;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
@@ -21,7 +22,11 @@ public class ModuleManager extends Module {
 
     private static HashMap<String, Module> modules;
 
-    public void RegisterModule (Module module) {
+    public static Module[] GetModules() {
+        return modules.values().toArray(new Module[0]);
+    }
+
+    public static void RegisterModule(Module module) {
         modules.put(module.getId(), module);
         boolean isEnabled = SurvivalEnhanced.getInstance().getConfig().getBoolean("modules." + module.getId(), false);
 
@@ -33,6 +38,32 @@ public class ModuleManager extends Module {
 
     @Override
     public boolean onLoadModule() {
+        new SurvivalEnchancedCommand();
+        LoadModules();
+
+        return false;
+    }
+
+    @Override
+    public boolean onReloadModule() {
+        return false;
+    }
+
+    public static void UnloadModules () {
+        for (Module m : modules.values()
+             ) {
+            m.Unload();
+        }
+    }
+    public static void ReloadModules () {
+        SurvivalEnhanced.instance.reloadConfig();
+        for (Module m : modules.values()
+             ) {
+            if (m.isEnabled())  m.Reload();
+        }
+    }
+
+    private static void LoadModules() {
         modules = new HashMap<>();
 
         // Manually add a modules to load here.
@@ -47,11 +78,14 @@ public class ModuleManager extends Module {
 
         // List all modules
         for (Module mod : modules.values()
-             ) {
+        ) {
             Messanger.Console(ChatColor.GRAY + mod.getId() + " - " + (mod.isEnabled() ? ChatColor.GREEN + "[Enabled]" : ChatColor.RED + "[Disabled]"));
         }
 
+    }
 
+    @Override
+    public boolean onUnloadModule() {
         return false;
     }
 

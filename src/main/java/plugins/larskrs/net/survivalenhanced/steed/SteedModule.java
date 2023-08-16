@@ -47,6 +47,20 @@ public class SteedModule extends Module {
         return false;
     }
 
+    @Override
+    public boolean onReloadModule() {
+        FileManager.getInstance().LoadFile("steed.yml");
+        steedConfig = FileManager.getInstance().GetYamlFromString("steed.yml");
+        steeds = LoadSteedsFromFile();
+        LoadMainSteedsFromFile();
+        return false;
+    }
+
+    @Override
+    public boolean onUnloadModule() {
+        return false;
+    }
+
     public static SteedModule getInstance() {
         return instance;
     }

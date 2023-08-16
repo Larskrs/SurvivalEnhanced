@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.dungeons.DungeonModule;
 import plugins.larskrs.net.survivalenhanced.dungeons.PartyManager;
+import plugins.larskrs.net.survivalenhanced.general.Command;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.Module;
 import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
@@ -33,8 +34,7 @@ public class WatchoverModule extends Module implements Listener {
     private static List<UUID> vanished;
     private YamlConfiguration config;
     private static HashMap<UUID, StoredLocation> lastLocations;
-
-
+    private Command woCommand, vanishCommand;
     public WatchoverModule() {
         super("WatchoverModule");
     }
@@ -49,8 +49,8 @@ public class WatchoverModule extends Module implements Listener {
         lastLocations = new HashMap<>();
 
 
-        new WatchoverCommand(SurvivalEnhanced.getInstance());
-        new VanishCommand(SurvivalEnhanced.getInstance());
+        woCommand = new WatchoverCommand(SurvivalEnhanced.getInstance());
+        vanishCommand = new VanishCommand(SurvivalEnhanced.getInstance());
 
         Bukkit.getPluginManager().registerEvents(this, SurvivalEnhanced.getInstance());
         FileManager.getInstance().LoadFile("watchover.yml");
@@ -67,6 +67,18 @@ public class WatchoverModule extends Module implements Listener {
             }
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean onReloadModule() {
+        return false;
+    }
+
+    @Override
+    public boolean onUnloadModule() {
+        vanishCommand.DisableCommand();
+        woCommand.DisableCommand();
         return false;
     }
 

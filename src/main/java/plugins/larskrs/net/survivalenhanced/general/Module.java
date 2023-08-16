@@ -28,12 +28,39 @@ public abstract class Module {
         if (isEnabled()) {
             // Loaded successfully.
             Messanger.Console( ChatColor.GREEN + "Successfully loaded module: " + ChatColor.YELLOW + id);
+        } else {
+            // Failed to load
+            Messanger.Console(ChatColor.RED + "Failed to load module: " + ChatColor.YELLOW + id);
         }
     }
 
     public abstract boolean onLoadModule ();
 
+    public abstract boolean onReloadModule ();
+    public abstract boolean onUnloadModule ();
+
     protected String getId() {
         return id;
+    }
+
+    public void Unload() {
+        SetEnabled(!onUnloadModule());
+        if (!isEnabled()) {
+            // Loaded successfully.
+            Messanger.Console( ChatColor.GREEN + "Successfully unloaded module: " + ChatColor.YELLOW + id);
+        } else {
+            // Failed to unload
+            Messanger.Console( ChatColor.RED + "Failed to unloaded module: " + ChatColor.YELLOW + id);
+        }
+    }
+    public void Reload () {
+        SetEnabled(!onReloadModule());
+        if (!isEnabled()) {
+            // Loaded successfully.
+            Messanger.Console( ChatColor.GREEN + "Successfully reloaded module: " + ChatColor.YELLOW + id);
+        } else {
+            // Failed to unload
+            Messanger.Console( ChatColor.RED + "Failed to reload module: " + ChatColor.YELLOW + id);
+        }
     }
 }

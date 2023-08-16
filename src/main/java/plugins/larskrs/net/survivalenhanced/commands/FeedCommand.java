@@ -44,10 +44,10 @@ public class FeedCommand extends Command {
             return;
         }
 
-        target.setSaturation(20L);
+        target.setFoodLevel(20);
         sender.sendMessage(ChatColor.GREEN + (target.equals(sender)
-                ? "You fed " + target.getName() + "!"
-                : "You fed yourself!"));
+                ? "You fed yourself!"
+                : "You fed " + target.getName() + "!"));
     }
 
 

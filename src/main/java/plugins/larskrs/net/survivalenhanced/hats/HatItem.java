@@ -66,4 +66,8 @@ public class HatItem {
     public String getIdentity() {
         return identity;
     }
+
+    public String getDisplay() {
+        return display;
+    }
 }

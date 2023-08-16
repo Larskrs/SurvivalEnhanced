@@ -124,4 +124,18 @@ public class PrefixModule extends Module {
 
         return false;
     }
+
+    @Override
+    public boolean onReloadModule() {
+        FileManager.getInstance().LoadFile("prefix.yml");
+        prefixes = new ArrayList<>();
+        LoadPrefixes();
+        return false;
+    }
+
+    @Override
+    public boolean onUnloadModule() {
+
+        return false;
+    }
 }

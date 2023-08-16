@@ -1,5 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.general;
 
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
@@ -19,7 +20,12 @@ import java.util.stream.Collectors;
 public abstract class Command extends BukkitCommand {
 
 
+    boolean isEnabled = false;
 
+    public void DisableCommand () {
+        Messanger.Console(ChatColor.YELLOW + "Disabled command /" + getName());
+        isEnabled = false;
+    }
 
     public Command(String command, String permission, String description, String usage, String[] aliases) {
         super(command);
@@ -43,6 +49,7 @@ public abstract class Command extends BukkitCommand {
             e.printStackTrace();
         }
 
+        isEnabled = true;
         Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loaded command: " + command);
     }
 
@@ -77,11 +84,17 @@ public abstract class Command extends BukkitCommand {
             e.printStackTrace();
         }
 
+        isEnabled = true;
         Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "Loaded command: " + command);
     }
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+
+        if (!isEnabled) {
+            sender.sendMessage(ChatColor.RED + "This command is disabled, or does not exist");
+            return false;
+        }
         if (sender.hasPermission(this.getPermission())) {
             execute(sender, args);
         } else {
