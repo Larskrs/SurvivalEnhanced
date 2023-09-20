@@ -106,13 +106,20 @@ public class WatchoverModule extends Module implements Listener {
 
     }
 
-    private static void Vanish(Player player) {
+    public static void Vanish(Player player) {
         if (isVanished(player.getUniqueId())) {
             vanished.remove(player.getUniqueId());
         }
         vanished.add(player.getUniqueId());
         HidePlayer(player);
     }
+    public static void UnVanish(Player player) {
+        if (isVanished(player.getUniqueId())) {
+            vanished.remove(player.getUniqueId());
+        }
+        UnHidePlayer(player);
+    }
+
 
     public static void UnWatchoverPlayer (Player player) {
 
@@ -138,12 +145,14 @@ public class WatchoverModule extends Module implements Listener {
         }
     }
     public static void UnHidePlayer (Player player) {
-        if (!isVanished(player.getUniqueId())) {
-            return;
-        }
+        for (Player p : Bukkit.getOnlinePlayers()
+        ) {
+            if (p.equals(player)) {
+                continue;
+            }
 
-        player.sendMessage(ChatColor.YELLOW +
-                "You vanished!");
+            p.showPlayer(player);
+        }
 
     }
     public static void SaveLastLocation (Player player, Location location, boolean bypass, LocationChange changeReason) {
@@ -193,5 +202,18 @@ public class WatchoverModule extends Module implements Listener {
             HidePlayer(e.getPlayer());
             e.setJoinMessage("");
         }
+        HideVanishedPlayers(e.getPlayer());
+    }
+
+    private void HideVanishedPlayers(Player player) {
+        for (UUID uuid : vanished
+             ) {
+            Player p = Bukkit.getPlayer(uuid);
+            if (p == null) return;
+            player.hidePlayer(p);
+        }
+    }
+    private void ShowVanishedPlayers(Player player) {
+
     }
 }

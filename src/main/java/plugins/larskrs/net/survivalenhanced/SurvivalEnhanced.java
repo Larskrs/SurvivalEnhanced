@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import plugins.larskrs.net.survivalenhanced.bounty.BountyCommand;
 import plugins.larskrs.net.survivalenhanced.commands.*;
 import plugins.larskrs.net.survivalenhanced.database.Database;
 import plugins.larskrs.net.survivalenhanced.database.SQLite;
@@ -17,9 +18,11 @@ import plugins.larskrs.net.survivalenhanced.gui.GUIManager;
 import plugins.larskrs.net.survivalenhanced.hats.HatCommand;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionListener;
 import plugins.larskrs.net.survivalenhanced.interaction.InteractionManager;
+import plugins.larskrs.net.survivalenhanced.items.CustomItemManager;
 import plugins.larskrs.net.survivalenhanced.location.BackCommand;
 import plugins.larskrs.net.survivalenhanced.location.LocationManager;
 import plugins.larskrs.net.survivalenhanced.location.StoredLocation;
+import plugins.larskrs.net.survivalenhanced.misc.SpawnerListener;
 import plugins.larskrs.net.survivalenhanced.motd.MotdCommand;
 import plugins.larskrs.net.survivalenhanced.skull.SkullCommand;
 import plugins.larskrs.net.survivalenhanced.location.LocationTools;
@@ -34,6 +37,7 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
 
     public static FileManager fileManager;
     public static InteractionManager interactionManager;
+    public static CustomItemManager itemManager;
 
     public static FileManager GetFileManager() {
         return fileManager;
@@ -60,6 +64,9 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
 
         // Plugin startup logic
         fileManager = new FileManager(this);
+        itemManager = new CustomItemManager();
+        CustomItemManager.Setup();
+
 
         // ------------------
         //      Database
@@ -96,6 +103,7 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         new FlySpeedCommand();
         new BackCommand();
         new HatCommand();
+        new BountyCommand();
 
         new MotdCommand();
 
@@ -116,7 +124,9 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         // ------------------
         //     LISTENERS
         // ------------------
+        Bukkit.getPluginManager().registerEvents(itemManager, this);
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new SpawnerListener(), this);
         Bukkit.getPluginManager().registerEvents(this, this);
 
     }

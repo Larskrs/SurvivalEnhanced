@@ -1,9 +1,7 @@
 package plugins.larskrs.net.survivalenhanced.hats;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Item;
@@ -12,9 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -24,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.Module;
-import plugins.larskrs.net.survivalenhanced.tools.Messanger;
+import plugins.larskrs.net.survivalenhanced.items.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,60 +33,68 @@ import java.util.stream.Collectors;
 public class HatModule extends Module implements Listener {
 
     private YamlConfiguration config;
-    private static List<HatItem> hats;
 
     public HatModule() {
         super("HatModule");
     }
 
-    public static HatItem GetHat(String identity) {
-        for (HatItem h : hats
+    public static CustomHatItem GetHat(String identity) {
+        for (CustomHatItem h : Arrays.asList(GetHats())
              ) {
-            if (h.getIdentity().equals(identity)) {
+            if (h.GetID().equals(identity)) {
                 return h;
             }
         }
         return null;
     }
 
-    public static HatItem[] GetHats() {
-        return hats.toArray(new HatItem[0]);
+    public static CustomHatItem[] GetHats() {
+        return Arrays.stream(CustomItemManager.GetCustomItem(CustomItemType.HAT)).map((CustomItem h) -> (CustomHatItem) h).collect(Collectors.toList()).toArray(new CustomHatItem[]{});
     }
 
     @Override
     public boolean onLoadModule() {
 
-        hats = new ArrayList<>();
-
         Bukkit.getPluginManager().registerEvents(this, SurvivalEnhanced.getInstance());
         FileManager.getInstance().LoadFile("hats.yml");
         this.config = SurvivalEnhanced.GetFileManager().GetYamlFromString("hats.yml");
 
-
         LoadHats ();
-
 
         return false;
     }
 
     private void LoadHats() {
-        hats.clear();
         for (String s : config.getConfigurationSection("hats").getKeys(false)
         ) {
 
             ConfigurationSection section = config.getConfigurationSection("hats." + s);
+            String biomeString = section.getString("biomes", "");
+            Biome[] biomes = {};
+            if (!biomeString.equals("")) {
+                biomes = Arrays.stream(biomeString.split(",")).map(Biome::valueOf).toArray(Biome[]::new);
+            }
+            if (biomes.length == 0) {
+                biomes = Biome.values();
+            }
 
-            HatItem hat = new HatItem(
-                    Material.getMaterial(section.getString("type")),
+
+            CustomHatItem hat = new CustomHatItem(
                     s,
+                    Material.getMaterial(section.getString("type")),
                     section.getString("display"),
                     section.getStringList("lore").stream().map((l) -> ChatColor.translateAlternateColorCodes('&', l)).collect(Collectors.toList()),
                     section.getInt("model"),
-                    Color.fromRGB(section.getInt("color"))
+                    biomes
 
             );
-            hats.add(hat);
+
+            CustomItemManager.RegisterItem(hat);
         }
+    }
+
+    public CustomHatItem[] getHatsInBiome (Biome biome) {
+        return Arrays.stream(GetHats()).filter((CustomHatItem h) -> Arrays.stream(h.GetBiomes()).collect(Collectors.toList()).contains(biome)).toArray(CustomHatItem[]::new);
     }
 
     @Override
@@ -103,7 +108,18 @@ public class HatModule extends Module implements Listener {
     }
 
 
-    public static HatItem GetRandomHat () {
+    public static CustomHatItem GetRandomHat (CustomHatItem[] hats) {
+
+        if (hats == null || hats.length == 0) {
+            return null;
+        }
+
+        Random r = new Random();
+        int index = r.nextInt(0, hats.length);
+        return hats[index];
+    }
+
+    public static CustomHatItem GetRandomHat () {
 
         Random r = new Random();
         int index = r.nextInt(1, HatModule.GetHats().length + 1);
@@ -116,7 +132,7 @@ public class HatModule extends Module implements Listener {
         ItemMeta meta = e.getItem().getItemMeta();
         if (!meta.hasLocalizedName()) return;
 
-        if (!meta.getLocalizedName().equals("equippable_hat")) return;
+        if (!meta.getLocalizedName().contains("equippable_hat")) return;
 
         e.setCancelled(true);
     }
@@ -130,7 +146,7 @@ public class HatModule extends Module implements Listener {
         ItemMeta meta = e.getItemInHand().getItemMeta();
         if (!meta.hasLocalizedName()) return;
 
-        if (!meta.getLocalizedName().equals("equippable_hat")) return;
+        if (!meta.getLocalizedName().contains("equippable_hat")) return;
 
         e.setCancelled(true);
     }
@@ -144,7 +160,7 @@ public class HatModule extends Module implements Listener {
         ItemMeta meta = item.getItemMeta();
         if (!meta.hasLocalizedName()) return;
 
-        if (!meta.getLocalizedName().equals("equippable_hat")) return;
+        if (!meta.getLocalizedName().contains("equippable_hat")) return;
 
         e.setCancelled(true);
     }
@@ -153,6 +169,8 @@ public class HatModule extends Module implements Listener {
     public void onRightClick (PlayerInteractEvent e) {
 
         List<Action> allowed = Arrays.asList(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
+
+        if (e.getPlayer().isSneaking()) { return; }
 
         if (!allowed.contains(e.getAction())) return;
 
@@ -163,7 +181,7 @@ public class HatModule extends Module implements Listener {
         ItemMeta meta = e.getItem().getItemMeta();
         if (!meta.hasLocalizedName()) return;
 
-        if (!meta.getLocalizedName().equals("equippable_hat")) return;
+        if (!meta.getLocalizedName().contains("equippable_hat")) return;
 
         ItemStack helmet = e.getPlayer().getInventory().getHelmet();
         ItemStack hatItemStack = e.getItem();
@@ -173,6 +191,8 @@ public class HatModule extends Module implements Listener {
         if (helmet != null) {
             e.getPlayer().getInventory().addItem(helmet);
         }
+
+        e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
     }
 
 
@@ -185,15 +205,16 @@ public class HatModule extends Module implements Listener {
             Random r = new Random();
             float pf = r.nextFloat(1, 100);
 
-            // Messanger.InfoAll(pf + "-" + chance + "-");
-
             if (pf > chance) return;
 
-            HatItem hat = GetRandomHat();
-            ItemRarity rarity = ItemRarity.GetRandomRarity();
-            stack.setItemStack(hat.getItem(rarity));
+            Biome b = event.getPlayer().getLocation().getBlock().getBiome();
+            CustomHatItem[] _hats = getHatsInBiome(b);
 
-            event.getPlayer().sendMessage(ChatColor.YELLOW + "You found " + rarity.article + " " + rarity.getChatColor() + rarity.display + " " + ChatColor.AQUA + hat.getDisplay() + ChatColor.YELLOW );
+            CustomHatItem hat = GetRandomHat(_hats);
+            ItemRarity rarity = ItemRarity.GetRandomRarity();
+            stack.setItemStack(hat.CreateItem(rarity));
+
+            event.getPlayer().sendMessage(ChatColor.YELLOW + "You found " + rarity.article + " " + rarity.getChatColor() + rarity.display + " " + ChatColor.AQUA + hat.GetDisplay() + ChatColor.YELLOW );
 
         }
     }

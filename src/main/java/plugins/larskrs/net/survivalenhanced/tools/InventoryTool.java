@@ -1,5 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.tools;
 
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -58,6 +59,7 @@ public class InventoryTool {
         }
     }
 
+
     public static Inventory inventoryFromBase64(String data) throws IOException {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
@@ -73,6 +75,37 @@ public class InventoryTool {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             throw new IOException("Could not decode inventory.", e);
+        }
+    }
+
+    public static String itemStackToBase64(ItemStack item) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            dataOutput.writeObject(item);
+            dataOutput.writeInt(item.getAmount());
+            dataOutput.writeDouble(item.getType().ordinal());
+
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+
+            //Converts the inventory and its contents to base64, This also saves item meta-data and inventory type
+        } catch (Exception e) {
+            throw new IllegalStateException("Could not convert itemStack to base64.", e);
+        }
+    }
+
+    public static ItemStack itemStackFromBase64(String data) {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+            ItemStack itemStack = new ItemStack(Material.values()[(int) dataInput.readDouble()], 2);
+
+            dataInput.close();
+            return itemStack;
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not convert itemStack to base64.", e);
         }
     }
 

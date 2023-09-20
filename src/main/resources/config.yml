@@ -6,3 +6,9 @@ modules:
   QuestModule: true
   WatchoverModule: true
   DungeonModule: true
+  BountyModule: true
+
+
+
+random-teleport:
+  radius: 5000

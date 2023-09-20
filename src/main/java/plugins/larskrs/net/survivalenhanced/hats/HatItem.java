@@ -1,12 +1,13 @@
 package plugins.larskrs.net.survivalenhanced.hats;
 
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import plugins.larskrs.net.survivalenhanced.items.ItemRarity;
 import plugins.larskrs.net.survivalenhanced.tools.ColorTool;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class HatItem {
     private List<String> lore;
     private int model;
     private Color color;
+    private Biome[] biomes;
 
     public HatItem (String identity, String display, List<String> lore, int model, Color color) {
         type = Material.LEATHER_HORSE_ARMOR;
@@ -28,13 +30,14 @@ public class HatItem {
         this.model = model;
         this.color = color;
     }
-    public HatItem (Material type, String identity, String display, List<String> lore, int model, Color color) {
+    public HatItem (Material type, String identity, String display, List<String> lore, int model, Color color, Biome[] biomes) {
         this.type = type;
         this.identity = identity;
         this.display = display;
         this.lore = lore;
         this.model = model;
         this.color = color;
+        this.biomes = biomes;
     }
 
 
@@ -42,21 +45,21 @@ public class HatItem {
     public ItemStack getItem(ItemRarity rarity) {
         ItemStack item = new ItemStack(type);
         ItemMeta meta = item.getItemMeta();
-        meta.setLocalizedName("equippable_hat");
+        meta.setLocalizedName("custom_item="+identity+","+"equippable_hat");
         meta.setCustomModelData(model);
         StringBuilder builder = new StringBuilder();
         builder.append(rarity.color.toString());
         net.md_5.bungee.api.ChatColor rarityColor = net.md_5.bungee.api.ChatColor.of(ColorTool.toHex(rarity.color.asRGB()));
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', display) + " " + rarityColor + "("+rarity.display+ rarityColor + ")");
 
-        lore.add(ChatColor.GRAY + "This item is " + rarity.display);
-
         if (type.equals(Material.LEATHER_HORSE_ARMOR)) {
             LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
             leatherArmorMeta.setColor(rarity.color);
+            meta.setLore(lore);
             item.setItemMeta(leatherArmorMeta);
             return item;
         }
+        meta.setLore(lore);
         item.setItemMeta(meta);
         return item;
 
@@ -70,4 +73,6 @@ public class HatItem {
     public String getDisplay() {
         return display;
     }
+
+    public Biome[] getBiomes() { return biomes; }
 }

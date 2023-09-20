@@ -1,0 +1,65 @@
+hats:
+  gentleman_top_hat:
+    type: LEATHER_HORSE_ARMOR
+    display: "Gentlemans Top Hat"
+    model: 1
+    lore:
+      - "    &7The best hat needs the right wearer."
+  cursed_top_hat:
+    type: LEATHER_HORSE_ARMOR
+    display: "&eCursed Top Hat of Welkis"
+    model: 7
+    biomes: "BADLANDS"
+  builders_hat:
+    type: LEATHER_HORSE_ARMOR
+    display: "Builders Hard Hat"
+    model: 2
+    lore:
+      - "   &7A trusty companion of builders and architects"
+      - "   &7Worn to guard against &3sneaky phantoms&7 and &3lurking creepers"
+      - "   &7Offers safety while you craft and construct"
+  tiki_mask:
+    type: LEATHER_HORSE_ARMOR
+    display: "Lars Mask"
+    model: 3
+    biomes: "SAVANNA,SAVANNA_PLATEAU,WINDSWEPT_SAVANNA"
+    lore:
+      - "   &7A mystical Tiki mask known as the Lars Mask"
+      - "   &7Wearing it invokes the spirit of the jungle"
+      - "   &7Granting enhanced &3camouflage&7 and &3agility"
+  police_hat:
+    type: LEATHER_HORSE_ARMOR
+    display: "Troubling Helmet of Law"
+    model: 4
+    biomes: "SWAMP,DARK_FOREST,WOODED_BADLANDS,BADLANDS"
+    lore:
+      - "   &7Wearing it grants enhanced &3speed, a desperate edge"
+      - "   &7But beware, for it may lead you down a &3dark path"
+  sports_bandana:
+    type: LEATHER_HORSE_ARMOR
+    display: "Sports Bandana"
+    model: 5
+    lore:
+      - "   &7A coveted relic of the clandestine runners"
+      - "   &3Whispering secrets of swifter steps"
+      - "   &7Its wearers, a hidden league of athletes"
+  karakul_ushanka:
+    type: LEATHER_HORSE_ARMOR
+    display: "Worn Karakul Ushanka"
+    model: 6
+    biomes: "SNOWY_TAIGA,TAIGA,SNOWY_SLOPES,OLD_GROWTH_PINE_TAIGA"
+    lore:
+      - "   &7Only found in the coldest climates"
+      - "   &7left from frozen bodies."
+  beached_straw_hat:
+    type: LEATHER_HORSE_ARMOR
+    display: "&eBeached Straw Hat"
+    model: 12
+    biomes: "BEACH,DESERT,FROZEN_OCEAN,FROZEN_RIVER,SNOWY_BEACH"
+    lore:
+      - "   &7Washed ashore, a relic of sunny shores"
+      - "   &7Once worn by a daring adventurer"
+      - "   &7Now it whispers tales of voyages past"
+
+fishing:
+  chance: 100

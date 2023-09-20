@@ -4,6 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import plugins.larskrs.net.survivalenhanced.SurvivalEnhanced;
+import plugins.larskrs.net.survivalenhanced.bounty.BountyModule;
 import plugins.larskrs.net.survivalenhanced.dungeons.DungeonModule;
 import plugins.larskrs.net.survivalenhanced.hats.HatModule;
 import plugins.larskrs.net.survivalenhanced.prefix.PrefixModule;
@@ -40,6 +41,7 @@ public class ModuleManager extends Module {
     public boolean onLoadModule() {
         new SurvivalEnchancedCommand();
         LoadModules();
+        Messanger.Console(" ");
 
         return false;
     }
@@ -61,6 +63,11 @@ public class ModuleManager extends Module {
              ) {
             if (m.isEnabled())  m.Reload();
         }
+
+        for (Module mod : modules.values()
+        ) {
+            Messanger.Console(ChatColor.GRAY + mod.getId() + " - " + (mod.isEnabled() ? ChatColor.GREEN + "[Enabled]" : ChatColor.RED + "[Disabled]"));
+        }
     }
 
     private static void LoadModules() {
@@ -74,6 +81,7 @@ public class ModuleManager extends Module {
         RegisterModule(new DungeonModule());
         RegisterModule(new PrefixModule());
         RegisterModule(new HatModule());
+        RegisterModule(new BountyModule());
 
 
         // List all modules

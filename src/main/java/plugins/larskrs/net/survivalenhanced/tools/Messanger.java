@@ -1,5 +1,6 @@
 package plugins.larskrs.net.survivalenhanced.tools;
 
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,5 +31,9 @@ public class Messanger {
              ) {
             p.sendMessage(msg);
         }
+    }
+
+    public static void SuccessConsole (String msg) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD.toString() + ChatColor.GREEN  + "+ " + ChatColor.RESET + ChatColor.GREEN + msg);
     }
 }

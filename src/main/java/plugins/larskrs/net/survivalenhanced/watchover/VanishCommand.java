@@ -32,9 +32,7 @@ public class VanishCommand extends Command {
 
         Player p = (Player) sender;
 
-        WatchoverModule.isVanished(p.getUniqueId());
-
-        if (WatchoverModule.isVanished(p.getUniqueId())) {
+        if (!WatchoverModule.isVanished(p.getUniqueId())) {
             Vanish(p, args);
         } else {
             UnVanish(p, args);
@@ -44,9 +42,17 @@ public class VanishCommand extends Command {
     }
 
     private void UnVanish(Player p, String[] args) {
+        WatchoverModule.UnVanish(p);
+
+        p.sendMessage(ChatColor.GREEN + "You are no longer vanished! ");
     }
 
     private void Vanish(Player p, String[] args) {
+
+
+        WatchoverModule.Vanish(p);
+
+        p.sendMessage(ChatColor.GREEN + "You are now vanished! ");
     }
 
     public Player getPlayer (String str) {

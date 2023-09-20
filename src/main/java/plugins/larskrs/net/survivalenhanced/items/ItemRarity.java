@@ -1,4 +1,4 @@
-package plugins.larskrs.net.survivalenhanced.hats;
+package plugins.larskrs.net.survivalenhanced.items;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
@@ -14,7 +14,7 @@ public enum ItemRarity {
             "an"
     ),
     LEGENDARY (
-            Color.fromRGB(14188339),
+            Color.fromRGB(16761902),
             "Legendary",
             18F,
             "a"
