@@ -1,5 +1,8 @@
 package plugins.larskrs.net.survivalenhanced.items;
 
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Villager;
+
 public enum CustomItemType {
     HAT ("Hat"),
     WEAPON ("Weapon"),
@@ -15,4 +18,7 @@ public enum CustomItemType {
     public String getName() {
         return name;
     }
+
+
+
 }

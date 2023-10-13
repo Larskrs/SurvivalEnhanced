@@ -11,8 +11,6 @@ import net.citizensnpcs.trait.HologramTrait;
 import net.citizensnpcs.trait.SkinTrait;
 import net.citizensnpcs.trait.SneakTrait;
 import net.citizensnpcs.util.PlayerAnimation;
-import net.milkbowl.vault.chat.Chat;
-import net.minecraft.world.entity.EnumItemSlot;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;

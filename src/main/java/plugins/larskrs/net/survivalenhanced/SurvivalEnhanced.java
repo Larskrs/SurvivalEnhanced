@@ -12,6 +12,7 @@ import plugins.larskrs.net.survivalenhanced.commands.*;
 import plugins.larskrs.net.survivalenhanced.database.Database;
 import plugins.larskrs.net.survivalenhanced.database.SQLite;
 import plugins.larskrs.net.survivalenhanced.dependencies.VaultDependency;
+import plugins.larskrs.net.survivalenhanced.entity.EntityListener;
 import plugins.larskrs.net.survivalenhanced.general.FileManager;
 import plugins.larskrs.net.survivalenhanced.general.ModuleManager;
 import plugins.larskrs.net.survivalenhanced.gui.GUIManager;
@@ -127,6 +128,7 @@ public final class SurvivalEnhanced extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(itemManager, this);
         Bukkit.getPluginManager().registerEvents(new InteractionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new SpawnerListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
         Bukkit.getPluginManager().registerEvents(this, this);
 
     }
